@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
 using System.Data;
-using System.Windows;
 using System.Data.SqlClient;
 
-public class Database
+public class dbConnect
 {
     #region Database Configurations
 
@@ -37,7 +35,7 @@ public class Database
     private DataTable data;
     private bool hasError;
     private string error;
-    
+
     public DataTable Data
     {
         get { return data; }
@@ -63,7 +61,7 @@ public class Database
     /// <summary>
     /// Database Initialization
     /// </summary>
-    public Database()
+    public dbConnect()
     {
         this.Process();
     }
@@ -71,7 +69,7 @@ public class Database
     #endregion
 
     #region Dispose
-    
+
     /// <summary>
     /// To close database connection
     /// </summary>
@@ -138,7 +136,7 @@ public class Database
                 {
                     if (args[i] is string)
                     {
-                        var sqlparam = new SqlParameter();
+                        SqlParameter sqlparam = new SqlParameter();
                         sqlparam.ParameterName = (string)args[i];
                         sqlparam.Value = args[++i];
                         sqlCmd.Parameters.Add(sqlparam);
@@ -170,7 +168,7 @@ public class Database
     #endregion
 
     #region Connection
-    
+
     /// <summary>
     /// Open SQL Connection
     /// </summary>
