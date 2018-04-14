@@ -1,0 +1,110 @@
+ul.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333;
+}
+
+    ul.nav li {
+        float: left;
+    }
+
+        ul.nav li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px;
+            text-decoration: none;
+        }
+
+            ul.nav li a:hover {
+                background-color: #111111;
+            }
+
+.active {
+    background-color: #4CAF50;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: normal;
+    overflow: visible;
+    padding: 7px;
+    text-align: center;
+}
+
+select {
+    text-align: center;
+    width: 100%;
+    height: 40px;
+    margin: 0px;
+}
+
+    select option {
+        font: 30px;
+        text-align: center;
+    }
+
+.quantityInput {
+    width: 50%;
+    margin: 4px 0px 4px 0px;
+    padding: 4px;
+    font-size: 14px;
+    border: 1px solid black;
+}
+
+.quantityBtn {
+    width: 20%;
+    margin: 4px 0px 4px 0px;
+    border: 1px solid black;
+    text-decoration: none;
+    padding: 4px;
+    font-size: 14px;
+    background-color: white;
+    font-weight: bold;
+    color: black;
+}
+
+    .quantityBtn:hover {
+        background-color: aquamarine;
+    }
+
+.addTray {
+    width: 100%;
+    margin: 5px;
+    border: 1px solid black;
+    text-decoration: none;
+    padding: 7px;
+    font-size: 14px;
+    background-color: white;
+    color: black;
+}
+
+    .addTray:hover {
+        background-color: aquamarine;
+    }
+
+.checkout {
+    border: 1px solid black;
+    border-radius: 3px;
+    text-decoration: none;
+    padding: 7px;
+    font-size: 20px;
+    background-color: gold;
+    font-weight: bold;
+    color: black;
+}
+
+    .checkout:hover {
+        background-color: wheat;
+    }
+
+table {
+    width: 100%;
+}
+
+th, td {
+    padding: 5px;
+    text-align: center;
+}
