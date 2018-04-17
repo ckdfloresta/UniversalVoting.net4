@@ -24,7 +24,7 @@ public class Service : IService
 
     public void KFspAddConNum(string fname, string lname, int eventID, int connum)
     {
-        databaseCon.ExecuteStoredProc("KFspAddConNum","@fname", fname, "@lname", lname, "@_eventid", eventID, "@connum", connum);
+        databaseCon.ExecuteStoredProc("KFspAddConNum", "@fname", fname, "@lname", lname, "@_eventid", eventID, "@connum", connum);
         hasError = databaseCon.HasError;
         error = databaseCon.Error;
     }
