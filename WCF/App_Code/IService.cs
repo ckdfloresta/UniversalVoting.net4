@@ -4,6 +4,9 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Data;
+using Newtonsoft.Json;
+using System.ServiceModel.Channels;
+using System.ServiceModel.Web;
 
 // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService" in both code and config file together.
 [ServiceContract]
@@ -16,15 +19,15 @@ public interface IService
     [OperationContract]
     void KFspAddPersonToContestant(string fname, string lname, int eventID);
     [OperationContract]
-    DataTable KFspCheckConExistance(string fname, string lname, int eventID);
+    string KFspCheckConExistance(string fname, string lname, int eventID);
     [OperationContract]
-    DataTable KFspCheckconnameavailability(string fname, string lname);
+    string KFspCheckconnameavailability(string fname, string lname);
     [OperationContract]
-    DataTable KFspCheckEventAccount(string epname, string euname);
+    string KFspCheckEventAccount(string epname, string euname);
     [OperationContract]
-    DataTable KFspCheckEventName(string ename);
+    string KFspCheckEventName(string ename);
     [OperationContract]
-    DataTable KFspCheckEventPerson(string efname, string elname);
+    string KFspCheckEventPerson(string efname, string elname);
     [OperationContract]
     void KFspCreateEvent(string efname, string elname, string epname, string ename, string euname);
     [OperationContract]
@@ -36,33 +39,33 @@ public interface IService
     [OperationContract]
     void KFspUpdateContestant(string fname, string lname, int perid);
     [OperationContract]
-    DataTable KFspViewEventContestants(int eventid);
+    string KFspViewEventContestants(int eventid);
     [OperationContract]
-    DataTable KFspViewNotEventContestants(int eventid);
+    string KFspViewNotEventContestants(int eventid);
     [OperationContract]
-    DataTable MCspGetEventCriteriaID(string Name, int EventJudgeID);
+    string MCspGetEventCriteriaID(string Name, int EventJudgeID);
     [OperationContract]
     void MCspUpdateScore(int EventJudgeID, int ContestantID, int EventCriteriaID, float Score);
     [OperationContract]
-    DataTable MCspViewContestant(int ContestantID);
+    string MCspViewContestant(int ContestantID);
     [OperationContract]
-    DataTable MCspViewContestants(string EventName);
+    string MCspViewContestants(string EventName);
     [OperationContract]
-    DataTable MCspViewContestantsEvent(int EventID);
+    string MCspViewContestantsEvent(int EventID);
     [OperationContract]
-    DataTable MCspViewCriteria(int EventJudgeID);
+    string MCspViewCriteria(int EventJudgeID);
     [OperationContract]
-    DataTable MCspViewJudgeEvent(string EventName, int JID);
+    string MCspViewJudgeEvent(string EventName, int JID);
     [OperationContract]
-    DataTable MCspViewJudges(int JudgeID);
+    string MCspViewJudges(int JudgeID);
     [OperationContract]
-    DataTable MCspViewOfficialResults(int EventID);
+    string MCspViewOfficialResults(int EventID);
     [OperationContract]
-    DataTable MCspViewScore(int EventJudgeID, int ContestantID, int EventCriteriaID);
+    string MCspViewScore(int EventJudgeID, int ContestantID, int EventCriteriaID);
     [OperationContract]
-    DataTable MCspViewScoreWeight(int ContestantID, int EventJudgeID);
+    string MCspViewScoreWeight(int ContestantID, int EventJudgeID);
     [OperationContract]
-    DataTable MCspViewStatus(string EventName, int JudgeID, int ContestantID);
+    string MCspViewStatus(string EventName, int JudgeID, int ContestantID);
     [OperationContract]
     void spAddCriteriaToEventCriteria(string cname, int weight, int eventid);
     [OperationContract]
@@ -72,13 +75,13 @@ public interface IService
     [OperationContract]
     void spAddPersonToEventJudges(string fname, string lname, string uname, string pass, int eventid);
     [OperationContract]
-    DataTable spCheckCExistance(string cname, int eventid);
+    string spCheckCExistance(string cname, int eventid);
     [OperationContract]
-    DataTable spCheckcnameavailability(string cname);
+    string spCheckcnameavailability(string cname);
     [OperationContract]
-    DataTable spCheckPersonExistanceinEvent(string fname, string lname, string uname, string pass, int eventid);
+    string spCheckPersonExistanceinEvent(string fname, string lname, string uname, string pass, int eventid);
     [OperationContract]
-    DataTable spCheckUnameavailability(string judgechars);
+    string spCheckUnameavailability(string judgechars);
     [OperationContract]
     void spRemoveCriteriaFromEventCriteria(string cname, int eventid);
     [OperationContract]
@@ -88,11 +91,11 @@ public interface IService
     [OperationContract]
     void spUpdatePersonJudgeDetails(int personid, string fname, string lname, string uname, string pass, int eventid);
     [OperationContract]
-    DataTable spViewEventCriteria(int eventid);
+    string spViewEventCriteria(int eventid);
     [OperationContract]
-    DataTable spViewEventJudges(int eventid);
+    string spViewEventJudges(int eventid);
     [OperationContract]
-    DataTable spViewNotEventCriteria(int eventid);
+    string spViewNotEventCriteria(int eventid);
     [OperationContract]
-    DataTable spViewNotEventJudges(int eventid);
+    string spViewNotEventJudges(int eventid);
 }
