@@ -1,0 +1,68 @@
+﻿<!DOC\\
+\TYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/contestant.css">
+
+    <title>Contestant Tab</title>
+</head>
+<body>
+    <div id="divAddContestant">
+        <h3>All Contestants Available</h3>
+        <table class="table-hover tb" id="tbAddContestant">
+            <thead>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Kyle</td>
+                    <td>Floresta</td>
+                </tr>
+                <tr>
+                    <td>Marcus</td>
+                    <td>Corpuz</td>
+                </tr>
+            </tbody>
+        </table>
+        <button runat="server" id="btnAddContestant" onclick="clickAddContestant()">Add Contestant</button>
+    </div>
+    <hr/>
+    <div id="divManageContestant">
+        <h3>Contestants for This Event</h3>
+        <table id="tbContestants" class="tb">
+            <thead>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Kyle</td>
+                    <td>Floresta</td>
+                </tr>
+                <tr>
+                    <td>Marcus</td>
+                    <td>Corpuz</td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Modify Contestants for This Event</h5>
+        <select>
+            <option value="Kyle Floresta">Kyle Floresta</option>
+            <option value="Marcus Corpuz">Marcus Corpuz</option>
+        </select>
+    </div>
+
+    <script type="text/javascript" src="scripts/contestantscript.js"></script>
+</body>
+</html>

@@ -1,18 +1,9 @@
 .title {
-    font-size: 40px;
+    font-size: 25px;
     font-weight: bold;
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 60px 0px 0px;
-    color: white;
-}
-
-.subtitle {
-    font-size: 16px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-    margin: 0px;
-    padding: 0px;
     color: white;
 }
 
