@@ -1,0 +1,18 @@
+﻿#tbAddContestant {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.selectedContestant {
+    color: lightblue;
+}
+
+tr:nth-child(even) {
+    background: #EDE
+}
+
+tr:nth-child(odd) {
+    background: #FFF
+}
