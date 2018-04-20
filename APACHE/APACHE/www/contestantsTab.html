@@ -15,7 +15,7 @@
 <body>
     <div id="divAddContestant">
         <h3>All Contestants Available</h3>
-        <table class="table-hover" id="tbAddContestant">
+        <table class="table-hover tb" id="tbAddContestant">
             <thead>
                 <tr>
                     <th>FirstName</th>
@@ -35,12 +35,28 @@
         </table>
         <button runat="server" id="btnAddContestant" onclick="clickAddContestant()">Add Contestant</button>
     </div>
-
-    <br/>
     <hr/>
-    <br/>
-
     <div id="divManageContestant">
+        <h3>Contestants for This Event</h3>
+        <table id="tbContestants" class="tb">
+            <thead>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Kyle</td>
+                    <td>Floresta</td>
+                </tr>
+                <tr>
+                    <td>Marcus</td>
+                    <td>Corpuz</td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Modify Contestants for This Event</h5>
         <select>
             <option value="Kyle Floresta">Kyle Floresta</option>
             <option value="Marcus Corpuz">Marcus Corpuz</option>
