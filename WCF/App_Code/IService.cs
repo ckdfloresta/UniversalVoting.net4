@@ -98,4 +98,8 @@ public interface IService
     string spViewNotEventCriteria(int eventid);
     [OperationContract]
     string spViewNotEventJudges(int eventid);
+
+    //Dotnet 4 functions
+    [OperationContract]
+    string index_login_OnClick(string uname, string pass);
 }

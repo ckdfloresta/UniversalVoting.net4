@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
+    <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
+
     <title>UVS App</title>
 </head>
 <body bgcolor="#1e73ff">
@@ -19,91 +21,35 @@
         <br />
         <input placeholder="PASSWORD" id="txtPassword" type="password" />
         <br />
-        <button id="btnLogin" onclick="loginbutton_OnClick()">Login</button>
+        <button runat="server" id="btnLogin" onclick='login_OnClick()'>Login</button>
         <br />
         <br />
         <a href="createevent.html">You don't have an account? Create an Event.</a>
-    </div>
-    <script>
-        function loginbutton_OnClick() {
-            
-            var struname = "";
-            var strpass = "";
+        <script>
+            function login_OnClick() {
 
-            struname = document.getElementById("txtUsername").value;
-            strpass = document.getElementById("txtPassword").value;
+                var struname = "";
+                var strpass = "";
 
-            if ((struname.length < 1) || (strpass.length < 1)) {
-                alert("MESSAGE: Please enter Valid Input");
-            }
-            else {
-                {
-                    alert("Success")
+                struname = document.getElementById("txtUsername").value;
+                strpass = document.getElementById("txtPassword").value;
+                //create a function which does not accept space as first letter
+                
+                if ((struname.length < 1) || (strpass.length < 1)) {
+                    alert(strpass);
                 }
-                //$.ajaxSetup({
-                //    headers: { "Authorization": "Basic " + btoa("testlocal:testlocal") }
-                //});
-
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost/COE184P/Service.svc/GetProgramInformation",
-                    data:
-                    "{" +
-                    "\"ProgramCode\"😕"" + strProgramCode.trim() + "\"," +
-                    "\"ProgramType\"😕"" + strProgramType.trim() + "\"" +
-                    "}"
-                    ,
-                    contentType: "application/json;charset=utf-8",
-                    dataType: "json",
-                    processdata: true,
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Authorization", "Basic " + btoa("testlocal:testlocal"));
-                    },
-                    success: function (result) {
-
-                        var varResult = "";
-                        var varArResult = result.GetProgramInformationResult;
-                        for (var intCtr in varArResult) {
-                            varResult +=
-                                "Program Code: " + varArResult[intCtr].ProgramCode.toString().trim() + "\n" +
-                                "Program Title: " + varArResult[intCtr].ProgramTitle.toString().trim() + "\n" +
-                                "Program Type: " + varArResult[intCtr].ProgramType.toString().trim() + "\n" +
-                                "Program Full Name: " + varArResult[intCtr].ProgramFullName.toString().trim() + "\n";
-                        }
-                        alert(varResult);
-
-                        window.location.href = "about.html";
-                    },
-                    error: function (msg) {
-                        alert(msg.responseText);
-                    }
-                });
+                else
+                {
+                   //check if judge account, check if event organizer 
+                }
             }
-        }
+
         </script>
+       
+
+    </div>
+
+
 </body >
 </html >
 
-
-<script>
-            $(document).ready(function () {
-                $("button").click(function () {
-                    $.ajax({
-                        url: "https://httpbin.org/post",
-                        method: "POST",
-                        data: {
-                            username: 'hello',
-                            anotherdata: 'yourdata',
-                        },
-                        error: function (error) {
-                            alert('failed to post ' + error.status);
-                            console.log(error);
-                        },
-                        success: function (result) {
-                            console.log(result);
-                            $("#div1").html(JSON.stringify(result.form));
-                        }
-                    });
-                });
-            });
-    </script>
