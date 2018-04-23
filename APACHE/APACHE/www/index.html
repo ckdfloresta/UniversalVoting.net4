@@ -34,28 +34,30 @@
                 struname = document.getElementById("txtUsername").value;
                 strpass = document.getElementById("txtPassword").value;
                 //create a function which does not accept space as first letter
-                
+
                 if ((struname.length < 1) || (strpass.length < 1)) {
                     alert(strpass);
                 }
                 else
                 {
+                    var Data = {
+                        uname: struname,
+                        pass: strpass
+                    };
                     $.ajax({
                         type: 'POST',
                         url: 'http://localhost/Service.svc/index_login_OnClick',
-                        data: "{" +
-                        "\"uname\"" + struname.trim() + "\"," +
-                        "\"pass\"" + strpass.trim() + "\"" +
-                        "}",
+                        data: JSON.stringify(Data),
                         contentType: 'application/json;charset=utf-8',
                         dataType: 'json',
                         processdata: true,
                         success: function (result) {
-                            alert(result);
+                            alert(result.valuex);
                         },
                         error: function (msg) {
                             alert(msg.responseText);
                         }
+
                     });
                 }
             }
