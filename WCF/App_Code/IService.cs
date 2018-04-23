@@ -99,7 +99,7 @@ public interface IService
     string spViewNotEventCriteria(int eventid);
     [OperationContract]
     string spViewNotEventJudges(int eventid);
-     
+        
     //Dotnet 4 functions
     [OperationContract]
     [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]

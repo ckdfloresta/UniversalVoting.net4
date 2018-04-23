@@ -40,7 +40,23 @@
                 }
                 else
                 {
-                   //check if judge account, check if event organizer 
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost/Service.svc/index_login_OnClick',
+                        data: "{" +
+                        "\"uname\"" + struname.trim() + "\"," +
+                        "\"pass\"" + strpass.trim() + "\"" +
+                        "}",
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        processdata: true,
+                        success: function (result) {
+                            alert(result);
+                        },
+                        error: function (msg) {
+                            alert(msg.responseText);
+                        }
+                    });
                 }
             }
 
