@@ -7,6 +7,7 @@ using System.Data;
 using Newtonsoft.Json;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
+using System.Web.Script.Services;
 
 // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService" in both code and config file together.
 [ServiceContract]
@@ -195,4 +196,12 @@ public interface IService
     [OperationContract]
     [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
     string spViewNotEventJudges(int eventid);
+
+    //Dotnet 4 functions
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string index_login_OnClick(string uname, string pass);
+    // [ScriptMethod(UseHttpGet = true)]
+
+
 }

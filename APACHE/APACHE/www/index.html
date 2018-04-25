@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
+    <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
+
     <title>UVS App</title>
 </head>
 <body bgcolor="#1e73ff">
@@ -19,10 +21,53 @@
         <br />
         <input placeholder="PASSWORD" id="txtPassword" type="password" />
         <br />
-        <button runat="server" id="btnLogin">Login</button>
+        <button runat="server" id="btnLogin" onclick='login_OnClick()'>Login</button>
         <br />
         <br />
         <a href="createevent.html">You don't have an account? Create an Event.</a>
+        <script>
+            function login_OnClick() {
+
+                var struname = "";
+                var strpass = "";
+
+                struname = document.getElementById("txtUsername").value;
+                strpass = document.getElementById("txtPassword").value;
+                //create a function which does not accept space as first letter
+
+                if ((struname.length < 1) || (strpass.length < 1)) {
+                    alert(strpass);
+                }
+                else
+                {
+                    var Data = {
+                        uname: struname,
+                        pass: strpass
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:80/Service.svc/index_login_OnClick',
+                        data: JSON.stringify(Data),
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        processdata: true,
+                        success: function (result) {
+                            alert(result.valuex);
+                        },
+                        error: function (msg) {
+                            alert(msg.responseText);
+                        }
+
+                    });
+                }
+            }
+
+        </script>
+       
+
     </div>
-</body>
-</html>
+
+
+</body >
+</html >
+

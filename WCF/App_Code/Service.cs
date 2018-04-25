@@ -11,7 +11,12 @@ using System.ServiceModel.Web;
 // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service" in code, svc and config file together.
 public class Service : IService
 {
+
     dbConnect databaseCon = new dbConnect();
+    DataTable _eventorganizers;
+    DataTable _events;
+    DataTable _judges;
+
     public bool hasError = true;
     public string error = "Nothing was accessed";
 
@@ -321,6 +326,84 @@ public class Service : IService
         error = databaseCon.Error;
         return DTSerializer(databaseCon.Data);
     }
+    #endregion
+    #region dotnet4 functions
+
+    public string index_login_OnClick(string uname, string pass)
+    {
+        bool isjudge = false;
+        bool iseventorg = false;
+        bool isfinalized = false;
+        databaseCon = new dbConnect();
+        _judges = new DataTable();
+        _eventorganizers = new DataTable();
+
+        databaseCon.ExecuteCommand("Select * from Judge");
+        //1st col = judgeID 
+        //2nd col = personID
+        //3rd col = judgeuname
+        //4th col = judgepword
+        if (databaseCon.Data.Rows.Count > 0)
+        {
+            _judges = databaseCon.Data;
+        }
+
+        foreach (DataRow j in _judges.Rows)
+        {
+            if (uname == j.Field<string>(2).ToString() && pass == j.Field<string>(3).ToString())
+            {
+                isjudge = true;
+            }
+        }
+
+        if (!isjudge)
+        {
+            databaseCon.ExecuteCommand("Select * from Eventorganizer");
+            if (databaseCon.Data.Rows.Count > 0)
+            {
+                _eventorganizers = databaseCon.Data;
+                foreach (DataRow o in _eventorganizers.Rows)
+                {
+                    if (uname == o.Field<string>(1).ToString() && pass == o.Field<string>(2).ToString())
+                    {
+                        iseventorg = true;
+
+                        databaseCon.ExecuteCommand("SELECT E.IsFinalize FROM EVENT AS E INNER JOIN EVENTORGANIZER AS EO ON EO.EventID = E.EventID WHERE EO.adminUname = N'" + o.Field<string>(1).ToString() + "'");
+
+                        if (!databaseCon.Data.Rows[0].Field<bool>(0))
+                            //event is not yet finalized, can proceed to eventwindow
+                            isfinalized = false;
+                        else
+                            //event is finalized, cannot proceed to event window
+                            isfinalized = true;
+
+                    }
+                }
+            }
+
+        }
+
+        /*
+         results can be :
+         1 - event judge
+         2 - event organizer without finalized event
+         3 - event organizer with finalized event
+         4 - not valid credentials/login details
+         */
+
+        if (isjudge)
+            return "1";
+        else if (iseventorg)
+        {
+            if (isfinalized)
+                return "3";
+            else
+                return "2";
+        }
+        else
+            return "4";
+    }
+
     #endregion
 
 
