@@ -14,15 +14,22 @@ public class Service : IService
     dbConnect databaseCon = new dbConnect();
     public bool hasError = true;
     public string error = "Nothing was accessed";
+
     public bool HasError()
     {
         return hasError;
+    }
+
+    public string IsConnected()
+    {
+        return "Connected";
     }
 
     public string Error()           
     {
         return error;
     }
+
     public string DTSerializer(DataTable Data)
     {
         string DTString = JsonConvert.SerializeObject(Data);
