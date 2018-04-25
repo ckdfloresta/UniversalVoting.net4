@@ -31,13 +31,13 @@
 
                 var struname = "";
                 var strpass = "";
-
+                var funcresult = "";
                 struname = document.getElementById("txtUsername").value;
                 strpass = document.getElementById("txtPassword").value;
                 //create a function which does not accept space as first letter
 
                 if ((struname.length < 1) || (strpass.length < 1)) {
-                    alert(strpass);
+                    alert("Wala pang Laman");
                 }
                 else
                 {
@@ -53,7 +53,15 @@
                         dataType: 'json',
                         processdata: true,
                         success: function (result) {
-                            alert(result);
+                            funcresult = result.index_login_OnClickResult;
+                            if (funcresult == "1")
+                                alert("Account is a judge");
+                            else if (funcresult == "2")
+                                alert("account is an event org for a not finalized event");
+                            else if (funcresult == "3")
+                                alert("account is an event org for a finalized event")
+                            else
+                                alert("account does not exist");
                         },
                         error: function (msg) {
                             alert(msg.responseText);

@@ -199,7 +199,7 @@ public interface IService
 
     //Dotnet 4 functions
     [OperationContract]
-    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
 
    // [ScriptMethod(UseHttpGet = true)]
 
