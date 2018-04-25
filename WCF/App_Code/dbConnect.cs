@@ -10,7 +10,7 @@ public class dbConnect
 {
     #region Database Configurations
 
-    private string dataSource = ".\\SQLEXPRESS";
+    private string dataSource = "LAPTOP-R5JG92K6\\SQLEXPRESS";
     private string initialCatalog = "FakeJudge";
     private string userID = "sa";
     private string password = "123";
