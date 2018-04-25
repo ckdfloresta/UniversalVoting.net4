@@ -12,21 +12,27 @@ using System.ServiceModel.Web;
 public class Service : IService
 {
     dbConnect databaseCon = new dbConnect();
-    DataTable _eventorganizers;
-    DataTable _events;
     DataTable _judges;
+    DataTable _eventorganizers;
 
     public bool hasError = true;
     public string error = "Nothing was accessed";
+
     public bool HasError()
     {
         return hasError;
     }
 
-    public string Error()           
+    public string IsConnected()
+    {
+        return "Connected";
+    }
+
+    public string Error()
     {
         return error;
     }
+
     public string DTSerializer(DataTable Data)
     {
         string DTString = JsonConvert.SerializeObject(Data);
@@ -321,7 +327,7 @@ public class Service : IService
     #endregion
 
     #region dotnet4 functions
-    
+
     public string index_login_OnClick(string uname,string pass)
     {
         bool isjudge = false;
