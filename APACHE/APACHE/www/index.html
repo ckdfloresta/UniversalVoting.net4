@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
+    <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
+
     <title>UVS App</title>
 </head>
 <body bgcolor="#1e73ff">
@@ -14,15 +16,105 @@
     <h5 class="subtitle">Universal Voting System</h5>
     <br />
     <br />
+    <br />
     <div style="text-align:center;">
         <input placeholder="USERNAME" id="txtUsername" type="text" />
         <br />
         <input placeholder="PASSWORD" id="txtPassword" type="password" />
         <br />
-        <button runat="server" id="btnLogin">Login</button>
+        <button runat="server" id="btnLogin" onclick='login_OnClick()'>Login</button>
         <br />
         <br />
         <a href="createevent.html">You don't have an account? Create an Event.</a>
+        <script>
+            function login_OnClick() {
+
+                var struname = "";
+                var strpass = "";
+                var funcresult = "";
+                var accounttype = "";
+                struname = document.getElementById("txtUsername").value;
+                strpass = document.getElementById("txtPassword").value;
+                //create a function which does not accept space as first letter
+
+                if ((struname.length < 1) || (strpass.length < 1)) {
+                    alert("Wala pang Laman");
+                }
+                else
+                {
+                    var Data = {
+                        uname: struname,
+                        pass: strpass
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:80/Service.svc/index_login_OnClick',
+                        data: JSON.stringify(Data),
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        processdata: true,
+                        success: function (result) {
+                            accounttype = result.index_login_OnClickResult;
+                            if (accounttype != "4")
+                            {
+                                //if finalized event, alert 
+                                //else login judge/event org
+                                if (accounttype == "3")
+                                {
+                                    alert("Event is already Finalized");
+                                }
+                                else
+                                {
+                                    //get personid
+                                    
+                                    sessionStorage.setItem("username", uname);
+                                    sessionStorage.setItem("firstname", "firstname");
+                                    sessionStorage.setItem("lastname", "firstname");
+                                    sessionStorage.setItem("accounttype", accounttype);
+
+                                    if (accounttype == "2")
+                                    {
+                                        //get eo id
+                                        //set as eventorg
+                                        sessionStorage.setItem("eventid", "id");
+                                        sessionStorage.setItem("eventname", "event_name_here");
+
+                                    }
+                                    else
+                                    {
+                                        //set as judge
+                                        //get judgeid
+
+                                    }
+                               
+                                    sessionStorage.setItem("", "firstname");
+                                    sessionStorage.setItem("firstname", "firstname");
+                                }
+
+                            }
+                            else
+                            {
+
+                                alert("Account does not exist");
+                            }
+                    
+
+
+
+                        },
+                        error: function (msg) {
+                            alert(msg.responseText);
+                        }
+
+                    });
+                }
+            }
+
+        </script>
+       
+
     </div>
-</body>
-</html>
+
+
+</body >
+</html >

@@ -16,8 +16,10 @@
     <input placeholder="FIRST NAME" id="txtFN" type="text" />
     <input placeholder="LAST NAME" id="txtLN" type="text" />
     <input placeholder="USERNAME" id="txtUsername" type="text" />
-    <input placeholder="PASSWORD" id="txtPassword" type="text" />
-    <button runat="server" id="btnCreate">Create an Event</button>
+    <input placeholder="PASSWORD" id="txtPassword" type="password" />
+    <input placeholder="EVENT NAME" id="txtEN" type="text" />
+    <label id="lblError" style="display:none;color:red;">Error!</label>
+    <button runat="server" id="btnCreate" onclick="btnCreateEvent()">Create an Event</button>
     <br />
     <a href="index.html">Already have an account? Login.</a>
 </body>
