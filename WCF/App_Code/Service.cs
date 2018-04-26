@@ -332,18 +332,13 @@ public class Service : IService
     public string index_login_OnClick(string uname,string pass)
     {
         bool isjudge = false;
-        bool iseventorg = false;
-        bool isfinalized = false;
+        bool iseo = false;
         databaseCon = new dbConnect();
         _judges = new DataTable();
         _eventorganizers = new DataTable();
         resultaccount = new DataTable();
 
         databaseCon.ExecuteCommand("Select * from Judge");
-        //1st col = judgeID 
-        //2nd col = personID
-        //3rd col = judgeuname
-        //4th col = judgepword
         if(databaseCon.Data.Rows.Count>0)
         {
             _judges = databaseCon.Data;
@@ -367,14 +362,15 @@ public class Service : IService
             if (databaseCon.Data.Rows.Count > 0)
             {
                 _eventorganizers = databaseCon.Data;
-                 foreach (DataRow o in _eventorganizers.Rows)
+                foreach (DataRow o in _eventorganizers.Rows)
                 {
                     if (uname == o.Field<string>(1).ToString() && pass == o.Field<string>(2).ToString())
                     {
-                        resultaccount = _eventorganizers.Clone();
+                        isjudge = true;
+                           resultaccount = _eventorganizers.Clone();
                         resultaccount.ImportRow(o);
                         databaseCon.ExecuteCommand("SELECT E.IsFinalize FROM EVENT AS E INNER JOIN EVENTORGANIZER AS EO ON EO.EventID = E.EventID WHERE EO.adminUname = N'" + o.Field<string>(1).ToString() + "'");
-                    
+
                         if (!databaseCon.Data.Rows[0].Field<bool>(0))
                         //event is not yet finalized, can proceed to eventwindow
                         {
@@ -391,10 +387,37 @@ public class Service : IService
                 }
             }
         }
+       if(!iseo && !isjudge)
+        {
+            resultaccount.Columns.Add("accounttype");
+            resultaccount.Rows.Add("4");
+        }
+
         // 1 judge 2 eo 3 eo finalized 4 not avail
+
         return DTSerializer(resultaccount);
 
     }
+
+    public string spViewJudgeUsingJudgeID(int JudgeID)
+    {
+        databaseCon.ExecuteStoredProc("spViewJudgeUsingJudgeID", "@JudgeID", JudgeID);
+        hasError = databaseCon.HasError;
+        error = databaseCon.Error;
+        return DTSerializer(databaseCon.Data);
+    }
+
+    public string home_eventselect_change(string EventID)
+    {
+
+        
+        databaseCon.ExecuteStoredProc("MCspViewContestants", "@EventID", EventID);
+        hasError = databaseCon.HasError;
+        error = databaseCon.Error;
+
+        return DTSerializer(databaseCon.Data);
+    }
+
 
     #endregion
 

@@ -13,35 +13,109 @@
     <script>
         function checksession()
         {
-        //check session if valid by checking session accounttype == 1
-        //if valid account, display name, display events
-        //if not valid account, redirect to login
+            console.log("person id " + sessionStorage.getItem("personid"));
+            console.log("account type" + sessionStorage.getItem("accountype"));
+            console.log("judge id" + sessionStorage.getItem("judgeid"));
+
+            var judgeID = sessionStorage.getItem("judgeid");
+            var personid = sessionStorage.getItem("personid");
+            var ddlEvent = document.getElementById('ddlEvents');
+            var option = document.createElement('option');
+            var name = "";
+
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost/service.svc/spViewJudgeUsingJudgeID',
+                data: {
+                    'JudgeID': judgeID
+                },
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                processdata: true,
+                success: function (result) {
+                    
+                    var varArResult = JSON.parse(result.spViewJudgeUsingJudgeIDResult);
+                    console.log(varArResult);
+                    for (intCtr in varArResult) {
+                        var ddlEvent = document.getElementById('ddlEvents');
+                        var option = document.createElement('option');
+                        option.text = varArResult[intCtr].EventName;
+                        option.value = varArResult[intCtr].EventID;
+                        ddlEvent.add(option);
+                        if (varArResult[intCtr].PersonID == personid)
+                        {
+                            var name = "Hi " + varArResult[intCtr].FirstName + " " + varArResult[intCtr].LastName + "!";
+                            document.getElementById('judgename').innerText = name;
+                        }
+                    }
+                    judgename
+
+                },
+                error: function (msg) {
+                    alert('Error Retrieving Events list');
+                }
+            });
+        }
+
+        function eventselectchange(sel) {
+            
+          //  var strevent = document.getElementById('ddlParticipants');
+         //   var option = document.createElement('option');
+            
+            var Data = { EventID: sel.value };
+            console.log("value in select: "+sel.value);
+           
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost/service.svc/home_eventselect_change',
+                data: {
+                    'EventID': sel.value
+                },
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                processdata: true,
+                success: function (result) {
+
+                    console.log(result.home_eventselect_changeResult);
+                    var varArResult = JSON.parse(result.home_eventselect_changeResult);
+                    console.log(varArResult);
+                    $('#ddlParticipants option').remove();
+                    
+                    for (intCtr in varArResult)
+                    {
+                        var ddlParticipant = document.getElementById('ddlParticipants');
+                        var option = document.createElement('option');
+
+                        option.text = varArResult[intCtr].FirstName + " " + varArResult[intCtr].LastName;
+                        option.value = varArResult[intCtr].ContestantID;
+                        ddlParticipants.add(option);
+
+
+                    }
+                    
+                },
+                error: function (msg) {
+                    alert('Error Retrieving Contestants for Event');
+                }
+            });
         }
         
     </script>
-    <h1>Hi *insert name here*!</h1>
+    <h1 id="judgename">Hi *insert name here*!</h1>
     <br />
     <h3>Choose Event:</h3>
-    <select id="ddlEvents">
+    <select id="ddlEvents" onchange="eventselectchange(this)">
         <!-- Use js to add dynamic events here-->
-        <option value="Event A">Event A</option>
-        <option value="Event B">Event B</option>
-        <option value="Event C">Event C</option>
+
     </select>
+    <br />
+    <br />
     <br />
     <select name="participants" id="ddlParticipants" size="6">
         <!-- Use js to add dynamic participants here-->
-        <option value="Participant A">Participant A</option>
-        <option value="Participant B">Participant B</option>
-        <option value="Participant C">Participant C</option>
-        <option value="Participant C">Participant D</option>
-        <option value="Participant C">Participant E</option>
-        <option value="Participant C">Participant F</option>
-        <option value="Participant C">Participant F</option>
-        <option value="Participant C">Participant F</option>
-        <option value="Participant C">Participant F</option>
+
     </select>
     <br />
-    <button runat="server" id="btnResults">Results</button>
+    <button runat="server" id="btnResults" >Results</button>
 </body>
 </html>
