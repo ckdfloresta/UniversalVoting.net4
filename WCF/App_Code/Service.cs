@@ -14,6 +14,7 @@ public class Service : IService
     dbConnect databaseCon = new dbConnect();
     DataTable _judges;
     DataTable _eventorganizers;
+    DataTable resultaccount; 
 
     public bool hasError = true;
     public string error = "Nothing was accessed";
@@ -336,6 +337,7 @@ public class Service : IService
         databaseCon = new dbConnect();
         _judges = new DataTable();
         _eventorganizers = new DataTable();
+        resultaccount = new DataTable();
 
         databaseCon.ExecuteCommand("Select * from Judge");
         //1st col = judgeID 
@@ -351,6 +353,10 @@ public class Service : IService
         {
             if (uname == j.Field<string>(2).ToString() && pass == j.Field<string>(3).ToString())
             {
+                resultaccount = _judges.Clone();
+                resultaccount.ImportRow(j);
+                resultaccount.Columns.Add("accounttype");
+                resultaccount.Rows[0][resultaccount.Columns.Count - 1] = "1";
                 isjudge = true;
             }
         }
@@ -361,46 +367,33 @@ public class Service : IService
             if (databaseCon.Data.Rows.Count > 0)
             {
                 _eventorganizers = databaseCon.Data;
-                foreach (DataRow o in _eventorganizers.Rows)
+                 foreach (DataRow o in _eventorganizers.Rows)
                 {
                     if (uname == o.Field<string>(1).ToString() && pass == o.Field<string>(2).ToString())
                     {
-                        iseventorg = true;
-
+                        resultaccount = _eventorganizers.Clone();
+                        resultaccount.ImportRow(o);
                         databaseCon.ExecuteCommand("SELECT E.IsFinalize FROM EVENT AS E INNER JOIN EVENTORGANIZER AS EO ON EO.EventID = E.EventID WHERE EO.adminUname = N'" + o.Field<string>(1).ToString() + "'");
-
+                    
                         if (!databaseCon.Data.Rows[0].Field<bool>(0))
                         //event is not yet finalized, can proceed to eventwindow
-                            isfinalized = false;
+                        {
+                            resultaccount.Columns.Add("accounttype");
+                            resultaccount.Rows[0][resultaccount.Columns.Count - 1] = "2";
+                        }
                         else
-                             //event is finalized, cannot proceed to event window
-                            isfinalized = true;
-                        
+                        //event is finalized, cannot proceed to event window
+                        {
+                            resultaccount.Columns.Add("accounttype");
+                            resultaccount.Rows[0][resultaccount.Columns.Count - 1] = "3";
+                        }
                     }
                 }
             }
-
         }
+        // 1 judge 2 eo 3 eo finalized 4 not avail
+        return DTSerializer(resultaccount);
 
-        /*
-         results can be :
-         1 - event judge
-         2 - event organizer without finalized event
-         3 - event organizer with finalized event
-         4 - not valid credentials/login details
-         */
-
-        if (isjudge)
-            return "1";
-        else if (iseventorg)
-        {
-            if (isfinalized)
-                return "3";
-            else
-                return "2";
-        }
-        else
-            return "4";
     }
 
     #endregion

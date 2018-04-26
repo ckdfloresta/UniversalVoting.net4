@@ -7,10 +7,11 @@
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
     <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
+    <link rel="shortcut icon" href="">
 
     <title>UVS App</title>
 </head>
-<body bgcolor="#1e73ff">
+<body bgcolor="#1e73ff" onload="clearsession()">
     <hr width="70%">
     <p style="text-align:center; margin:0;"><img align="middle" src="images/uvaLogo.png" height="200" width="200" /></p>
     <h5 class="subtitle">Universal Voting System</h5>
@@ -32,7 +33,8 @@
                 var struname = "";
                 var strpass = "";
                 var funcresult = "";
-                var accounttype = "";
+
+                var resulttable = "";
                 struname = document.getElementById("txtUsername").value;
                 strpass = document.getElementById("txtPassword").value;
                 //create a function which does not accept space as first letter
@@ -42,23 +44,23 @@
                 }
                 else
                 {
-                    var Data = {
-                        uname: struname,
-                        pass: strpass
-                    };
+                  
+                    var Data = {uname:struname,pass:strpass};
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:80/Service.svc/index_login_OnClick',
-                        data: JSON.stringify(Data),
+                        url: 'http://localhost/Service.svc/index_login_OnClick',
+                        data:JSON.stringify(Data),
                         contentType: 'application/json;charset=utf-8',
                         dataType: 'json',
                         processdata: true,
-                        success: function (result) {
-                            accounttype = result.index_login_OnClickResult;
-                            if (accounttype != "4")
+                        success: function (result){
+                            resulttable = JSON.parse(result.index_login_OnClickResult);
+
+                            console.log(resulttable[0][]);
+                            console.log(resulttable[0][0]);
+
+                    /*        if (resulttable[resulttable.L] != "4")
                             {
-                                //if finalized event, alert 
-                                //else login judge/event org
                                 if (accounttype == "3")
                                 {
                                     alert("Event is already Finalized");
@@ -68,12 +70,14 @@
                                     //get personid
                                     
                                     sessionStorage.setItem("username", uname);
-                                    sessionStorage.setItem("firstname", "firstname");
+                                    sessionStorage.setItem("firstname", );
                                     sessionStorage.setItem("lastname", "firstname");
                                     sessionStorage.setItem("accounttype", accounttype);
 
                                     if (accounttype == "2")
                                     {
+                                        //go to home.html
+                                        setTimeout(window.location.replace("home.html"), 3000);
                                         //get eo id
                                         //set as eventorg
                                         sessionStorage.setItem("eventid", "id");
@@ -98,8 +102,8 @@
                                 alert("Account does not exist");
                             }
                     
-
-
+                            
+                            */
 
                         },
                         error: function (msg) {
@@ -110,6 +114,11 @@
                 }
             }
 
+            function clearsession()
+            {
+             //   sessionStorage.removeItem
+
+            }
         </script>
        
 
