@@ -1,3 +1,12 @@
+
+body {
+    background: #1e5799; /* Old browsers */
+    background: -moz-linear-gradient(top, #1e5799 0%, #2555bc 10%, #2989d8 45%, #2c8ae8 62%, #1b6caa 92%, #1e5799 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #1e5799 0%,#2555bc 10%,#2989d8 45%,#2c8ae8 62%,#1b6caa 92%,#1e5799 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #1e5799 0%,#2555bc 10%,#2989d8 45%,#2c8ae8 62%,#1b6caa 92%,#1e5799 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#1e5799',GradientType=0 ); /* IE6-9 */
+}
+
 .title {
     font-size: 25px;
     font-weight: bold;
