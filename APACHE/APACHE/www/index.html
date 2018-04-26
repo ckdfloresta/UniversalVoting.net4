@@ -44,7 +44,6 @@
                 }
                 else
                 {
-                  
                     var Data = {uname:struname,pass:strpass};
                     $.ajax({
                         type: 'POST',
@@ -71,7 +70,8 @@
                            if (resulttable[0].accounttype == "1")
                                 {  //judge
                                    //redirect sa home.html
-
+                               sessionStorage.setItem("judgeid", resulttable[0].JudgeID);
+                               console.log(sessionStorage.getItem("judgeid"));
                                sessionStorage.setItem("personid", resulttable[0].PersonID);
                                console.log(sessionStorage.getItem("personid"));
                                sessionStorage.setItem("accountype", resulttable[0].accounttype);

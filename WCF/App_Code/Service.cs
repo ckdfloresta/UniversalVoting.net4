@@ -406,6 +406,19 @@ public class Service : IService
         error = databaseCon.Error;
         return DTSerializer(databaseCon.Data);
     }
+
+    public string home_eventselect_change(string EventID)
+    {
+
+        
+        databaseCon.ExecuteStoredProc("MCspViewContestants", "@EventID", EventID);
+        hasError = databaseCon.HasError;
+        error = databaseCon.Error;
+
+        return DTSerializer(databaseCon.Data);
+    }
+
+
     #endregion
 
 }
