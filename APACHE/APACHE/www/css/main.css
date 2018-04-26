@@ -1,12 +1,18 @@
 .title {
-    font-size: 40px;
+    font-size: 30px;
     font-weight: bold;
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 60px 0px 0px;
     color: white;
 }
-
+.login {
+    font-size: 40px;
+    margin: 60px 0px 0px;
+}
+.register {
+    font-size: 25px;
+    margin: 50px 0px 0px;
+}
 .subtitle {
     font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,19 +21,30 @@
     padding: 0px;
     color: white;
 }
-
-input {
-    width: 100%;
+select {
+    width: 95%;
     padding: 12px 20px;
-    margin: 10px 2px;
+    margin: 10px 0px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
+.participants {
+    height: 280px;
+}
 
+input {
+    width: 85%;
+    padding: 12px 20px;
+    margin: 10px 0px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 button {
-    width: 100%;
+    width: 85%;
     background-color: #5e5e5e;
     color: white;
     padding: 14px 20px;
@@ -41,7 +58,6 @@ button {
     button:hover {
         background-color: #45a049;
     }
-
 a {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
@@ -51,3 +67,9 @@ a {
     a:hover {
         color: yellow;
     }
+#error {
+    color: #ff0000;
+    font-size: 22px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+}

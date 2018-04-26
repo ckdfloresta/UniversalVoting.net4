@@ -42,3 +42,11 @@ a {
     a:hover {
         color: yellow;
     }
+
+#error {
+    color: #ff0000;
+    font-size: 22px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight:bold;
+
+}
