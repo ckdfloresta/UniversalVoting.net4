@@ -13,9 +13,38 @@
     <script>
         function checksession()
         {
-        //check session if valid by checking session accounttype == 1
-        //if valid account, display name, display events
-        //if not valid account, redirect to login
+            console.log("person id " + sessionStorage.getItem("personid"));
+            console.log("account type" + sessionStorage.getItem("accountype"));
+
+            var judgeID = 1;
+            var ddlEvent = document.getElementById('ddlEvents');
+            var option = document.createElement('option');
+
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost/uvtest2/service.svc/spViewJudgeUsingJudgeID',
+                data: {
+                    'JudgeID': judgeID
+                },
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                processdata: true,
+                success: function (result) {
+                    var varResult = '';
+                    var varArResult = JSON.parse(result.spViewJudgeUsingJudgeIDResult);
+
+                    
+                    for (intCtr in varArResult)
+                    {
+                        option.text = varArResult[intCtr].EventName;
+                        ddlEvent.add(option);
+                    }
+
+                },
+                error: function (msg) {
+                    alert('You are not connected');
+                }
+            });
         }
         
     </script>
