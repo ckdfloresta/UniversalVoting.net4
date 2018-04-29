@@ -10,15 +10,23 @@
     <title>UVS App</title>
 </head>
 <body onload="checksession()">
-
+    <script>
+        function checksession()
+        {
+        //check session if valid by checking session accounttype == 1
+        //if valid account, display name, display events
+        //if not valid account, redirect to login
+        }
+        
+    </script>
     <h1>Hi *insert name here*!</h1>
     <br />
     <h3>Choose Event:</h3>
     <select id="ddlEvents">
         <!-- Use js to add dynamic events here-->
-        <!--<option value="Event A">Event A</option>
+        <option value="Event A">Event A</option>
         <option value="Event B">Event B</option>
-        <option value="Event C">Event C</option>-->
+        <option value="Event C">Event C</option>
     </select>
     <br />
     <select name="participants" id="ddlParticipants" size="6">
