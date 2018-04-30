@@ -1,27 +1,28 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
     <title>UVS App</title>
 </head>
-<body>
-    <h1>Universal Voting System</h1>
-    <br />
-    <input placeholder="USERNAME" id="txtUsername" type="text" />
-    <br />
-    <br />
-    <input placeholder="PASSWORD" id="txtPassword" type="password" />
+<body bgcolor="#1e73ff">
+    <hr width="70%">
+    <p style="text-align:center; margin:0;"><img align="middle" src="images/uvaLogo.png" height="200" width="200" /></p>
+    <h5 class="subtitle">Universal Voting System</h5>
     <br />
     <br />
-    <button runat="server" id="btnLogin">Login</button>
-    <br />
-    <br />
-    <a href="createevent.html" style="font-size:13px">You don't have an account? Create an Event.</a>
+    <div style="text-align:center;">
+        <input placeholder="USERNAME" id="txtUsername" type="text" />
+        <br />
+        <input placeholder="PASSWORD" id="txtPassword" type="password" />
+        <br />
+        <button runat="server" id="btnLogin">Login</button>
+        <br />
+        <br />
+        <a href="createevent.html">You don't have an account? Create an Event.</a>
+    </div>
 </body>
 </html>
