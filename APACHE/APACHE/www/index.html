@@ -7,7 +7,10 @@
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
     <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
+<<<<<<< HEAD
     <link rel="shortcut icon" href="">
+=======
+>>>>>>> 59f354077f1ad8ce34e9174daf9583219061a3a5
 
     <title>UVS App</title>
 </head>
@@ -32,14 +35,19 @@
 
                 var struname = "";
                 var strpass = "";
+<<<<<<< HEAD
                 var funcresult = "";
 
                 var resulttable = "";
+=======
+
+>>>>>>> 59f354077f1ad8ce34e9174daf9583219061a3a5
                 struname = document.getElementById("txtUsername").value;
                 strpass = document.getElementById("txtPassword").value;
                 //create a function which does not accept space as first letter
 
                 if ((struname.length < 1) || (strpass.length < 1)) {
+<<<<<<< HEAD
                     alert("Wala pang Laman");
                 }
                 else
@@ -90,6 +98,25 @@
                                
                             }
                             
+=======
+                    alert(strpass);
+                }
+                else
+                {
+                    var Data = {
+                        uname: struname,
+                        pass: strpass
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:80/Service.svc/index_login_OnClick',
+                        data: JSON.stringify(Data),
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        processdata: true,
+                        success: function (result) {
+                            alert(result.valuex);
+>>>>>>> 59f354077f1ad8ce34e9174daf9583219061a3a5
                         },
                         error: function (msg) {
                             alert(msg.responseText);
@@ -99,11 +126,14 @@
                 }
             }
 
+<<<<<<< HEAD
             function clearsession()
             {
              //   sessionStorage.removeItem
 
             }
+=======
+>>>>>>> 59f354077f1ad8ce34e9174daf9583219061a3a5
         </script>
        
 
@@ -111,4 +141,9 @@
 
 
 </body >
+<<<<<<< HEAD
 </html >
+=======
+</html >
+
+>>>>>>> 59f354077f1ad8ce34e9174daf9583219061a3a5
