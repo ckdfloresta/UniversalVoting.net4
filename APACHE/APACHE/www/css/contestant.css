@@ -29,12 +29,11 @@ tr:nth-child(odd) {
     background: #FFF
 }
 
-button{
-    width: 100%;
-    background-color: #5e5e5e;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
+button {
+    background-color: #2ed3e1;
+    color: black;
+    padding: 7px 10px;
+    margin: 0px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -43,11 +42,58 @@ button{
 
 select {
     width: 100%;
-    background-color: #DDD;
+    font-size: 16px;
+}
+
+option:nth-child(odd){
+    background-color: #FFFFFF;
     color: black;
 }
 
-button:hover {
-    background-color: #45a049;
+option:nth-child(even){
+    background-color: #FFCCBC;
+    color: white;
 }
 
+
+
+
+input {
+    width: 100%;
+    padding: 6px 10px;
+    margin: 1px;
+    display: inline-block;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+li {
+    float: left;
+    display: block;
+}
+ul {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+
+#btnEdit, #btnAdd, #btnRemove {
+    border-radius: 0px;
+    padding: 7px 36.5px;
+}
+
+button:hover:enabled {
+    background-color: #00887A;
+}
+
+
+button:hover:disabled {
+    background-color: #D3E3FC;
+}
+
+button:disabled {
+    background-color: #f9e0ff;
+}
