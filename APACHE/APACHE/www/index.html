@@ -7,10 +7,10 @@
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
     <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
-<<<<<<< HEAD
+
     <link rel="shortcut icon" href="">
-=======
->>>>>>> 59f354077f1ad8ce34e9174daf9583219061a3a5
+
+
 
     <title>UVS App</title>
 </head>
@@ -35,105 +35,70 @@
 
                 var struname = "";
                 var strpass = "";
-<<<<<<< HEAD
+
                 var funcresult = "";
 
                 var resulttable = "";
-=======
-
->>>>>>> 59f354077f1ad8ce34e9174daf9583219061a3a5
                 struname = document.getElementById("txtUsername").value;
                 strpass = document.getElementById("txtPassword").value;
-                //create a function which does not accept space as first letter
+
 
                 if ((struname.length < 1) || (strpass.length < 1)) {
-<<<<<<< HEAD
                     alert("Wala pang Laman");
                 }
-                else
-                {
-                    var Data = {uname:struname,pass:strpass};
+                else {
+                    var Data = { uname: struname, pass: strpass };
                     $.ajax({
                         type: 'POST',
                         url: 'http://localhost/Service.svc/index_login_OnClick',
-                        data:JSON.stringify(Data),
+                        data: JSON.stringify(Data),
                         contentType: 'application/json;charset=utf-8',
                         dataType: 'json',
                         processdata: true,
-                        success: function (result){
+                        success: function (result) {
                             resulttable = JSON.parse(result.index_login_OnClickResult);
                             console.log(result);
                             console.log("resulttable :" + resulttable);
                             console.log("Length: " + resulttable.length);
                             console.log("account Type: " + resulttable[0].accounttype);
                             console.log(resulttable); //show array
-                            if (resulttable[0].accounttype=="4")
-                            {
+                            if (resulttable[0].accounttype == "4") {
                                 alert("no account found, sad");
                             }
-                            else
-                            {
+                            else {
                                 console.log("  account found, yey");
-
-                           if (resulttable[0].accounttype == "1")
-                                {  //judge
-                                   //redirect sa home.html
-                               sessionStorage.setItem("judgeid", resulttable[0].JudgeID);
-                               console.log(sessionStorage.getItem("judgeid"));
-                               sessionStorage.setItem("personid", resulttable[0].PersonID);
-                               console.log(sessionStorage.getItem("personid"));
-                               sessionStorage.setItem("accountype", resulttable[0].accounttype);
-                               console.log(sessionStorage.getItem("accountype"));
-
-                                setTimeout(window.location.replace("home.html"), 3000);
+                                if (resulttable[0].accounttype == "1") {  //judge
+                                    //redirect sa home.html
+                                    sessionStorage.setItem("judgeid", resulttable[0].JudgeID);
+                                    console.log(sessionStorage.getItem("judgeid"));
+                                    sessionStorage.setItem("personid", resulttable[0].PersonID);
+                                    console.log(sessionStorage.getItem("personid"));
+                                    sessionStorage.setItem("accountype", resulttable[0].accounttype);
+                                    console.log(sessionStorage.getItem("accountype"));
+                                    setTimeout(window.location.replace("home.html"), 3000);
                                 }
-                                else if (resulttable[0].accounttype == "2")
-                                {
+                                else if (resulttable[0].accounttype == "2") {
                                     //redirect sa event finalizing
                                 }
-                                else
-                                {
+                                else {
                                     alert("Event is already finalized");
                                 }
-                               
+
                             }
-                            
-=======
-                    alert(strpass);
-                }
-                else
-                {
-                    var Data = {
-                        uname: struname,
-                        pass: strpass
-                    };
-                    $.ajax({
-                        type: 'POST',
-                        url: 'http://localhost:80/Service.svc/index_login_OnClick',
-                        data: JSON.stringify(Data),
-                        contentType: 'application/json;charset=utf-8',
-                        dataType: 'json',
-                        processdata: true,
-                        success: function (result) {
-                            alert(result.valuex);
->>>>>>> 59f354077f1ad8ce34e9174daf9583219061a3a5
+
                         },
                         error: function (msg) {
                             alert(msg.responseText);
                         }
-
                     });
                 }
             }
 
-<<<<<<< HEAD
             function clearsession()
             {
              //   sessionStorage.removeItem
 
             }
-=======
->>>>>>> 59f354077f1ad8ce34e9174daf9583219061a3a5
         </script>
        
 
@@ -141,9 +106,5 @@
 
 
 </body >
-<<<<<<< HEAD
-</html >
-=======
 </html >
 
->>>>>>> 59f354077f1ad8ce34e9174daf9583219061a3a5
