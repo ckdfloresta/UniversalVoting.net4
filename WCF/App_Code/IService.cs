@@ -199,9 +199,16 @@ public interface IService
 
     //Dotnet 4 functions
     [OperationContract]
-    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
     string index_login_OnClick(string uname, string pass);
-    // [ScriptMethod(UseHttpGet = true)]
+
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string spViewJudgeUsingJudgeID(int JudgeID);
+
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string home_eventselect_change(string EventID);
 
 
 }
