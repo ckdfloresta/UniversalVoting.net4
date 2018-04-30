@@ -11,10 +11,11 @@ using System.ServiceModel.Web;
 // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service" in code, svc and config file together.
 public class Service : IService
 {
+
     dbConnect databaseCon = new dbConnect();
-    DataTable _judges;
     DataTable _eventorganizers;
-    DataTable resultaccount; 
+    DataTable _events;
+    DataTable _judges;
 
     public bool hasError = true;
     public string error = "Nothing was accessed";
@@ -29,7 +30,7 @@ public class Service : IService
         return "Connected";
     }
 
-    public string Error()
+    public string Error()           
     {
         return error;
     }
@@ -326,20 +327,23 @@ public class Service : IService
         return DTSerializer(databaseCon.Data);
     }
     #endregion
-
     #region dotnet4 functions
 
-    public string index_login_OnClick(string uname,string pass)
+    public string index_login_OnClick(string uname, string pass)
     {
         bool isjudge = false;
-        bool iseo = false;
+        bool iseventorg = false;
+        bool isfinalized = false;
         databaseCon = new dbConnect();
         _judges = new DataTable();
         _eventorganizers = new DataTable();
-        resultaccount = new DataTable();
 
         databaseCon.ExecuteCommand("Select * from Judge");
-        if(databaseCon.Data.Rows.Count>0)
+        //1st col = judgeID 
+        //2nd col = personID
+        //3rd col = judgeuname
+        //4th col = judgepword
+        if (databaseCon.Data.Rows.Count > 0)
         {
             _judges = databaseCon.Data;
         }
@@ -348,10 +352,6 @@ public class Service : IService
         {
             if (uname == j.Field<string>(2).ToString() && pass == j.Field<string>(3).ToString())
             {
-                resultaccount = _judges.Clone();
-                resultaccount.ImportRow(j);
-                resultaccount.Columns.Add("accounttype");
-                resultaccount.Rows[0][resultaccount.Columns.Count - 1] = "1";
                 isjudge = true;
             }
         }
@@ -366,60 +366,46 @@ public class Service : IService
                 {
                     if (uname == o.Field<string>(1).ToString() && pass == o.Field<string>(2).ToString())
                     {
-                        isjudge = true;
-                           resultaccount = _eventorganizers.Clone();
-                        resultaccount.ImportRow(o);
+                        iseventorg = true;
+
                         databaseCon.ExecuteCommand("SELECT E.IsFinalize FROM EVENT AS E INNER JOIN EVENTORGANIZER AS EO ON EO.EventID = E.EventID WHERE EO.adminUname = N'" + o.Field<string>(1).ToString() + "'");
 
                         if (!databaseCon.Data.Rows[0].Field<bool>(0))
-                        //event is not yet finalized, can proceed to eventwindow
-                        {
-                            resultaccount.Columns.Add("accounttype");
-                            resultaccount.Rows[0][resultaccount.Columns.Count - 1] = "2";
-                        }
+                            //event is not yet finalized, can proceed to eventwindow
+                            isfinalized = false;
                         else
-                        //event is finalized, cannot proceed to event window
-                        {
-                            resultaccount.Columns.Add("accounttype");
-                            resultaccount.Rows[0][resultaccount.Columns.Count - 1] = "3";
-                        }
+                            //event is finalized, cannot proceed to event window
+                            isfinalized = true;
+
                     }
                 }
             }
+
         }
-       if(!iseo && !isjudge)
+
+        /*
+         results can be :
+         1 - event judge
+         2 - event organizer without finalized event
+         3 - event organizer with finalized event
+         4 - not valid credentials/login details
+         */
+
+        if (isjudge)
+            return "1";
+        else if (iseventorg)
         {
-            resultaccount.Columns.Add("accounttype");
-            resultaccount.Rows.Add("4");
+            if (isfinalized)
+                return "3";
+            else
+                return "2";
         }
-
-        // 1 judge 2 eo 3 eo finalized 4 not avail
-
-        return DTSerializer(resultaccount);
-
+        else
+            return "4";
     }
-
-    public string spViewJudgeUsingJudgeID(int JudgeID)
-    {
-        databaseCon.ExecuteStoredProc("spViewJudgeUsingJudgeID", "@JudgeID", JudgeID);
-        hasError = databaseCon.HasError;
-        error = databaseCon.Error;
-        return DTSerializer(databaseCon.Data);
-    }
-
-    public string home_eventselect_change(string EventID)
-    {
-
-        
-        databaseCon.ExecuteStoredProc("MCspViewContestants", "@EventID", EventID);
-        hasError = databaseCon.HasError;
-        error = databaseCon.Error;
-
-        return DTSerializer(databaseCon.Data);
-    }
-
 
     #endregion
+
 
 }
 
