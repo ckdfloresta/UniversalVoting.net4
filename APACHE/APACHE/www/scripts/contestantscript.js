@@ -10,11 +10,16 @@ $("#slAddContestant").click(function () {
     fName = input[0];
     lName = input[1];
 
+    document.getElementById("btnAddContestant").disabled = false;
+
 });
 
 //click btnAddContestant
 function clickAddContestant() {
     alert(selected);
+
+    document.getElementById("slAddContestant").selectedIndex  = "-1";
+    document.getElementById("btnAddContestant").disabled = true;
     
 }
 
@@ -36,20 +41,20 @@ $("#btnEdit, #btnRemove, #btnAdd").click(function (e) {
     document.getElementById("btnContinue").disabled = false;
     document.getElementById("btnCancel").disabled = false;
 
-    if (e.target.id == "btnEdit")
+    if (e.target.id === "btnEdit")
     {
         action = "Edit";
         document.getElementById("btnAdd").disabled = true;
         document.getElementById("btnRemove").disabled = true;
         document.getElementById("slModifyContestant").disabled = false;
     }
-    else if (e.target.id == "btnAdd")
+    else if (e.target.id === "btnAdd")
     {
         action = "Add";
         document.getElementById("btnEdit").disabled = true;
         document.getElementById("btnRemove").disabled = true;
     }
-    else if (e.target.id == "btnRemove")
+    else if (e.target.id === "btnRemove")
     {
         action = "Remove";
         document.getElementById("btnEdit").disabled = true;
@@ -72,17 +77,24 @@ function clickCancel() {
 }
 
 function clickModifyContestant() {
-    if (action == "Edit")
-    {
 
+
+    fName = document.getElementById("txtFirstName").value;
+    lName = document.getElementById("txtLastName").value;
+    //dunno about de image
+
+    if (action === "Edit")
+    {
+        //fill-out necessary action
     }
-    else if (action == "Add")
+    else if (action === "Add")
     {
-
+        //fill-out necessary action
     }
-    else if (action == "Remove")
+    else if (action === "Remove")
     {
 
+        //fill-out necessary action
     }
 
     clickCancel();
