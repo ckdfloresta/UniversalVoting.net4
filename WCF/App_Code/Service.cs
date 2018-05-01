@@ -31,7 +31,7 @@ public class Service : IService
         return "Connected";
     }
 
-    public string Error()           
+    public string Error()
     {
         return error;
     }
@@ -147,11 +147,12 @@ public class Service : IService
         error = databaseCon.Error;
         return DTSerializer(databaseCon.Data);
     }
-    public void MCspUpdateScore(int EventJudgeID, int ContestantID, int EventCriteriaID, float Score)
+    public void MCspUpdateScore(int EventJudgeID, int ContestantID, int EventCriteriaID, int Score)
     {
         databaseCon.ExecuteStoredProc("MCspUpdateScore", "@EventJudgeID", EventJudgeID, "@ContestantID", ContestantID, "@EventCriteriaID", EventCriteriaID, "@Score", Score);
         hasError = databaseCon.HasError;
         error = databaseCon.Error;
+      
     }
     public string MCspViewContestant(int ContestantID)
     {
@@ -410,12 +411,30 @@ public class Service : IService
     public string home_eventselect_change(string EventID)
     {
 
-
         databaseCon.ExecuteStoredProc("MCspViewContestants", "@EventID", EventID);
         hasError = databaseCon.HasError;
         error = databaseCon.Error;
 
         return DTSerializer(databaseCon.Data);
+    }
+
+    public string home_get_eventjudgeid(string EventID, string judgeid)
+    {
+        databaseCon.ExecuteStoredProc("[spgetEventjudgeID]", "@EventID", EventID, "@judgeid", judgeid);
+        hasError = databaseCon.HasError;
+        error = databaseCon.Error;
+        return DTSerializer(databaseCon.Data);
+
+    }
+
+    public string home_get_criteriawithscore(string ejid, string conid)
+    {
+
+        databaseCon.ExecuteStoredProc("[spViewCriteriaWithScore]", "@EventJudgeID", ejid, "@ConID", conid);
+        hasError = databaseCon.HasError;
+        error = databaseCon.Error;
+        return DTSerializer(databaseCon.Data);
+
     }
 
 
