@@ -33,10 +33,10 @@
         <thead>
             <tr>
                 <th>Criteria</th>
-                <th>Score( 0 to 10)</th>
+                <th>Score( 1 to 10)(0 is default)</th>
             </tr>
         </thead>
-        <tr id="tblrow1">
+        <tbody></tbody>
     </table>
     <script>
         //EventJudgeID, ContestantID, EventCriteriaID for input and ouput, score for input only
@@ -49,7 +49,7 @@
         function checksession() {     
             var conid = sessionStorage.getItem("contestantID");
             var ejid = sessionStorage.getItem("EventJudgeID");
-
+            console.log(sessionStorage.getItem("EventName"));
             console.log("contestant id: " + conid);
             console.log("Event judge id :" + ejid)
             if (conid == null)
@@ -92,8 +92,8 @@
                         var myresult = JSON.parse(result.home_get_criteriawithscoreResult);
                         console.log("Result of eventjudgeID");
                         for (intctr in myresult) {
-                            $('#mytable tbody').append('<tr id=tblrow' + intctr + '><th id=crit' + intctr + '>' + myresult[intctr].CriteriaName + '</th><th><input id="sr' + intctr + '" name="' + myresult[intctr].EventCriteriaID + '" type="range" min="0" step="1" max="10" list="tickmarks" value="' + myresult[intctr].Score + '" onchange="assignnumber(this,' + intctr + ')" class="input-transparent" /><h4 id="tv' + intctr + '">' + myresult[intctr].Score + '</h4></th></tr>');
-                            x++
+                            $('#mytable tbody').append('<tr id=tblrow' + intctr + '><th id=crit' + intctr + '>' + myresult[intctr].CriteriaName + '</th><th><input id="sr' + intctr + '" name="' + myresult[intctr].EventCriteriaID + '" type="range" min="1" step="1" max="10" list="tickmarks" value="' + myresult[intctr].Score + '" onchange="assignnumber(this,' + intctr + ')" class="input-transparent" /><h4 id="tv' + intctr + '">' + myresult[intctr].Score + '</h4></th></tr>');
+                            x++;
                         }  
                         
                         console.log("current score data obtained:");
