@@ -90,8 +90,8 @@ public interface IService
     string MCspGetEventCriteriaID(string Name, int EventJudgeID);
 
     [OperationContract]
-    [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
-    void MCspUpdateScore(int EventJudgeID, int ContestantID, int EventCriteriaID, float Score);
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    void MCspUpdateScore(int EventJudgeID, int ContestantID, int EventCriteriaID, int Score);
 
     [OperationContract]
     [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
@@ -199,9 +199,22 @@ public interface IService
 
     //Dotnet 4 functions
     [OperationContract]
-    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
     string index_login_OnClick(string uname, string pass);
-    // [ScriptMethod(UseHttpGet = true)]
 
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string spViewJudgeUsingJudgeID(int JudgeID);
 
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string home_eventselect_change(string EventID);
+
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string home_get_eventjudgeid (string EventID,string judgeid);
+
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string home_get_criteriawithscore(string ejid, string conid);
 }
