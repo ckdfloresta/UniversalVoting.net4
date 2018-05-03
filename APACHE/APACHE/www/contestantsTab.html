@@ -7,36 +7,51 @@
     <script src="scripts/jquery-3.2.1.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/login.css">
     <link rel="stylesheet" type="text/css" href="css/contestant.css">
+    <link rel="stylesheet" type="text/css" href="css/sidebar.css">
 
     <title>Contestant Tab</title>
 </head>
-<body>
-    <div id="sidebar">
+<body onload="PopulateContestants()">
 
+    <div id="sidebar">
+        <div class="toggle-btn" id="header">
+            <img src="images/uvaLogo.png" width="50" height="50" onclick="toggleSideBar()" />
+        </div>
+        <ul>
+            <li>Judges</li>
+            <li>Criteria</li>
+            <li>Contestants</li>
+            <li>Finalize</li>
+        </ul>
     </div>
+    <br />
+    <br />
     <div id="divAddContestant">
+
         <h3>All Contestants Available</h3>
         <!-- Use js to add dynamic participants here-->
+        <h6>Select an existing contestant to add to the event</h6>
         <select id="slAddContestant" size="6">
             <option value="Contestant 1">Contestant 1</option>
             <option value="Contestant 2">Contestant 2</option>
             <option value="Contestant 3">Contestant 3</option>
             <option value="Contestant 4">Contestant 4</option>
         </select>
-        <button runat="server" id="btnAddContestant" onclick="clickAddContestant()" >Add Contestant</button>
+        <button runat="server" id="btnAddContestant" onclick="clickAddContestant()" disabled>Add Contestant</button>
     </div>
-    <br/>
+    <br />
     <div id="divManageContestant">
         <h3>Modify</h3>
         <!--select style="width: 30%;"></select>-->
+        <h6>Select an Action</h6>
         <ul>
             <li><button id="btnEdit">Edit</button></li>
             <li><button id="btnAdd">Add</button></li>
             <li><button id="btnRemove">Remove</button></li>
         </ul>
         <h4>Contestants for This Event</h4>
+        <h6>*For Edit and Remove, select a contestant in the list below.</h6>
         <!-- Use js to add dynamic participants here-->
         <select id="slModifyContestant" size="6" disabled>
             <option value="Contestant 1">Contestant 1</option>
@@ -44,16 +59,17 @@
             <option value="Contestant 3">Contestant 3</option>
             <option value="Contestant 4">Contestant 4</option>
         </select>
-        <input placeholder="FIRST NAME" id="txtFirstName" type="text" />
+        <h6>Add or Edit using the forms below.</h6>
+        <input placeholder="FIRST NAME" id="txtFirstName" type="text" disabled/>
         <br />
-        <input placeholder="LAST NAME" id="txtLastName" type="text" />
+        <input placeholder="LAST NAME" id="txtLastName" type="text" disabled/>
         <p style="text-align:center;"><img id="imgContestant" src="put here" width="200" height="200" /></p>
         <p style="text-align:center;"><button style="width:60%;" runat="server" id="btnChangePicture">Change Picture</button></p>
-        <button  runat="server" id="btnContinue" onclick="clickModifyContestant()" disabled>Continue</button>
+        <button runat="server" id="btnContinue" onclick="clickModifyContestant()" disabled>Continue</button>
         <button id="btnCancel" onclick="clickCancel()" disabled>Cancel</button>
     </div>
 
-
+    <script type="text/javascript" src="scripts/sidebar.js"></script>
     <script type="text/javascript" src="scripts/contestantscript.js"></script>
 </body>
 </html>
