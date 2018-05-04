@@ -75,6 +75,14 @@ function clickCancel() {
     document.getElementById("btnCancelJudge").disabled = true;
     document.getElementById("tbModifyJudges").selectedIndex = "-1";
     document.getElementById("tbModifyJudges").disabled = true;
+
+
+    document.getElementById("txtFNameJudge").value = "";
+    document.getElementById("txtLNameJudge").value = "";
+    document.getElementById("txtUserJudge").value = "";
+    document.getElementById("txtPassJudge").value = "";
+
+
 }
 
 
