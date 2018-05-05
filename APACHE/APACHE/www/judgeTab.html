@@ -55,6 +55,7 @@
                 </tr>
             </tbody>
         </table>
+
         <button runat="server" id="btnAddExistJudge" onclick="clickAddJudge()" disabled>Add Judge</button>
     </div>
     <br />
@@ -68,7 +69,9 @@
             <li><button id="btnRemoveJudge">Remove</button></li>
         </ul>
         <h4>Judges for This Event</h4>
+
         <h6>*For Edit and Remove, select a judge on the list below.</h6>
+
         <!-- Use js to add dynamic participants here-->
         <table class="table-hover" id="tbModifyJudges">
             <thead>
@@ -103,7 +106,6 @@
         <br />
         <input placeholder="PASSWORD" id="txtPassJudge" type="text" />
         <br />
-
         <button runat="server" id="btnContinueJudge" onclick="clickCancel()" disabled>Continue</button>
         <button id="btnCancelJudge" onclick="clickModifyJudge()" disabled>Cancel</button>
     </div>
