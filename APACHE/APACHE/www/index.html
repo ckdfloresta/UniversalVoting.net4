@@ -6,12 +6,19 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
+    <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
+
+    <link rel="shortcut icon" href="">
+
+
+
     <title>UVS App</title>
 </head>
-<body bgcolor="#1e73ff">
+<body bgcolor="#1e73ff" onload="clearsession()">
     <hr width="70%">
     <p style="text-align:center; margin:0;"><img align="middle" src="images/uvaLogo.png" height="200" width="200" /></p>
     <h5 class="subtitle">Universal Voting System</h5>
+    <br />
     <br />
     <br />
     <div style="text-align:center;">
@@ -19,10 +26,85 @@
         <br />
         <input placeholder="PASSWORD" id="txtPassword" type="password" />
         <br />
-        <button runat="server" id="btnLogin">Login</button>
+        <button runat="server" id="btnLogin" onclick='login_OnClick()'>Login</button>
         <br />
         <br />
         <a href="createevent.html">You don't have an account? Create an Event.</a>
+        <script>
+            function login_OnClick() {
+
+                var struname = "";
+                var strpass = "";
+
+                var funcresult = "";
+
+                var resulttable = "";
+                struname = document.getElementById("txtUsername").value;
+                strpass = document.getElementById("txtPassword").value;
+
+
+                if ((struname.length < 1) || (strpass.length < 1)) {
+                    alert("Wala pang Laman");
+                }
+                else {
+                    var Data = { uname: struname, pass: strpass };
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost/Service.svc/index_login_OnClick',
+                        data: JSON.stringify(Data),
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        processdata: true,
+                        success: function (result) {
+                            resulttable = JSON.parse(result.index_login_OnClickResult);
+                            console.log(result);
+                            console.log("resulttable :" + resulttable);
+                            console.log("Length: " + resulttable.length);
+                            console.log("account Type: " + resulttable[0].accounttype);
+                            console.log(resulttable); //show array
+                            if (resulttable[0].accounttype == "4") {
+                                alert("no account found, sad");
+                            }
+                            else {
+                                console.log("  account found, yey");
+                                if (resulttable[0].accounttype == "1") {  //judge
+                                    //redirect sa home.html
+                                    sessionStorage.setItem("judgeid", resulttable[0].JudgeID);
+                                    console.log(sessionStorage.getItem("judgeid"));
+                                    sessionStorage.setItem("personid", resulttable[0].PersonID);
+                                    console.log(sessionStorage.getItem("personid"));
+                                    sessionStorage.setItem("accountype", resulttable[0].accounttype);
+                                    console.log(sessionStorage.getItem("accountype"));
+                                    setTimeout(window.location.replace("home.html"), 3000);
+                                }
+                                else if (resulttable[0].accounttype == "2") {
+                                    //redirect sa event finalizing
+                                }
+                                else {
+                                    alert("Event is already finalized");
+                                }
+
+                            }
+
+                        },
+                        error: function (msg) {
+                            alert(msg.responseText);
+                        }
+                    });
+                }
+            }
+
+            function clearsession()
+            {
+             //   sessionStorage.removeItem
+
+            }
+        </script>
+       
+
     </div>
-</body>
-</html>
+
+
+</body >
+</html >
+
