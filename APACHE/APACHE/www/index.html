@@ -23,6 +23,78 @@
         <br />
         <br />
         <a href="createevent.html">You don't have an account? Create an Event.</a>
+        <script>
+            function login_OnClick() {
+
+                var struname = "";
+                var strpass = "";
+
+                var funcresult = "";
+
+                var resulttable = "";
+                struname = document.getElementById("txtUsername").value;
+                strpass = document.getElementById("txtPassword").value;
+
+
+                if ((struname.length < 1) || (strpass.length < 1)) {
+                    alert("Wala pang Laman");
+                }
+                else {
+                    var Data = { uname: struname, pass: strpass };
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost/uvtest2/Service.svc/index_login_OnClick',
+                        data: JSON.stringify(Data),
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        processdata: true,
+                        success: function (result) {
+                            resulttable = JSON.parse(result.index_login_OnClickResult);
+                            console.log(result);
+                            console.log("resulttable :" + resulttable);
+                            console.log("Length: " + resulttable.length);
+                            console.log("account Type: " + resulttable[0].accounttype);
+                            console.log(resulttable); //show array
+                            if (resulttable[0].accounttype == "4") {
+                                alert("no account found, sad");
+                            }
+                            else {
+                                console.log("  account found, yey");
+                                if (resulttable[0].accounttype == "1") {  //judge
+                                    //redirect sa home.html
+                                    sessionStorage.setItem("judgeid", resulttable[0].JudgeID);
+                                    console.log(sessionStorage.getItem("judgeid"));
+                                    sessionStorage.setItem("personid", resulttable[0].PersonID);
+                                    console.log(sessionStorage.getItem("personid"));
+                                    sessionStorage.setItem("accountype", resulttable[0].accounttype);
+                                    console.log(sessionStorage.getItem("accountype"));
+                                    setTimeout(window.location.replace("home.html"), 3000);
+                                }
+                                else if (resulttable[0].accounttype == "2") {
+                                    //redirect sa event finalizing
+                                }
+                                else {
+                                    alert("Event is already finalized");
+                                }
+
+                            }
+
+                        },
+                        error: function (msg) {
+                            alert(msg.responseText);
+                        }
+                    });
+                }
+            }
+
+            function clearsession()
+            {
+             //   sessionStorage.removeItem
+
+            }
+        </script>
+       
+
     </div>
 </body>
 </html>
