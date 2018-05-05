@@ -12,17 +12,18 @@
 
     <title>Contestant Tab</title>
 </head>
-<body onload="PopulateContestants()">
+<body>
 
     <div id="sidebar">
-        <div class="toggle-btn" id="header">
+        <div class="toggle-btn" id="header" width="360">
             <img src="images/uvaLogo.png" width="50" height="50" onclick="toggleSideBar()" />
+            <h3 style="float: right; color: white;">Contestants Tab</h3>
         </div>
         <ul>
-            <li>Judges</li>
-            <li>Criteria</li>
-            <li>Contestants</li>
-            <li>Finalize</li>
+            <li><a href="judgeTab.html">Judges</a></li>
+            <li><a href="criteriaTab.html">Criteria</a></li>
+            <li><a href="contestantsTab.html">Contestants</a></li>
+            <li><a href="finalizeTab.html">Finalize</a></li>
         </ul>
     </div>
     <br />
@@ -60,9 +61,9 @@
             <option value="Contestant 4">Contestant 4</option>
         </select>
         <h6>Add or Edit using the forms below.</h6>
-        <input placeholder="FIRST NAME" id="txtFirstName" type="text" disabled/>
+        <input placeholder="FIRST NAME" id="txtFirstName" type="text" />
         <br />
-        <input placeholder="LAST NAME" id="txtLastName" type="text" disabled/>
+        <input placeholder="LAST NAME" id="txtLastName" type="text" />
         <p style="text-align:center;"><img id="imgContestant" src="put here" width="200" height="200" /></p>
         <p style="text-align:center;"><button style="width:60%;" runat="server" id="btnChangePicture">Change Picture</button></p>
         <button runat="server" id="btnContinue" onclick="clickModifyContestant()" disabled>Continue</button>
