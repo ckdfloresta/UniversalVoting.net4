@@ -10,10 +10,10 @@ public class dbConnect
 {
     #region Database Configurations
 
-    private string dataSource = ".\\SQLEXPRESS";
+    private string dataSource = "TEYDI\\SQLEXPRESS01";
     private string initialCatalog = "FakeJudge";
-    private string userID = "sa";
-    private string password = "123";
+    private string userID = "burger";
+    private string password = "burger";
 
     //----Windows Authentication----
     //Comment this line if NOT Windows Authentication
@@ -79,7 +79,7 @@ public class dbConnect
     }
 
     #endregion
-
+                                                         
     #region Process
 
     /// <summary>

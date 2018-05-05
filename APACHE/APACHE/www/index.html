@@ -6,12 +6,19 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
+    <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
+
+    <link rel="shortcut icon" href="">
+
+
+
     <title>UVS App</title>
 </head>
-<body bgcolor="#1e73ff">
+<body bgcolor="#1e73ff" onload="clearsession()">
     <hr width="70%">
     <p style="text-align:center; margin:0;"><img align="middle" src="images/uvaLogo.png" height="200" width="200" /></p>
     <h5 class="subtitle">Universal Voting System</h5>
+    <br />
     <br />
     <br />
     <div style="text-align:center;">
@@ -19,7 +26,7 @@
         <br />
         <input placeholder="PASSWORD" id="txtPassword" type="password" />
         <br />
-        <button runat="server" id="btnLogin">Login</button>
+        <button runat="server" id="btnLogin" onclick='login_OnClick()'>Login</button>
         <br />
         <br />
         <a href="createevent.html">You don't have an account? Create an Event.</a>
@@ -43,7 +50,7 @@
                     var Data = { uname: struname, pass: strpass };
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost/uvtest2/Service.svc/index_login_OnClick',
+                        url: 'http://localhost/Service.svc/index_login_OnClick',
                         data: JSON.stringify(Data),
                         contentType: 'application/json;charset=utf-8',
                         dataType: 'json',
@@ -96,5 +103,8 @@
        
 
     </div>
-</body>
-</html>
+
+
+</body >
+</html >
+

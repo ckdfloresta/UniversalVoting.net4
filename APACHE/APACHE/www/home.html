@@ -32,7 +32,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost/uvtest2/service.svc/spViewJudgeUsingJudgeID',
+                url: 'http://localhost/service.svc/spViewJudgeUsingJudgeID',
                 data: {
                     'JudgeID': judgeID
                 },
@@ -67,10 +67,11 @@
             
             var Data = { EventID: sel.value };
             console.log("event id value from selection: "+sel.value);
-           
+            sessionStorage.setItem("EventName", sel.options[sel.selectedIndex].text);
+          
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost/uvtest2/service.svc/home_eventselect_change',
+                url: 'http://localhost/service.svc/home_eventselect_change',
                 data: {
                     'EventID': sel.value
                 },
@@ -112,7 +113,7 @@
                 //getting eventjudge id based from event and judge
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost/uvtest2/service.svc/home_get_eventjudgeid',
+                    url: 'http://localhost/service.svc/home_get_eventjudgeid',
                     data: {
                         'EventID': sessionStorage.getItem("EventID"),
                         'judgeid': sessionStorage.getItem("judgeid")
@@ -139,31 +140,29 @@
             
 
         }
+
+        function gotoresults() {
+           
+            setTimeout(window.location.replace("results.html"));
+
+        }
+
     </script>
     <h1 id="judgename">Hi *insert name here*!</h1>
     <br />
     <h3>Choose Event:</h3>
-    <select id="ddlEvents">
+    <select id="ddlEvents" onchange="eventselectchange(this)">
         <!-- Use js to add dynamic events here-->
-        <option value="Event A">Event A</option>
-        <option value="Event B">Event B</option>
-        <option value="Event C">Event C</option>
+
     </select>
     <br />
-    <h3>Participants</h3>
-    <select name="participants" id="ddlParticipants" size="6">
+    <br />
+    <br />
+    <select name="participants" id="ddlParticipants"  onclick="contestantselect()" size="6">
         <!-- Use js to add dynamic participants here-->
-        <option value="Participant A">Participant A</option>
-        <option value="Participant B">Participant B</option>
-        <option value="Participant C">Participant C</option>
-        <option value="Participant C">Participant D</option>
-        <option value="Participant C">Participant E</option>
-        <option value="Participant C">Participant F</option>
-        <option value="Participant C">Participant F</option>
-        <option value="Participant C">Participant F</option>
-        <option value="Participant C">Participant F</option>
+
     </select>
     <br />
-    <button runat="server" id="btnResults">Results</button>
+    <button runat="server" id="btnResults" onclick="gotoresults()">Results</button>
 </body>
 </html>
