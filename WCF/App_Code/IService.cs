@@ -217,4 +217,12 @@ public interface IService
     [OperationContract]
     [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
     string home_get_criteriawithscore(string ejid, string conid);
+
+    [OperationContract]
+    [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string profile_get_loadcontestants(string _eventID);
+
+    [OperationContract]
+    [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string profile_get_eventstatus(string _eventID);
 }

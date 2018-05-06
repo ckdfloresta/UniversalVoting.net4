@@ -67,7 +67,8 @@
             
             var Data = { EventID: sel.value };
             console.log("event id value from selection: "+sel.value);
-           
+            sessionStorage.setItem("EventName", sel.options[sel.selectedIndex].text);
+          
             $.ajax({
                 type: 'GET',
                 url: 'http://localhost/uvtest2/service.svc/home_eventselect_change',
@@ -139,6 +140,13 @@
             
 
         }
+
+        function gotoresults() {
+           
+            setTimeout(window.location.replace("results.html"));
+
+        }
+
     </script>
     <h1 id="judgename">Hi *insert name here*!</h1>
     <br />
@@ -155,6 +163,6 @@
 
     </select>
     <br />
-    <button runat="server" id="btnResults" >Results</button>
+    <button runat="server" id="btnResults" onclick="gotoresults()">Results</button>
 </body>
 </html>

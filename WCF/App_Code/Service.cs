@@ -437,6 +437,69 @@ public class Service : IService
 
     }
 
+    public string profile_get_loadcontestants(string _eventID)
+    {
+        DataTable _contestantsDT = new DataTable();
+        DataTable _scoresDT = new DataTable();
+        DataTable _judgesDT = new DataTable();
+
+        resultaccount= new DataTable();
+        resultaccount.Columns.Add("PersonID", typeof(string));
+        resultaccount.Columns.Add("Name", typeof(string));
+        resultaccount.Columns.Add("FScore", typeof(string));
+
+        databaseCon.ExecuteStoredProc("MCspViewContestantsEvent", "@EventID", _eventID);
+        if (databaseCon.Data.Rows.Count > 0)
+            _contestantsDT = databaseCon.Data;
+
+        foreach (DataRow cont in _contestantsDT.Rows)
+        {
+            string fullname = cont.Field<string>(1);
+            double final = 0;
+            double total = 0;
+            int judgectr = 0;
+
+            databaseCon.ExecuteCommand("SELECT EventJudgesID FROM EventJudges WHERE EventID = " + _eventID);
+            int CID = cont.Field<int>(0);
+            if (databaseCon.Data.Rows.Count > 0)
+                _judgesDT = databaseCon.Data;
+            foreach (DataRow judge in _judgesDT.Rows)
+            {
+                judgectr++;
+                databaseCon.ExecuteStoredProc("MCspViewScoreWeight", "@ContestantID", CID.ToString(), "@EventJudgesID", judge.Field<int>(0));
+                if (databaseCon.Data.Rows.Count > 0)
+                    _scoresDT = databaseCon.Data;
+                foreach (DataRow sco in _scoresDT.Rows)
+                {
+                    double score = sco.Field<double>(0) / 10;
+                    double weight = sco.Field<double>(1);
+                    total += score * weight;
+                }
+            }
+            final += total / judgectr;
+            databaseCon.ExecuteCommand("UPDATE Contestant SET TotalScore = " + final.ToString() + "WHERE ContestantID = " + CID.ToString());
+            //need ko nalang ng personid,name at score tapos mag add sa new datatable
+            resultaccount.Rows.Add(cont.Field<int>(2).ToString(), fullname, final.ToString());
+        }
+
+
+
+        return DTSerializer(resultaccount);
+    }
+
+    public string profile_get_eventstatus(string _eventID)
+    {
+        bool IsResultsFinalize = true;
+
+        databaseCon.ExecuteStoredProc("MCspViewOfficialResults", "@EventID", _eventID);
+        if (databaseCon.Data.Rows.Count > 0)
+            foreach (DataRow scores in databaseCon.Data.Rows)
+            {
+                if (scores.Field<double>(0) == 0)
+                    IsResultsFinalize = false;
+            }
+        return IsResultsFinalize.ToString();
+    }
 
 
     #endregion

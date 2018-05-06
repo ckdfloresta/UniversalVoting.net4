@@ -123,6 +123,10 @@ function clickCancel() {
     document.getElementById("btnCancel").disabled = true;
     document.getElementById("slModifyContestant").selectedIndex = "-1";
     document.getElementById("slModifyContestant").disabled = true;
+
+
+    document.getElementById("txtFirstName").value = "";
+    document.getElementById("txtLastName").value = "";
 }
 
 function clickModifyContestant() {
