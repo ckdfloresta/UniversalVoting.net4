@@ -11,18 +11,31 @@ using System.ServiceModel.Web;
 // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service" in code, svc and config file together.
 public class Service : IService
 {
+
     dbConnect databaseCon = new dbConnect();
+    DataTable _eventorganizers;
+    DataTable _events;
+    DataTable _judges;
+    DataTable resultaccount;
+
     public bool hasError = true;
     public string error = "Nothing was accessed";
+
     public bool HasError()
     {
         return hasError;
     }
 
-    public string Error()           
+    public string IsConnected()
+    {
+        return "Connected";
+    }
+
+    public string Error()
     {
         return error;
     }
+
     public string DTSerializer(DataTable Data)
     {
         string DTString = JsonConvert.SerializeObject(Data);
@@ -134,11 +147,12 @@ public class Service : IService
         error = databaseCon.Error;
         return DTSerializer(databaseCon.Data);
     }
-    public void MCspUpdateScore(int EventJudgeID, int ContestantID, int EventCriteriaID, float Score)
+    public void MCspUpdateScore(int EventJudgeID, int ContestantID, int EventCriteriaID, int Score)
     {
         databaseCon.ExecuteStoredProc("MCspUpdateScore", "@EventJudgeID", EventJudgeID, "@ContestantID", ContestantID, "@EventCriteriaID", EventCriteriaID, "@Score", Score);
         hasError = databaseCon.HasError;
         error = databaseCon.Error;
+      
     }
     public string MCspViewContestant(int ContestantID)
     {
@@ -314,6 +328,180 @@ public class Service : IService
         error = databaseCon.Error;
         return DTSerializer(databaseCon.Data);
     }
+    #endregion
+    #region dotnet4 functions
+    public string index_login_OnClick(string uname, string pass)
+    {
+        bool isjudge = false;
+        bool iseo = false;
+        databaseCon = new dbConnect();
+        _judges = new DataTable();
+        _eventorganizers = new DataTable();
+        resultaccount = new DataTable();
+
+        databaseCon.ExecuteCommand("Select * from Judge");
+        if (databaseCon.Data.Rows.Count > 0)
+        {
+            _judges = databaseCon.Data;
+        }
+
+        foreach (DataRow j in _judges.Rows)
+        {
+            if (uname == j.Field<string>(2).ToString() && pass == j.Field<string>(3).ToString())
+            {
+                resultaccount = _judges.Clone();
+                resultaccount.ImportRow(j);
+                resultaccount.Columns.Add("accounttype");
+                resultaccount.Rows[0][resultaccount.Columns.Count - 1] = "1";
+                isjudge = true;
+            }
+        }
+
+        if (!isjudge)
+        {
+            databaseCon.ExecuteCommand("Select * from Eventorganizer");
+            if (databaseCon.Data.Rows.Count > 0)
+            {
+                _eventorganizers = databaseCon.Data;
+                foreach (DataRow o in _eventorganizers.Rows)
+                {
+                    if (uname == o.Field<string>(1).ToString() && pass == o.Field<string>(2).ToString())
+                    {
+                        isjudge = true;
+                        resultaccount = _eventorganizers.Clone();
+                        resultaccount.ImportRow(o);
+                        databaseCon.ExecuteCommand("SELECT E.IsFinalize FROM EVENT AS E INNER JOIN EVENTORGANIZER AS EO ON EO.EventID = E.EventID WHERE EO.adminUname = N'" + o.Field<string>(1).ToString() + "'");
+
+                        if (!databaseCon.Data.Rows[0].Field<bool>(0))
+                        //event is not yet finalized, can proceed to eventwindow
+                        {
+                            resultaccount.Columns.Add("accounttype");
+                            resultaccount.Rows[0][resultaccount.Columns.Count - 1] = "2";
+                        }
+                        else
+                        //event is finalized, cannot proceed to event window
+                        {
+                            resultaccount.Columns.Add("accounttype");
+                            resultaccount.Rows[0][resultaccount.Columns.Count - 1] = "3";
+                        }
+                    }
+                }
+            }
+        }
+        if (!iseo && !isjudge)
+        {
+            resultaccount.Columns.Add("accounttype");
+            resultaccount.Rows.Add("4");
+        }
+
+        // 1 judge 2 eo 3 eo finalized 4 not avail
+
+        return DTSerializer(resultaccount);
+
+    }
+
+    public string spViewJudgeUsingJudgeID(int JudgeID)
+    {
+        databaseCon.ExecuteStoredProc("spViewJudgeUsingJudgeID", "@JudgeID", JudgeID);
+        hasError = databaseCon.HasError;
+        error = databaseCon.Error;
+        return DTSerializer(databaseCon.Data);
+    }
+
+    public string home_eventselect_change(string EventID)
+    {
+
+        databaseCon.ExecuteStoredProc("MCspViewContestants", "@EventID", EventID);
+        hasError = databaseCon.HasError;
+        error = databaseCon.Error;
+
+        return DTSerializer(databaseCon.Data);
+    }
+
+    public string home_get_eventjudgeid(string EventID, string judgeid)
+    {
+        databaseCon.ExecuteStoredProc("[spgetEventjudgeID]", "@EventID", EventID, "@judgeid", judgeid);
+        hasError = databaseCon.HasError;
+        error = databaseCon.Error;
+        return DTSerializer(databaseCon.Data);
+
+    }
+
+    public string home_get_criteriawithscore(string ejid, string conid)
+    {
+
+        databaseCon.ExecuteStoredProc("[spViewCriteriaWithScore]", "@EventJudgeID", ejid, "@ConID", conid);
+        hasError = databaseCon.HasError;
+        error = databaseCon.Error;
+        return DTSerializer(databaseCon.Data);
+
+    }
+
+    public string profile_get_loadcontestants(string _eventID)
+    {
+        DataTable _contestantsDT = new DataTable();
+        DataTable _scoresDT = new DataTable();
+        DataTable _judgesDT = new DataTable();
+
+        resultaccount= new DataTable();
+        resultaccount.Columns.Add("PersonID", typeof(string));
+        resultaccount.Columns.Add("Name", typeof(string));
+        resultaccount.Columns.Add("FScore", typeof(string));
+
+        databaseCon.ExecuteStoredProc("MCspViewContestantsEvent", "@EventID", _eventID);
+        if (databaseCon.Data.Rows.Count > 0)
+            _contestantsDT = databaseCon.Data;
+
+        foreach (DataRow cont in _contestantsDT.Rows)
+        {
+            string fullname = cont.Field<string>(1);
+            double final = 0;
+            double total = 0;
+            int judgectr = 0;
+
+            databaseCon.ExecuteCommand("SELECT EventJudgesID FROM EventJudges WHERE EventID = " + _eventID);
+            int CID = cont.Field<int>(0);
+            if (databaseCon.Data.Rows.Count > 0)
+                _judgesDT = databaseCon.Data;
+            foreach (DataRow judge in _judgesDT.Rows)
+            {
+                judgectr++;
+                databaseCon.ExecuteStoredProc("MCspViewScoreWeight", "@ContestantID", CID.ToString(), "@EventJudgesID", judge.Field<int>(0));
+                if (databaseCon.Data.Rows.Count > 0)
+                    _scoresDT = databaseCon.Data;
+                foreach (DataRow sco in _scoresDT.Rows)
+                {
+                    double score = sco.Field<double>(0) / 10;
+                    double weight = sco.Field<double>(1);
+                    total += score * weight;
+                }
+            }
+            final += total / judgectr;
+            databaseCon.ExecuteCommand("UPDATE Contestant SET TotalScore = " + final.ToString() + "WHERE ContestantID = " + CID.ToString());
+            //need ko nalang ng personid,name at score tapos mag add sa new datatable
+            resultaccount.Rows.Add(cont.Field<int>(2).ToString(), fullname, final.ToString());
+        }
+
+
+
+        return DTSerializer(resultaccount);
+    }
+
+    public string profile_get_eventstatus(string _eventID)
+    {
+        bool IsResultsFinalize = true;
+
+        databaseCon.ExecuteStoredProc("MCspViewOfficialResults", "@EventID", _eventID);
+        if (databaseCon.Data.Rows.Count > 0)
+            foreach (DataRow scores in databaseCon.Data.Rows)
+            {
+                if (scores.Field<double>(0) == 0)
+                    IsResultsFinalize = false;
+            }
+        return IsResultsFinalize.ToString();
+    }
+
+
     #endregion
 
 
