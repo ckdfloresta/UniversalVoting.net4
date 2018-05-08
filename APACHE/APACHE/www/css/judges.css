@@ -31,9 +31,10 @@ table thead tr {
     background-color: white;
 }
 
+
 table tbody tr:nth-child(even) {
     background-color:#c8bbb5;
-    color: #949494;
+    color: black;
 }
 
 select {
@@ -51,6 +52,10 @@ option:nth-child(even) {
     color: white;
 }
 
+
+.selected {
+    color: forestgreen;
+}
 
 
 

@@ -3,7 +3,8 @@ var newCname, newWeight, oldCname, oldWeight;
 //REPLACE THIS PART OF THE CODE WITH ACTUAL JUDGE ID / EVENT ID FROM LOGIN SCREEN
 var eventID = 1;
 var judgeID;
-
+//eto nalang palitan natin para di na nakakalito
+var service = 'http://localhost/uvtest2/service.svc/';
 
 //selects from slAddCriteria
 $("#slAddCriteria").click(function () {
@@ -30,7 +31,7 @@ function clickAddCriteria() {
     {
         $.ajax({
             type: 'POST',
-            url: 'http://localhost/uvtest2/service.svc/spAddOldCriteriaToEventCriteria',
+            url: service + 'spAddOldCriteriaToEventCriteria',
             //data: {
             //    'fname': fName,
             //    'lname': lName,
@@ -160,7 +161,7 @@ function clickModifyContestant() {
             //call wcf to get criteria id
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost/uvtest2/service.svc/spCheckcnameavailability',
+                url: service + 'spCheckcnameavailability',
                 data: {
                     'cname': oldCname
                 },
@@ -173,7 +174,7 @@ function clickModifyContestant() {
                     var critid = varArResult[0].CriteriaID;
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost/uvtest2/service.svc/spUpdateEventCriteria',
+                        url: service + 'spUpdateEventCriteria',
                         data:
                         '{' +
                         '"cname":"' + newCname + '",' +
@@ -230,7 +231,7 @@ function clickModifyContestant() {
         else {
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost/uvtest2/service.svc/spAddCriteriaToEventCriteria',
+                url: service + 'spAddCriteriaToEventCriteria',
                 data:
                 '{' +
                 '"cname":"' + cname + '",' +
@@ -264,7 +265,7 @@ function clickModifyContestant() {
         {
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost/uvtest2/service.svc/spRemoveCriteriaFromEventCriteria',
+                url: service + 'spRemoveCriteriaFromEventCriteria',
                 data:
                 '{' +
                 '"cname":"' + cname + '",' +
@@ -297,7 +298,7 @@ function PopulateCriteria() {
     document.getElementById('slModifyCriteria').options.length = 0;
     $.ajax({
         type: 'GET',
-        url: 'http://localhost/uvtest2/service.svc/spViewNotEventCriteria',
+        url: service + 'spViewNotEventCriteria',
         data: {
             'eventid': eventID
         },
@@ -322,7 +323,7 @@ function PopulateCriteria() {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost/uvtest2/service.svc/spViewEventCriteria',
+        url: service + 'spViewEventCriteria',
         data: {
             'eventid': eventID
         },
