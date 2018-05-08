@@ -12,10 +12,11 @@
 
     <title>Criteria Tab</title>
 </head>
-<body>
+
+<body onload="PopulateCriteria()">
 
     <div id="sidebar">
-        <div class="toggle-btn" id="header" width="360">
+        <div class="toggle-btn" id="header">
             <img src="images/uvaLogo.png" width="50" height="50" onclick="toggleSideBar()" />
             <h3 style="float: right; color: white;">Criteria Tab</h3>
         </div>
@@ -30,16 +31,19 @@
     <br />
     <div id="divAddCriteria">
 
+
         <h3>All Criterias Available</h3>
         <!-- Use js to add dynamic participants here-->
         <h6>Select an existing Criteria to add to the event</h6>
+
         <select id="slAddCriteria" size="6">
             <option value="Criteria 1">Criteria 1</option>
             <option value="Criteria 2">Criteria 2</option>
             <option value="Criteria 3">Criteria 3</option>
             <option value="Criteria 4">Criteria 4</option>
         </select>
-        <input placeholder="CRITERIA WEIGHT" id="txtAddWeight" type="text" />
+
+        <input placeholder="CRITERIA WEIGHT" id="txtAddWeight" type="number" disabled /> <br />
         <button runat="server" id="btnAddCriteria" onclick="clickAddCriteria()" disabled>Add Criteria</button>
     </div>
     <br />
@@ -53,6 +57,7 @@
             <li><button id="btnRemove">Remove</button></li>
         </ul>
         <h4>Criterias for This Event</h4>
+
         <h6>*For Edit and Remove, select a criteria in the list below.</h6>
         <!-- Use js to add dynamic participants here-->
         <select id="slModifyCriteria" size="6" disabled>
@@ -66,6 +71,7 @@
         <br />
         <input placeholder="CRITERIA WEIGHT" id="txtModifyWeight" type="text" />
         <button runat="server" id="btnContinue" onclick="clickModifyCriteria()" disabled>Continue</button>
+
         <button id="btnCancel" onclick="clickCancel()" disabled>Cancel</button>
     </div>
 

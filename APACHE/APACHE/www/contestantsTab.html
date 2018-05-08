@@ -12,12 +12,11 @@
 
     <title>Contestant Tab</title>
 </head>
-<body>
+<body onload="PopulateContestants()">
 
     <div id="sidebar">
-        <div class="toggle-btn" id="header" width="360">
+        <div class="toggle-btn" id="header">
             <img src="images/uvaLogo.png" width="50" height="50" onclick="toggleSideBar()" />
-            <h3 style="float: right; color: white;">Contestants Tab</h3>
         </div>
         <ul>
             <li><a href="judgeTab.html">Judges</a></li>
@@ -61,9 +60,9 @@
             <option value="Contestant 4">Contestant 4</option>
         </select>
         <h6>Add or Edit using the forms below.</h6>
-        <input placeholder="FIRST NAME" id="txtFirstName" type="text" />
+        <input placeholder="FIRST NAME" id="txtFirstName" type="text" disabled/>
         <br />
-        <input placeholder="LAST NAME" id="txtLastName" type="text" />
+        <input placeholder="LAST NAME" id="txtLastName" type="text" disabled/>
         <p style="text-align:center;"><img id="imgContestant" src="put here" width="200" height="200" /></p>
         <p style="text-align:center;"><button style="width:60%;" runat="server" id="btnChangePicture">Change Picture</button></p>
         <button runat="server" id="btnContinue" onclick="clickModifyContestant()" disabled>Continue</button>
