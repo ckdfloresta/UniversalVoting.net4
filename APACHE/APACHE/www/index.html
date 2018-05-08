@@ -79,6 +79,9 @@
                                 }
                                 else if (resulttable[0].accounttype == "2") {
                                     //redirect sa event finalizing
+                                    sessionStorage.setItem("EventID", resulttable[0].EventID);
+                                    console.log(sessionStorage.getItem("EventID"));
+                                    setTimeout(window.location.replace("judgeTab.html"), 3000);
                                 }
                                 else {
                                     alert("Event is already finalized");

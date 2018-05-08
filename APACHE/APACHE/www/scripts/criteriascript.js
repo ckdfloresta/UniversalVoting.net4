@@ -124,7 +124,7 @@ function clickCancel() {
 
 }
 
-function clickModifyContestant() {
+function clickModifyCriteria() {
     var weight = document.getElementById("txtModifyWeight").value;
     var cname = document.getElementById("txtModifyCname").value.trim();
     oldCname = $("#slModifyCriteria option:selected").text();
@@ -296,6 +296,8 @@ function clickModifyContestant() {
 function PopulateCriteria() {
     document.getElementById('slAddCriteria').options.length = 0;
     document.getElementById('slModifyCriteria').options.length = 0;
+    eventID = sessionStorage.getItem("EventID");
+    console.log('EventID = ' + eventID);
     $.ajax({
         type: 'GET',
         url: service + 'spViewNotEventCriteria',
