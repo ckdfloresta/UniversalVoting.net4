@@ -1,9 +1,98 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/judges.css">
+    <link rel="stylesheet" type="text/css" href="css/sidebar.css">
 </head>
 <body>
-    <div>Content goes here.</div>
+    <div id="sidebar">
+
+        <div class="toggle-btn" id="header" width="360">
+            <img src="images/uvaLogo.png" width="50" height="50" onclick="toggleSideBar()" />
+            <h3 style="float: right; color:white;">Finalize Tab</h3>
+        </div>
+        <ul>
+            <li><a href="judgeTab.html">Judges</a></li>
+            <li><a href="criteriaTab.html">Criteria</a></li>
+            <li><a href="contestantsTab.html">Contestants</a></li>
+            <li><a href="finalizeTab.html">Finalize</a></li>
+        </ul>
+    </div>
+    <br />
+    <br />
+    <h3>Judges for this Event</h3>
+    <table class="table-hover" id="tbFinalizeJudges">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Judge Username</th>
+                <th>Judge Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Judge</td>
+                <td>1</td>
+                <td>User1</td>
+                <td>123</td>
+            </tr>
+            <tr>
+                <td>Judge</td>
+                <td>2</td>
+                <td>User2</td>
+                <td>456</td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <br />
+
+    <h3>Criterias for this Event</h3>
+    <table class="table-hover" id="tbFinalizeCriterias">
+        <thead>
+            <tr>
+                <th>Criteria</th>
+                <th>Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Criteria 1</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>Criteria 2</td>
+                <td>50</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br />
+    <br />
+
+    <h3>Contestants for this Event</h3>
+    <select id="slFinalizeContestants" size="6">
+        <option value="Contestant 1">Contestant 1</option>
+        <option value="Contestant 2">Contestant 2</option>
+        <option value="Contestant 3">Contestant 3</option>
+        <option value="Contestant 4">Contestant 4</option>
+    </select>
+
+    <br />
+    <h6>Once Finalized, Event Cannot be Altered</h6>
+
+    <button runat="server" id="btnFinalize" onclick="clickFinalize()">Finalize Event</button>
+    <button id="btnRefresh" onclick="clickRefresh()">Refresh Event</button>
+
+
+
+
+    <script type="text/javascript" src="scripts/sidebar.js"></script>
 </body>
 </html>
