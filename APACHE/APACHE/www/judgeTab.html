@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <title>Judge Tab</title>
+
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <script src="scripts/jquery-3.2.1.min.js"></script>
@@ -11,7 +13,7 @@
     <title></title>
 
 </head>
-<body>
+<body onload="PopulateJudges()">
     <div id="sidebar">
 
         <div class="toggle-btn" id="header" width="360">
@@ -55,9 +57,10 @@
                 </tr>
             </tbody>
         </table>
-
         <button runat="server" id="btnAddExistJudge" onclick="clickAddJudge()" disabled>Add Judge</button>
+
     </div>
+
     <br />
     <div id="divManageJudge">
         <h3>Modify</h3>
@@ -69,11 +72,9 @@
             <li><button id="btnRemoveJudge">Remove</button></li>
         </ul>
         <h4>Judges for This Event</h4>
-
         <h6>*For Edit and Remove, select a judge on the list below.</h6>
-
         <!-- Use js to add dynamic participants here-->
-        <table class="table-hover" id="tbModifyJudges">
+        <table class="table-hover" id="tbModifyJudges" disabled>
             <thead>
                 <tr>
                     <th>First Name</th>
@@ -98,16 +99,17 @@
             </tbody>
         </table>
         <h6>Add or Edit using the forms below.</h6>
-        <input placeholder="FIRST NAME" id="txtFNameJudge" type="text" />
+        <input placeholder="FIRST NAME" id="txtFNameJudge" type="text" disabled/>
         <br />
-        <input placeholder="LAST NAME" id="txtLNameJudge" type="text" />
+        <input placeholder="LAST NAME" id="txtLNameJudge" type="text" disabled/>
         <br />
-        <input placeholder="USERNAME" id="txtUserJudge" type="text" />
+        <input placeholder="USERNAME" id="txtUserJudge" type="text" disabled/>
         <br />
-        <input placeholder="PASSWORD" id="txtPassJudge" type="text" />
+        <input placeholder="PASSWORD" id="txtPassJudge" type="password" disabled/>
         <br />
-        <button runat="server" id="btnContinueJudge" onclick="clickCancel()" disabled>Continue</button>
-        <button id="btnCancelJudge" onclick="clickModifyJudge()" disabled>Cancel</button>
+
+        <button runat="server" id="btnContinueJudge" onclick="clickModifyJudge()" disabled>Continue</button>
+        <button id="btnCancelJudge" onclick="clickCancel()" disabled>Cancel</button>
     </div>
 
 

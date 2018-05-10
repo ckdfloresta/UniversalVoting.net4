@@ -1,0 +1,134 @@
+﻿var selected, modify, input, fName, lName, action;
+//REPLACE THIS PART OF THE CODE WITH ACTUAL JUDGE ID / EVENT ID FROM LOGIN SCREEN
+var eventID = 1;
+var judgeID;
+//eto nalang palitan natin para di na nakakalito
+var service = 'http://localhost/uvtest2/service.svc/';
+
+
+function clickCancel() {
+    //reset
+    document.getElementById("btnEdit").disabled = false;
+    document.getElementById("btnAdd").disabled = false;
+    document.getElementById("btnRemove").disabled = false;
+    document.getElementById("btnContinue").disabled = true;
+    document.getElementById("btnCancel").disabled = true;
+    document.getElementById("slModifyContestant").selectedIndex = "-1";
+    document.getElementById("slModifyContestant").disabled = true;
+
+
+    document.getElementById("txtFirstName").value = "";
+    document.getElementById("txtLastName").value = "";
+}
+
+function clickFinalize() {
+    if (confirm("WARNING: Finalizing an event means nothing can be changed afterwards. Are you sure you want to do this?"))
+    {
+        $.ajax({
+            type: 'POST',
+            url: service + 'KFspFinalizeEvent',
+            data:
+            '{' +
+            '"eventid":"' + eventID + '"' +
+            '}',
+
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            processdata: true,
+            success: function (result) {
+                alert("The event has been finalized! Returning to the homepage...");
+                setTimeout(window.location.replace("index.html"), 3000);
+            }
+            ,
+            error: function (msg) {
+                alert(msg.responseText);
+            }
+        });
+    }
+    else
+    {
+        PopulateEvent();
+    }
+}
+
+function PopulateEvent() {
+    //document.getElementById('tbAddJudges').options.length = 0;
+    //document.getElementById('slModifyCriteria').options.length = 0;
+    $("#tbFinalizeJudges tbody").empty();
+    $("#tbFinalizeCriterias tbody").empty();
+    document.getElementById('slFinalizeContestants').options.length = 0;
+
+    eventID = sessionStorage.getItem("EventID");
+    console.log('EventID = ' + eventID);
+    $.ajax({
+        type: 'GET',
+        url: service + 'spViewEventJudges',
+        data: {
+            'eventid': eventID
+        },
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json',
+        processdata: true,
+        success: function (result) {
+            var varArResult = JSON.parse(result.spViewEventJudgesResult);
+            console.log(varArResult);
+
+            $.each(varArResult, function (i, item) {
+                $('#tbFinalizeJudges').append(
+                    '<tr><td>' + item.FirstName + '</td><td>' + item.LastName + '</td><td>' + item.judgeUname + '</td><td>' + item.judgePword + '</td></tr>');
+            });
+        },
+        error: function (msg) {
+            alert('Error Retrieving Judge List');
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: service + 'spViewEventCriteria',
+        data: {
+            'eventid': eventID
+        },
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json',
+        processdata: true,
+        success: function (result) {
+            var varArResult = JSON.parse(result.spViewEventCriteriaResult);
+            console.log(varArResult);
+            $.each(varArResult, function (i, item) {
+                $('#tbFinalizeCriterias').append(
+                    '<tr><td>' + item.CriteriaName + '</td><td>' + item.Weight + '</td></tr>');
+            });
+
+        },
+        error: function (msg) {
+            alert('Error Retrieving Criteria List');
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: service + 'MCspViewContestantsEvent',
+        data: {
+            'EventID': eventID
+        },
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json',
+        processdata: true,
+        success: function (result) {
+            var varArResult = JSON.parse(result.MCspViewContestantsEventResult);
+            console.log(varArResult);
+            for (intCtr in varArResult) {
+                var slModifyContestant = document.getElementById('slFinalizeContestants');
+                var option = document.createElement('option');
+                option.text = varArResult[intCtr].name;
+                option.value = varArResult[intCtr].PersonID;
+                slModifyContestant.add(option);
+            }
+        },
+        error: function (msg) {
+            alert('Error Retrieving Contestants List');
+        }
+    });
+}
+

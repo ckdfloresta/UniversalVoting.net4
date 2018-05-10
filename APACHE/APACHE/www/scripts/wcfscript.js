@@ -1,9 +1,11 @@
 ﻿//index.html
-//todo by lorenz: create function that will call the error message from wcf :)
+//eto nalang palitan natin para di na nakakalito
+var service = 'http://localhost/uvtest2/service.svc/'; 
+
 function IsConnected() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost/uvtest2/service.svc/IsConnected',
+        url: service + 'IsConnected',
         data: '{}',
         contentType: 'application/json;charset=utf-8',
         dataType: 'json',
@@ -24,7 +26,7 @@ function checksession() {
     var option = document.createElement('option');
     $.ajax({
         type: 'GET',
-        url: 'http://localhost/uvtest2/service.svc/spViewJudgeUsingJudgeID',
+        url: service + 'spViewJudgeUsingJudgeID',
         data: {
             'JudgeID': judgeID
         },
@@ -57,7 +59,7 @@ function btnCreateEvent() {
 
     $.ajax({
         type: 'POST',
-        url: 'http://localhost/uvtest2/service.svc/KFspCreateEvent',
+        url: service + 'KFspCreateEvent',
         data:
         '{' +
         '"efname":"' + fname.trim() + '",' +

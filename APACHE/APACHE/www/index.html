@@ -48,7 +48,7 @@
                     var Data = { uname: struname, pass: strpass };
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost/Service.svc/index_login_OnClick',
+                        url: 'http://localhost/uvtest2/Service.svc/index_login_OnClick',
                         data: JSON.stringify(Data),
                         contentType: 'application/json;charset=utf-8',
                         dataType: 'json',
@@ -77,6 +77,9 @@
                                 }
                                 else if (resulttable[0].accounttype == "2") {
                                     //redirect sa event finalizing
+                                    sessionStorage.setItem("EventID", resulttable[0].EventID);
+                                    console.log(sessionStorage.getItem("EventID"));
+                                    setTimeout(window.location.replace("judgeTab.html"), 3000);
                                 }
                                 else {
                                     alert("Event is already finalized");

@@ -2,7 +2,8 @@
 //REPLACE THIS PART OF THE CODE WITH ACTUAL JUDGE ID / EVENT ID FROM LOGIN SCREEN
 var eventID = 1;
 var judgeID;
-
+//eto nalang palitan natin para di na nakakalito
+var service = 'http://localhost/uvtest2/service.svc/'; 
 
 //selects from slAddContestant
 $("#slAddContestant").click(function () {
@@ -29,7 +30,7 @@ function clickAddContestant() {
     console.log("value in lname: " + lName);
     $.ajax({
         type: 'POST',
-        url: 'http://localhost/uvtest2/service.svc/KFspAddExistingPersontoContestant',
+        url: service + 'KFspAddExistingPersontoContestant',
         //data: {
         //    'fname': fName,
         //    'lname': lName,
@@ -145,7 +146,7 @@ function clickModifyContestant() {
         var oldlName = splitName[1];
         $.ajax({
             type: 'POST',
-            url: 'http://localhost/uvtest2/service.svc/KFspUpdateContestant',
+            url: service + 'KFspUpdateContestant',
             data:
             '{' +
             '"fname":"' + fName + '",' +
@@ -191,7 +192,7 @@ function clickModifyContestant() {
         {
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost/uvtest2/service.svc/KFspAddPersonToContestant',
+                url: service + 'KFspAddPersonToContestant',
                 data:
                 '{' +
                 '"fname":"' + fName + '",' +
@@ -219,7 +220,7 @@ function clickModifyContestant() {
         //fill-out necessary action
         $.ajax({
             type: 'POST',
-            url: 'http://localhost/uvtest2/service.svc/KFspRemoveContsestantFromEvent',
+            url: service + 'KFspRemoveContsestantFromEvent',
             data:
             '{' +
             '"fname":"' + fName + '",' +
@@ -249,9 +250,11 @@ function clickModifyContestant() {
 function PopulateContestants() {
     document.getElementById('slAddContestant').options.length = 0;
     document.getElementById('slModifyContestant').options.length = 0;
+    eventID = sessionStorage.getItem("EventID");
+    console.log('EventID = ' + eventID);
     $.ajax({
         type: 'GET',
-        url: 'http://localhost/uvtest2/service.svc/KFspViewNotEventContestants',
+        url: service + 'KFspViewNotEventContestants',
         data: {
             'eventid': eventID
         },
@@ -276,7 +279,7 @@ function PopulateContestants() {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost/uvtest2/service.svc/MCspViewContestantsEvent',
+        url: service + 'MCspViewContestantsEvent',
         data: {
             'EventID': eventID
         },
