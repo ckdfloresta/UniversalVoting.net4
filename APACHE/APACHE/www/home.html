@@ -8,32 +8,22 @@
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
     <title>UVS App</title>
 </head>
-<body bgcolor="#0056e2">
-    <h1 class="title">Hi *insert name here*!!</h1>
+<body bgcolor="#0056e2" onload="checksession()">
+    <h1 id="judgename" class="title">Hi *insert name here*!!</h1>
     <br />
     <div style="text-align:center">
         <h3 class="subtitle">Choose an Event</h3>
-        <select id="ddlEvents">
+        <select id="ddlEvents" onchange="eventselectchange(this)">
             <!-- Use js to add dynamic events here-->
-            <option value="Event A">Event A</option>
-            <option value="Event B">Event B</option>
-            <option value="Event C">Event C</option>
         </select>
         <br />
         <h3 class="subtitle">Participants</h3>
-        <select name="participants" id="ddlParticipants" size="6" class="participants">
+        <select id="ddlParticipants" size="6" class="participants" onclick="contestantselect()">
             <!-- Use js to add dynamic participants here-->
-            <option value="Participant A">Participant A</option>
-            <option value="Participant B">Participant B</option>
-            <option value="Participant C">Participant C</option>
-            <option value="Participant C">Participant D</option>
-            <option value="Participant C">Participant E</option>
-            <option value="Participant C">Participant F</option>
         </select>
         <br />
-        <button runat="server" id="btnResults">Results</button>
+        <button runat="server" id="btnResults" onclick="gotoresults()">Results</button>
     </div>
-<body onload="checksession()">
     <script>
 
         function checksession()
@@ -172,21 +162,5 @@
         }
 
     </script>
-    <h1 id="judgename">Hi *insert name here*!</h1>
-    <br />
-    <h3>Choose Event:</h3>
-    <select id="ddlEvents" onchange="eventselectchange(this)">
-        <!-- Use js to add dynamic events here-->
-
-    </select>
-    <br />
-    <br />
-    <br />
-    <select name="participants" id="ddlParticipants"  onclick="contestantselect()" size="6">
-        <!-- Use js to add dynamic participants here-->
-
-    </select>
-    <br />
-    <button runat="server" id="btnResults" onclick="gotoresults()">Results</button>
 </body>
 </html>
