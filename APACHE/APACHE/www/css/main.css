@@ -44,13 +44,8 @@ input {
     box-sizing: border-box;
 }
 button {
-<<<<<<< HEAD
     width: 85%;
     background-color: #5e5e5e;
-=======
-    width: 100%;
-    background-color: #21b4e2;
->>>>>>> origin/master
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
