@@ -1,7 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <script src="scripts/jquery-3.2.1.min.js"></script>
+
+
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/profile.css">
+    <link rel="stylesheet" type="text/css" href="css/sidebar.css">
     <title></title>
 </head>
 <!--EventJudgeID,ContestantID,EventCriteriaID for input and ouput, score for input only-->
@@ -17,19 +25,32 @@
         <option value="8" />
         <option value="9" />
         <option value="10" />
-    </datalist>   
+    </datalist>
+
+    <div id="sidebar">
+
+        <div class="toggle-btn" id="header" width="360">
+            <img src="images/uvaLogo.png" width="50" height="50" onclick="toggleSideBar()" />
+            <h3 style="float: right; color:white;">Profile Tab</h3>
+        </div>
+        <ul>
+            <li onclick="goback()">
+                <button runat="server">Go back</button>
+            </li>
+        </ul>
+    </div>
 
     <div>
 
         <button runat="server" onclick="goback()">Go back </button>
-        <br/>
+        <br />
         <br />
     </div>
-    
-    <img id="mypic" src="images/girl.jpg" alt="default boy" height="200" width="200"/>
+
+    <img id="mypic" src="images/girl.jpg" alt="default boy" height="200" width="200" />
     <h2 id="contestantname">Lorem Ipsum Pogi</h2>
 
-    <table id="mytable" style="width:100%" border="1">
+    <table id="mytable" border="1">
         <thead>
             <tr>
                 <th>Criteria</th>
@@ -41,19 +62,17 @@
     <script>
         //EventJudgeID, ContestantID, EventCriteriaID for input and ouput, score for input only
 
-        function goback()
-        {
+        function goback() {
             setTimeout(window.location.replace("home.html"));
         }
 
-        function checksession() {     
+        function checksession() {
             var conid = sessionStorage.getItem("contestantID");
             var ejid = sessionStorage.getItem("EventJudgeID");
             console.log(sessionStorage.getItem("EventName"));
             console.log("contestant id: " + conid);
             console.log("Event judge id :" + ejid)
-            if (conid == null)
-            {
+            if (conid == null) {
                 alert("You should not be here, redirecting..");
                 setTimeout(window.location.replace("home.html"), 3000);
             }
@@ -73,17 +92,17 @@
                         console.log(myresult);
                         document.getElementById("contestantname").innerText = myresult[0].FirstName + " " + myresult[0].LastName + " #" + myresult[0].ContestantNumber;
                         document.getElementById("mypic").src = "images/" + myresult[0].PersonID + ".jpg";
-                        document.getElementById("mypic").alt = "Person With personid="+myresult[0].PersonID + " picture should be here";
+                        document.getElementById("mypic").alt = "Person With personid=" + myresult[0].PersonID + " picture should be here";
                     },
                     error: function (msg) {
                         alert('Error Contacting Server, please try again later.');
                     }
                 });
-                 
+
                 $.ajax({
                     type: 'GET',
                     url: 'http://localhost/service.svc/home_get_criteriawithscore',
-                    data: { 'ejid': ejid, 'conid':conid },
+                    data: { 'ejid': ejid, 'conid': conid },
                     contentType: 'application/json;charset=utf-8',
                     dataType: 'json',
                     processdata: true,
@@ -94,29 +113,29 @@
                         for (intctr in myresult) {
                             $('#mytable tbody').append('<tr id=tblrow' + intctr + '><th id=crit' + intctr + '>' + myresult[intctr].CriteriaName + '</th><th><input id="sr' + intctr + '" name="' + myresult[intctr].EventCriteriaID + '" type="range" min="1" step="1" max="10" list="tickmarks" value="' + myresult[intctr].Score + '" onchange="assignnumber(this,' + intctr + ')" class="input-transparent" /><h4 id="tv' + intctr + '">' + myresult[intctr].Score + '</h4></th></tr>');
                             x++;
-                        }  
-                        
+                        }
+
                         console.log("current score data obtained:");
                         console.log(myresult);
-                },
-                  error: function (msg) {
+                    },
+                    error: function (msg) {
                         alert('Error Contacting Server, please try again later.');
                     }
                 });
 
 
-        };
+            };
 
         }
 
         function assignnumber(input, selectornumber) {
-            
+
             var x = document.getElementById("sr" + selectornumber).value;
             var conid = sessionStorage.getItem("contestantID");
             var ejid = sessionStorage.getItem("EventJudgeID");
             document.getElementById("tv" + selectornumber).innerText = x;
 
-           // console.log("On row:" + selectornumber);
+            // console.log("On row:" + selectornumber);
             //console.log(input.name);
             //add score to person
             $.ajax({
@@ -134,37 +153,39 @@
                 processdata: true,
                 success: function (result) {
                     console.log("Update complete");
-                    
+
                 },
                 error: function (msg) {
                     alert('Error Contacting Server, please try again later.');
                 }
             });
 
-            
+
         }
-        
-  
-        
-        /*
-        things to do in profile
 
-        -mag save ng existing score
-          */
-        //needed to updated score
-        //event criteria ID
-        //EvenetJudge ID
-        //ContestantID
-        //Score
-        //event id
 
-        /*
-        MCspUpdateScore para sa pag Edit ng score, EventJudgeID,ContestantID,EventCriteriaID,Score
-        MCspViewCriteria para sa pag view ng CriteriaName, Weight, EventCriteriaID = EventJudgesID
-        MCspViewScore para sa pag view ng actual Score, EventJudgeID,ContestantID, EventCriteriaID
-        EventJudgeID,ContestantID,EventCriteriaID,Score
-        */
+
+                /*
+                things to do in profile
+
+                -mag save ng existing score
+                  */
+                //needed to updated score
+                //event criteria ID
+                //EvenetJudge ID
+                //ContestantID
+                //Score
+                //event id
+
+                /*
+                MCspUpdateScore para sa pag Edit ng score, EventJudgeID,ContestantID,EventCriteriaID,Score
+                MCspViewCriteria para sa pag view ng CriteriaName, Weight, EventCriteriaID = EventJudgesID
+                MCspViewScore para sa pag view ng actual Score, EventJudgeID,ContestantID, EventCriteriaID
+                EventJudgeID,ContestantID,EventCriteriaID,Score
+                */
     </script>
+
+    <script type="text/javascript" src="scripts/sidebar.js"></script>
 
 </body>
 </html>
