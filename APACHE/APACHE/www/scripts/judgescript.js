@@ -275,6 +275,7 @@ function clickModifyJudge() {
             '"lname":"' + modifyLName + '",' +
             '"uname":"' + modifyUName + '",' +
             '"pass":"' + modifyPword + '",' +
+            '"eventid":"' + eventID + '",' +
             '}',
 
             contentType: 'application/json;charset=utf-8',
@@ -282,7 +283,7 @@ function clickModifyJudge() {
             processdata: true,
             success: function (result) {
                 alert(modifyUName + " has been removed from the event judges!");
-                PopulateContestants();
+                PopulateJudges();
             }
             ,
             error: function (msg) {
@@ -298,6 +299,8 @@ function clickModifyJudge() {
 function PopulateJudges() {
     //document.getElementById('tbAddJudges').options.length = 0;
     //document.getElementById('slModifyCriteria').options.length = 0;
+    eventID = sessionStorage.getItem("EventID");
+    console.log('EventID = ' + eventID);
     $("#tbAddJudges tbody").empty(); 
     $("#tbModifyJudges tbody").empty(); 
     $.ajax({

@@ -250,6 +250,8 @@ function clickModifyContestant() {
 function PopulateContestants() {
     document.getElementById('slAddContestant').options.length = 0;
     document.getElementById('slModifyContestant').options.length = 0;
+    eventID = sessionStorage.getItem("EventID");
+    console.log('EventID = ' + eventID);
     $.ajax({
         type: 'GET',
         url: service + 'KFspViewNotEventContestants',

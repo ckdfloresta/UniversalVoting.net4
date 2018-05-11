@@ -1,22 +1,17 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
-    <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
-
-    <link rel="shortcut icon" href="">
-
-
-
     <title>UVS App</title>
+
 </head>
-<body bgcolor="#1e73ff" onload="clearsession()">
+<body bgcolor="#0056e2" onload="clearsession()">
+    <h1 class="title login">UVS App</h1>
     <hr width="70%">
-    <p style="text-align:center; margin:0;"><img align="middle" src="images/uvaLogo.png" height="200" width="200" /></p>
     <h5 class="subtitle">Universal Voting System</h5>
     <br />
     <br />
@@ -30,6 +25,9 @@
         <br />
         <br />
         <a href="createevent.html">You don't have an account? Create an Event.</a>
+        <div style="text-align:center">
+            <p id="error"></p>
+        </div>
         <script>
             function login_OnClick() {
 
@@ -79,6 +77,9 @@
                                 }
                                 else if (resulttable[0].accounttype == "2") {
                                     //redirect sa event finalizing
+                                    sessionStorage.setItem("EventID", resulttable[0].EventID);
+                                    console.log(sessionStorage.getItem("EventID"));
+                                    setTimeout(window.location.replace("judgeTab.html"), 3000);
                                 }
                                 else {
                                     alert("Event is already finalized");
@@ -100,11 +101,7 @@
 
             }
         </script>
-       
-
     </div>
-
-
 </body >
 </html >
 

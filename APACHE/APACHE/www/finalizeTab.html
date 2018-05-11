@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <title>Finalize Tab</title>
+
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <script src="scripts/jquery-3.2.1.min.js"></script>
@@ -9,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/judges.css">
     <link rel="stylesheet" type="text/css" href="css/sidebar.css">
 </head>
-<body>
+<body onload="PopulateEvent()">
     <div id="sidebar">
 
         <div class="toggle-btn" id="header" width="360">
@@ -26,7 +28,7 @@
     <br />
     <br />
     <h3>Judges for this Event</h3>
-    <table class="table-hover" id="tbFinalizeJudges">
+    <table class="table-hover" id="tbFinalizeJudges" border="1">
         <thead>
             <tr>
                 <th>First Name</th>
@@ -54,11 +56,11 @@
     <br />
 
     <h3>Criterias for this Event</h3>
-    <table class="table-hover" id="tbFinalizeCriterias">
+    <table class="table-hover" id="tbFinalizeCriterias" border="1">
         <thead>
             <tr>
-                <th>Criteria</th>
-                <th>Weight</th>
+                <th>Event Criteria</th>
+                <th>Criteria Weight</th>
             </tr>
         </thead>
         <tbody>
@@ -94,5 +96,7 @@
 
 
     <script type="text/javascript" src="scripts/sidebar.js"></script>
+    <script type="text/javascript" src="scripts/finalizescript.js"></script>
+
 </body>
 </html>
