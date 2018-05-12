@@ -9,7 +9,7 @@
     <title>UVS App</title>
 </head>
 <!--EventJudgeID,ContestantID,EventCriteriaID for input and ouput, score for input only-->
-<body onload="checksession()">
+<body bgcolor="#0056e2" onload="profilechecksession()">
     <datalist id="tickmarks">
         <option value="1" />
         <option value="2" />
@@ -22,17 +22,14 @@
         <option value="9" />
         <option value="10" />
     </datalist>   
-
-    <div>
-
-        <button runat="server" onclick="goback()">Go back </button>
+    <div style="text-align:center">
+        <a href="home.html">&#60;-- Back to home page</a>
         <br/>
         <br />
     </div>
     
-    <img id="mypic" src="images/girl.jpg" alt="default boy" height="200" width="200"/>
-    <h2 id="contestantname">Lorem Ipsum Pogi</h2>
-
+    <h2 id="contestantname" class="title head">Lorem Ipsum Pogi</h2>
+    <br />
     <table id="mytable" style="width:100%" border="1">
         <thead>
             <tr>
@@ -42,6 +39,5 @@
         </thead>
         <tbody></tbody>
     </table>
-
 </body>
 </html>

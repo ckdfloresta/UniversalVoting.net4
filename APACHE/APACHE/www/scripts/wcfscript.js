@@ -128,7 +128,7 @@ function checksession() {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost/uvtest2/service.svc/spViewJudgeUsingJudgeID',
+        url: service + 'spViewJudgeUsingJudgeID',
         data: {
             'JudgeID': judgeID
         },
@@ -147,6 +147,7 @@ function checksession() {
                 ddlEvent.add(option);
                 if (varArResult[intCtr].PersonID == personid) {
                     var name = "Hi " + varArResult[intCtr].FirstName + " " + varArResult[intCtr].LastName + "!";
+                    console.log(name);
                     document.getElementById('judgename').innerText = name;
                 }
             }
@@ -165,7 +166,7 @@ function eventselectchange(sel) {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost/uvtest2/service.svc/home_eventselect_change',
+        url: service + 'home_eventselect_change',
         data: {
             'EventID': sel.value
         },
@@ -205,7 +206,7 @@ function contestantselect() {
         //getting eventjudge id based from event and judge
         $.ajax({
             type: 'GET',
-            url: 'http://localhost/uvtest2/service.svc/home_get_eventjudgeid',
+            url: service + 'home_get_eventjudgeid',
             data: {
                 'EventID': sessionStorage.getItem("EventID"),
                 'judgeid': sessionStorage.getItem("judgeid")
@@ -239,28 +240,7 @@ function gotoresults() {
 }
 
 //profile.html
-//EventJudgeID, ContestantID, EventCriteriaID for input and ouput, score for input only
-/*
-things to do in profile
-
-- mag save ng existing score
-* /
-//needed to updated score
-//event criteria ID
-//EvenetJudge ID
-//ContestantID
-//Score
-//event id
-
-/*
-MCspUpdateScore para sa pag Edit ng score, EventJudgeID,ContestantID,EventCriteriaID,Score
-MCspViewCriteria para sa pag view ng CriteriaName, Weight, EventCriteriaID = EventJudgesID
-MCspViewScore para sa pag view ng actual Score, EventJudgeID,ContestantID, EventCriteriaID
-EventJudgeID,ContestantID,EventCriteriaID,Score
-function goback() {
-    setTimeout(window.location.replace("home.html"));
-}
-function checksession() {
+function profilechecksession() {
     var conid = sessionStorage.getItem("contestantID");
     var ejid = sessionStorage.getItem("EventJudgeID");
     console.log(sessionStorage.getItem("EventName"));
@@ -274,7 +254,7 @@ function checksession() {
     else {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost/service.svc/MCspViewContestant',
+            url: service + 'MCspViewContestant',
             data: { 'ContestantID': conid },
             contentType: 'application/json;charset=utf-8',
             dataType: 'json',
@@ -295,7 +275,7 @@ function checksession() {
 
         $.ajax({
             type: 'GET',
-            url: 'http://localhost/service.svc/home_get_criteriawithscore',
+            url: service + 'home_get_criteriawithscore',
             data: { 'ejid': ejid, 'conid': conid },
             contentType: 'application/json;charset=utf-8',
             dataType: 'json',
@@ -305,7 +285,7 @@ function checksession() {
                 var myresult = JSON.parse(result.home_get_criteriawithscoreResult);
                 console.log("Result of eventjudgeID");
                 for (intctr in myresult) {
-                    $('#mytable tbody').append('<tr id=tblrow' + intctr + '><th id=crit' + intctr + '>' + myresult[intctr].CriteriaName + '</th><th><input id="sr' + intctr + '" name="' + myresult[intctr].EventCriteriaID + '" type="range" min="1" step="1" max="10" list="tickmarks" value="' + myresult[intctr].Score + '" onchange="assignnumber(this,' + intctr + ')" class="input-transparent" /><h4 id="tv' + intctr + '">' + myresult[intctr].Score + '</h4></th></tr>');
+                    $('#mytable tbody').append('<tr id=tblrow' + intctr + '><td id=crit' + intctr + '>' + myresult[intctr].CriteriaName + '</td><td><input id="sr' + intctr + '" name="' + myresult[intctr].EventCriteriaID + '" type="range" min="1" step="1" max="10" list="tickmarks" value="' + myresult[intctr].Score + '" onchange="assignnumber(this,' + intctr + ')" class="input-transparent" /><h4 id="tv' + intctr + '">' + myresult[intctr].Score + '</h4></td></tr>');
                     x++;
                 }
 
@@ -333,7 +313,7 @@ function assignnumber(input, selectornumber) {
     //add score to person
     $.ajax({
         type: 'GET',
-        url: 'http://localhost/service.svc/MCspUpdateScore',
+        url: service + 'MCspUpdateScore',
         data: {
             'EventJudgeID': ejid,
             'ContestantID': conid,
@@ -356,6 +336,74 @@ function assignnumber(input, selectornumber) {
 
 }
 
+
+//results.html
+function displaycontestants() {
+    var mydata = { '_eventID': sessionStorage.getItem("EventID") };
+    $.ajax({
+        type: 'POST',
+        url: service + 'profile_get_loadcontestants',
+        data: JSON.stringify(mydata),
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json',
+        processdata: true,
+        success: function (result) {
+
+            var myresult = JSON.parse(result.profile_get_loadcontestantsResult);
+            console.log(myresult);
+            var x = 0;
+
+            for (intctr in myresult) {
+                $('#mytable tbody').append(' <tr id="tblrow' + [intctr] + '"><td id="con' + [intctr] + '"><h3 id="name' + [intctr] + '">' + myresult[intctr].Name + '</h3></td><td><h4 id="tv' + [intctr] + '">' + Math.round(myresult[intctr].FScore) + '</h4></td></tr>');
+                x++;
+            }
+        },
+        error: function (msg) {
+            alert('Error Contacting Server, please try again later.');
+        }
+    });
+
+}
+function resultschecksession() {
+    var conid = sessionStorage.getItem("contestantID");
+    var ejid = sessionStorage.getItem("EventJudgeID");
+    document.getElementById("resultname").innerText = "Event Results for " + sessionStorage.getItem("EventName");
+
+    console.log("Event id: " + sessionStorage.getItem("EventID"));
+    console.log("contestant id: " + conid);
+    console.log("Event judge id :" + ejid)
+
+    var mydata = { '_eventID': sessionStorage.getItem("EventID") };
+    var hehe;
+    $.ajax({
+        type: 'POST',
+        url: service + 'profile_get_eventstatus',
+        data: JSON.stringify(mydata),
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json',
+        processdata: true,
+        success: function (result) {
+
+            hehe = result.profile_get_eventstatusResult;
+            if (hehe == 'True') {
+                displaycontestants();
+            }
+            else {
+                document.getElementById("eventresultstatus").innerText = "Event is not yet Finished, There are Judges who have not yet voted";
+                console.log("is false");
+            }
+
+        },
+        error: function (msg) {
+            alert('Error Contacting Server, please try again later.');
+        }
+    });
+
+}
+
+
+//di ko alam saan to
+/*
 function checksession() {
     //REPLACE THIS PART OF THE CODE WITH ACTUAL JUDGE ID FROM LOGIN SCREEN
     var judgeID = 1;
@@ -386,5 +434,4 @@ function checksession() {
         }
     });
 }
-
 */
