@@ -133,7 +133,6 @@ function clickCancel() {
     document.getElementById("txtPassJudge").value = '';
 }
 
-
 function clickModifyJudge() {
     var oldFname = modifyFName;
     var oldLname = modifyLName;
@@ -296,6 +295,7 @@ function clickModifyJudge() {
 
 
 }
+
 function PopulateJudges() {
     //document.getElementById('tbAddJudges').options.length = 0;
     //document.getElementById('slModifyCriteria').options.length = 0;
