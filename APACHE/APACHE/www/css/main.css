@@ -13,6 +13,12 @@
     font-size: 25px;
     margin: 50px 0px 0px;
 }
+
+.head {
+    font-size: 25px;
+    margin: 0px 10px 0px 10px;
+}
+
 .subtitle {
     font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -73,3 +79,28 @@ a {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
 }
+
+
+table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    table td, table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        color: white;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #758eff;
+    }
+
+    table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }

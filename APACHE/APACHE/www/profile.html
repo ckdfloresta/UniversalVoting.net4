@@ -1,11 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="scripts/jquery-3.2.1.min.js"></script>
-    <title></title>
+    <script type="text/javascript" src="scripts/wcfscript.js"></script>
+    <title>UVS App</title>
 </head>
 <!--EventJudgeID,ContestantID,EventCriteriaID for input and ouput, score for input only-->
-<body onload="checksession()">
+<body bgcolor="#0056e2" onload="profilechecksession()">
     <datalist id="tickmarks">
         <option value="1" />
         <option value="2" />
@@ -18,17 +22,14 @@
         <option value="9" />
         <option value="10" />
     </datalist>   
-
-    <div>
-
-        <button runat="server" onclick="goback()">Go back </button>
+    <div style="text-align:center">
+        <a href="home.html">&#60;-- Back to home page</a>
         <br/>
         <br />
     </div>
     
-    <img id="mypic" src="images/girl.jpg" alt="default boy" height="200" width="200"/>
-    <h2 id="contestantname">Lorem Ipsum Pogi</h2>
-
+    <h2 id="contestantname" class="title head">Lorem Ipsum Pogi</h2>
+    <br />
     <table id="mytable" style="width:100%" border="1">
         <thead>
             <tr>
@@ -38,133 +39,5 @@
         </thead>
         <tbody></tbody>
     </table>
-    <script>
-        //EventJudgeID, ContestantID, EventCriteriaID for input and ouput, score for input only
-
-        function goback()
-        {
-            setTimeout(window.location.replace("home.html"));
-        }
-
-        function checksession() {     
-            var conid = sessionStorage.getItem("contestantID");
-            var ejid = sessionStorage.getItem("EventJudgeID");
-            console.log(sessionStorage.getItem("EventName"));
-            console.log("contestant id: " + conid);
-            console.log("Event judge id :" + ejid)
-            if (conid == null)
-            {
-                alert("You should not be here, redirecting..");
-                setTimeout(window.location.replace("home.html"), 3000);
-            }
-
-            else {
-                $.ajax({
-                    type: 'GET',
-                    url: 'http://localhost/service.svc/MCspViewContestant',
-                    data: { 'ContestantID': conid },
-                    contentType: 'application/json;charset=utf-8',
-                    dataType: 'json',
-                    processdata: true,
-                    success: function (result) {
-
-                        var myresult = JSON.parse(result.MCspViewContestantResult);
-                        console.log("Contestant:");
-                        console.log(myresult);
-                        document.getElementById("contestantname").innerText = myresult[0].FirstName + " " + myresult[0].LastName + " #" + myresult[0].ContestantNumber;
-                        document.getElementById("mypic").src = "images/" + myresult[0].PersonID + ".jpg";
-                        document.getElementById("mypic").alt = "Person With personid="+myresult[0].PersonID + " picture should be here";
-                    },
-                    error: function (msg) {
-                        alert('Error Contacting Server, please try again later.');
-                    }
-                });
-                 
-                $.ajax({
-                    type: 'GET',
-                    url: 'http://localhost/service.svc/home_get_criteriawithscore',
-                    data: { 'ejid': ejid, 'conid':conid },
-                    contentType: 'application/json;charset=utf-8',
-                    dataType: 'json',
-                    processdata: true,
-                    success: function (result) {
-                        var x = 0;
-                        var myresult = JSON.parse(result.home_get_criteriawithscoreResult);
-                        console.log("Result of eventjudgeID");
-                        for (intctr in myresult) {
-                            $('#mytable tbody').append('<tr id=tblrow' + intctr + '><th id=crit' + intctr + '>' + myresult[intctr].CriteriaName + '</th><th><input id="sr' + intctr + '" name="' + myresult[intctr].EventCriteriaID + '" type="range" min="1" step="1" max="10" list="tickmarks" value="' + myresult[intctr].Score + '" onchange="assignnumber(this,' + intctr + ')" class="input-transparent" /><h4 id="tv' + intctr + '">' + myresult[intctr].Score + '</h4></th></tr>');
-                            x++;
-                        }  
-                        
-                        console.log("current score data obtained:");
-                        console.log(myresult);
-                },
-                  error: function (msg) {
-                        alert('Error Contacting Server, please try again later.');
-                    }
-                });
-
-
-        };
-
-        }
-
-        function assignnumber(input, selectornumber) {
-            
-            var x = document.getElementById("sr" + selectornumber).value;
-            var conid = sessionStorage.getItem("contestantID");
-            var ejid = sessionStorage.getItem("EventJudgeID");
-            document.getElementById("tv" + selectornumber).innerText = x;
-
-           // console.log("On row:" + selectornumber);
-            //console.log(input.name);
-            //add score to person
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost/service.svc/MCspUpdateScore',
-                data: {
-                    'EventJudgeID': ejid,
-                    'ContestantID': conid,
-                    'EventCriteriaID': input.name,
-                    'Score': x
-
-                },
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                processdata: true,
-                success: function (result) {
-                    console.log("Update complete");
-                    
-                },
-                error: function (msg) {
-                    alert('Error Contacting Server, please try again later.');
-                }
-            });
-
-            
-        }
-        
-  
-        
-        /*
-        things to do in profile
-
-        -mag save ng existing score
-          */
-        //needed to updated score
-        //event criteria ID
-        //EvenetJudge ID
-        //ContestantID
-        //Score
-        //event id
-
-        /*
-        MCspUpdateScore para sa pag Edit ng score, EventJudgeID,ContestantID,EventCriteriaID,Score
-        MCspViewCriteria para sa pag view ng CriteriaName, Weight, EventCriteriaID = EventJudgesID
-        MCspViewScore para sa pag view ng actual Score, EventJudgeID,ContestantID, EventCriteriaID
-        EventJudgeID,ContestantID,EventCriteriaID,Score
-        */
-    </script>
-
 </body>
 </html>
