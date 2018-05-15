@@ -4,10 +4,12 @@ var newCname, newWeight, oldCname, oldWeight;
 var eventID = 1;
 var judgeID;
 //eto nalang palitan natin para di na nakakalito
-var service = 'http://localhost/uvtest2/service.svc/';
+//var service = 'http://localhost/uvtest2/service.svc/';
+var service = 'http://192.168.43.238/uvtest2/service.svc/';
+
 
 //selects from slAddCriteria
-$("#slAddCriteria").click(function () {
+$("#slAddCriteria").on("change", function (e) {
 
     //gets data
     selected = $("#slAddCriteria option:selected").text();
@@ -23,7 +25,7 @@ function clickAddCriteria() {
     //var slValue = slAddCriteria.options[slAddCriteria.selectedIndex].value;
     var weight = document.getElementById("txtAddWeight").value;
     var cname = selected;
-    if (weight == '')
+    if (weight === '')
     {
         alert("Please assign a weight for the criteria");
     }
@@ -64,7 +66,7 @@ function clickAddCriteria() {
 
 
 //selects from slModifyCriteria
-$("#slModifyCriteria").click(function () {
+$("#slModifyCriteria").on("change", function (e) {
     modify = $("#slModifyCriteria option:selected").text();
     var weight = $("#slModifyCriteria option:selected").val();
     document.getElementById("txtModifyCname").value = modify;
@@ -125,6 +127,8 @@ function clickCancel() {
 }
 
 function clickModifyCriteria() {
+    var found, filter, select, a;
+
     var weight = document.getElementById("txtModifyWeight").value;
     var cname = document.getElementById("txtModifyCname").value.trim();
     oldCname = $("#slModifyCriteria option:selected").text();
@@ -133,27 +137,26 @@ function clickModifyCriteria() {
     newCname = document.getElementById("txtModifyCname").value.trim();
     if (action === "Edit") {
         //fill-out necessary action
-        var slModifyCriteria = document.getElementById("slModifyCriteria");
-        var found = false;
-        var filter = cname;
-        var select = document.getElementById("slModifyCriteria");
-        var a = select.getElementsByTagName("option");
+        found = false;
+        filter = cname;
+        select = document.getElementById("slModifyCriteria");
+        a = select.getElementsByTagName("option");
         for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() == filter.toUpperCase()) {
+            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
                 found = true;
             }
         }
         select = document.getElementById("slAddCriteria");
         a = select.getElementsByTagName("option");
         for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() == filter.toUpperCase()) {
+            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
                 found = true;
             }
         }
-        if (found == true) {
+        if (found === true) {
             alert(filter + " is already in the list of possible criteria.");
         }
-        else if (cname == '' || weight == '') {
+        else if (cname === '' || weight === '') {
             alert('Please complete all fields');
         }
         else
@@ -205,26 +208,26 @@ function clickModifyCriteria() {
     }
     else if (action === "Add") {
         //fill-out necessary action
-        var found = false;
-        var filter = cname;
-        var select = document.getElementById("slModifyCriteria");
-        var a = select.getElementsByTagName("option");
+        found = false;
+        filter = cname;
+        select = document.getElementById("slModifyCriteria");
+        a = select.getElementsByTagName("option");
         for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() == filter.toUpperCase()) {
+            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
                 found = true;
             }
         }
         select = document.getElementById("slAddCriteria");
         a = select.getElementsByTagName("option");
         for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() == filter.toUpperCase()) {
+            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
                 found = true;
             }
         }
-        if (found == true) {
+        if (found === true) {
             alert(filter + " is already in the list of possible criteria. Add the criteria using the selection box above.");
         }
-        else if (cname == '' || weight == '')
+        else if (cname === '' || weight === '')
         {
             alert('Please complete all fields');
         }
@@ -256,9 +259,9 @@ function clickModifyCriteria() {
     }
     else if (action === "Remove") {
         //fill-out necessary action
-        var cname = document.getElementById("txtModifyCname").value;
-        var weight = document.getElementById("txtModifyWeight").value;
-        if (cname == '') {
+        //var cname = document.getElementById("txtModifyCname").value;
+        //var weight = document.getElementById("txtModifyWeight").value;
+        if (cname === '') {
             alert("Please pick a criteria to be deleted");
         }
         else

@@ -2,7 +2,7 @@
 var modifyLName, modifyFName, modifyUName, modifyPword;
 var eventID = 1;
 //eto nalang palitan natin para di na nakakalito
-var service = 'http://localhost/uvtest2/service.svc/'; 
+var service = 'http://192.168.43.238/uvtest2/service.svc/';
 
 //selects from tbAddJudges
 $('#tbAddJudges tbody').on("click", "tr", function (e) {
@@ -62,7 +62,7 @@ function clickAddJudge() {
 $('#tbModifyJudges tbody').on("click", "tr", function (e) {
     console.log(document.getElementById('tbModifyJudges').disabled);
 
-    if (document.getElementById('tbModifyJudges').disabled == false) {
+    if (document.getElementById('tbModifyJudges').disabled === false) {
         //gets data
         $(this).addClass("selected").siblings().removeClass("selected");
         modifyFName = $(this).find("td:first").html();
@@ -171,7 +171,7 @@ function clickModifyJudge() {
 
             }
         }
-        if (found === true && (newUname.toUpperCase() != oldUname.toUpperCase()))
+        if (found === true && (newUname.toUpperCase() !== oldUname.toUpperCase()))
         {
             //if (oldFname == newFname && oldLname == newLname && oldUname == newUname && oldPass == newPass)
             //{

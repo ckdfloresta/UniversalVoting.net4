@@ -5,7 +5,7 @@
 var ipAddress = 'localhost'; //Use this if you need to change the ip address
 var directory = 'UVSApp-WCF'; //Use this to change your WCF directory name (change to UVSApp-WCF to make life easier) 
 //var service = 'http://' + ipAddress + '/' + directory + '/service.svc/'; 
-var service = 'http://localhost/service.svc/';
+var service = 'http://192.168.43.238/uvtest2/service.svc/';
 
 //index.html
 function btnLogin_OnClick() {
@@ -38,12 +38,12 @@ function btnLogin_OnClick() {
                 console.log("Length: " + resulttable.length);
                 console.log("account Type: " + resulttable[0].accounttype);
                 console.log(resulttable); //show array
-                if (resulttable[0].accounttype == "4") {
+                if (resulttable[0].accounttype === "4") {
                     alert("no account found, sad");
                 }
                 else {
                     console.log("  account found, yey");
-                    if (resulttable[0].accounttype == "1") {  //judge
+                    if (resulttable[0].accounttype === "1") {  //judge
                         //redirect sa home.html
                         sessionStorage.setItem("judgeid", resulttable[0].JudgeID);
                         console.log(sessionStorage.getItem("judgeid"));
@@ -53,7 +53,7 @@ function btnLogin_OnClick() {
                         console.log(sessionStorage.getItem("accountype"));
                         setTimeout(window.location.replace("home.html"), 3000);
                     }
-                    else if (resulttable[0].accounttype == "2") {
+                    else if (resulttable[0].accounttype === "2") {
                         //redirect sa event finalizing
                         sessionStorage.setItem("EventID", resulttable[0].EventID);
                         console.log(sessionStorage.getItem("EventID"));
@@ -82,7 +82,7 @@ function btnCreateEvent() {
     var lname = document.getElementById('txtLN').value;
     var uname = document.getElementById('txtUsername').value;
     var pname = document.getElementById('txtPassword').value;
-    var ename = document.getElementById('txtEN').value;
+    var ename = document.getElementById('txtEventName').value;
 
     $.ajax({
         type: 'POST',
@@ -121,7 +121,7 @@ function checksession() {
     var option = document.createElement('option');
     var name = "";
 
-    if ((judgeID == null) || (personid == null)) {
+    if ((judgeID === null) || (personid === null)) {
         alert("You should not be here, redirecting..");
         setTimeout(window.location.replace("index.html"), 3000);
     }
@@ -145,7 +145,7 @@ function checksession() {
                 option.text = varArResult[intCtr].EventName;
                 option.value = varArResult[intCtr].EventID;
                 ddlEvent.add(option);
-                if (varArResult[intCtr].PersonID == personid) {
+                if (varArResult[intCtr].PersonID === personid) {
                     var name = "Hi " + varArResult[intCtr].FirstName + " " + varArResult[intCtr].LastName + "!";
                     console.log(name);
                     document.getElementById('judgename').innerText = name;
@@ -198,7 +198,7 @@ function eventselectchange(sel) {
 }
 function contestantselect() {
     var choice = document.getElementById("ddlParticipants");
-    if (choice.value != "") //error check to prevent selecting on blank space in second select area
+    if (choice.value !== "") //error check to prevent selecting on blank space in second select area
     {
         sessionStorage.setItem("contestantID", choice.value);
         console.log("contestant id: " + sessionStorage.getItem("contestantID"));
@@ -246,7 +246,7 @@ function profilechecksession() {
     console.log(sessionStorage.getItem("EventName"));
     console.log("contestant id: " + conid);
     console.log("Event judge id :" + ejid)
-    if (conid == null) {
+    if (conid === null) {
         alert("You should not be here, redirecting..");
         setTimeout(window.location.replace("home.html"), 3000);
     }
@@ -385,7 +385,7 @@ function resultschecksession() {
         success: function (result) {
 
             hehe = result.profile_get_eventstatusResult;
-            if (hehe == 'True') {
+            if (hehe === 'True') {
                 displaycontestants();
             }
             else {

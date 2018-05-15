@@ -3,10 +3,10 @@
 var eventID = 1;
 var judgeID;
 //eto nalang palitan natin para di na nakakalito
-var service = 'http://localhost/uvtest2/service.svc/'; 
+var service = 'http://192.168.43.238/uvtest2/service.svc/';
 
 //selects from slAddContestant
-$("#slAddContestant").click(function () {
+$("#slAddContestant").on("change", function (e) {
 
     //gets data
     selected = $("#slAddContestant option:selected").val();
@@ -62,7 +62,7 @@ function clickAddContestant() {
 
 
 //selects from slModifyContestant
-$("#slModifyContestant").click(function () {
+$("#slModifyContestant").on("change", function (e) {
     modify = $("#slModifyContestant option:selected").text();
     input = modify.split(" ");
     fName = input[0];
@@ -174,18 +174,18 @@ function clickModifyContestant() {
         var select = document.getElementById("slModifyContestant");
         var a = select.getElementsByTagName("option");
         for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() == filter.toUpperCase()) {
+            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
                 found = true;
             }
         }
         select = document.getElementById("slAddContestant");
         a = select.getElementsByTagName("option");
         for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() == filter.toUpperCase()) {
+            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
                 found = true;
             }
         }
-        if (found == true) {
+        if (found === true) {
             alert(filter + " is already in the list of possible contestants. Add the person using the selection box above.");
         }
         else

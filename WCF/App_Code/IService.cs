@@ -152,7 +152,7 @@ public interface IService
 
     [OperationContract]
     [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
-    void spRemoveJudgefromEventJudges(string fname, string lname, string uname, string pass);
+    void spRemoveJudgefromEventJudges(string fname, string lname, string uname, string pass, string eventid);
 
     [OperationContract]
     [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]

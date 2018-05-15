@@ -282,9 +282,9 @@ public class Service : IService
         hasError = databaseCon.HasError;
         error = databaseCon.Error;
     }
-    public void spRemoveJudgefromEventJudges(string fname, string lname, string uname, string pass)
+    public void spRemoveJudgefromEventJudges(string fname, string lname, string uname, string pass, string eventid)
     {
-        databaseCon.ExecuteStoredProc("spRemoveJudgefromEventJudges", "@fname", fname, "@lname", lname, "@uname", uname, "@pass", pass);
+        databaseCon.ExecuteStoredProc("spRemoveJudgefromEventJudges", "@fname", fname, "@lname", lname, "@uname", uname, "@pass", pass, "@eventid", eventid);
         hasError = databaseCon.HasError;
         error = databaseCon.Error;
     }
