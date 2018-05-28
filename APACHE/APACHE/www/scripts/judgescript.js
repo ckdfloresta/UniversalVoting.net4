@@ -5,7 +5,7 @@ var eventID = 1;
 var service = 'http://192.168.43.238/uvtest2/service.svc/';
 
 //selects from tbAddJudges
-$('#tbAddJudges tbody').on("click", "tr", function (e) {
+$('#tbAddJudges tbody').on("click touchstart", "tr", function (e) {
     //gets data
     
      $(this).addClass("selected").siblings().removeClass("selected");
@@ -59,7 +59,7 @@ function clickAddJudge() {
 
 //selects from tbModifyJudges
 
-$('#tbModifyJudges tbody').on("click", "tr", function (e) {
+$('#tbModifyJudges tbody').on("click touchstart", "tr", function (e) {
     console.log(document.getElementById('tbModifyJudges').disabled);
 
     if (document.getElementById('tbModifyJudges').disabled === false) {
