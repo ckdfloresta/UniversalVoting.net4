@@ -6,6 +6,7 @@ var ipAddress = 'localhost'; //Use this if you need to change the ip address
 var directory = 'UVSApp-WCF'; //Use this to change your WCF directory name (change to UVSApp-WCF to make life easier) 
 //var service = 'http://' + ipAddress + '/' + directory + '/service.svc/'; 
 var service = 'http://192.168.43.238/uvtest2/service.svc/';
+//var service = 'http://192.168.1.100/uvtest2/service.svc/';
 
 //index.html
 function btnLogin_OnClick() {
@@ -85,28 +86,104 @@ function btnCreateEvent() {
     var ename = document.getElementById('txtEventName').value;
 
     $.ajax({
-        type: 'POST',
-        url: service + 'KFspCreateEvent',
-        data:
-        '{' +
-        '"efname":"' + fname.trim() + '",' +
-        '"elname":"' + lname.trim() + '",' +
-        '"epname":"' + pname.trim() + '",' +
-        '"ename":"' + ename.trim() + '",' +
-        '"euname":"' + uname.trim() + '",' +
-        '}',
+        type: 'GET',
+        url: service + 'KFspCheckEventAccount',
+        data: {
+            'epname': pname,
+            'euname': uname
+        },
         contentType: 'application/json;charset=utf-8',
         dataType: 'json',
         processdata: true,
         success: function (result) {
-            alert("Event was created Successfully! Redirecting to home page...");
-            setTimeout(window.location.replace("index.html"), 5000);
+            var varArResult = JSON.parse(result.KFspCheckEventAccountResult);
+            console.log(varArResult == null);
+            if ($.trim(varArResult)) {
+                alert("Event Account already Exists");
+            }
+            else
+            {
+
+                $.ajax({
+                    type: 'GET',
+                    url: service + 'KFspCheckEventPerson',
+                    data: {
+                        'efname': fname,
+                        'elname': lname
+                    },
+                    contentType: 'application/json;charset=utf-8',
+                    dataType: 'json',
+                    processdata: true,
+                    success: function (result) {
+                        var varArResult = JSON.parse(result.KFspCheckEventPersonResult);
+                        console.log(varArResult);
+                        if ($.trim(varArResult)) {
+                            alert("Person Name already Exists");
+                        }
+                        else
+                        {
+                            $.ajax({
+                                type: 'GET',
+                                url: service + 'KFspCheckEventName',
+                                data: {
+                                    'ename': ename
+                                },
+                                contentType: 'application/json;charset=utf-8',
+                                dataType: 'json',
+                                processdata: true,
+                                success: function (result) {
+                                    var varArResult = JSON.parse(result.KFspCheckEventNameResult);
+                                    console.log(varArResult);
+                                    if ($.trim(varArResult)) {
+                                        alert("Event Name already Exists");
+                                    }
+                                    else
+                                    {
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: service + 'KFspCreateEvent',
+                                            data:
+                                            '{' +
+                                            '"efname":"' + fname.trim() + '",' +
+                                            '"elname":"' + lname.trim() + '",' +
+                                            '"epname":"' + pname.trim() + '",' +
+                                            '"ename":"' + ename.trim() + '",' +
+                                            '"euname":"' + uname.trim() + '",' +
+                                            '}',
+                                            contentType: 'application/json;charset=utf-8',
+                                            dataType: 'json',
+                                            processdata: true,
+                                            success: function (result) {
+                                                alert("Event was created Successfully! Redirecting to home page...");
+                                                setTimeout(window.location.replace("index.html"), 5000);
+                                            },
+                                            error: function (msg) {
+                                                $("lblError").text("Please check your inputs and try again");
+                                                $("lblError").css('display', 'block');
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function (msg) {
+                                    alert('Error in account creation');
+                                }
+                            });
+                        }
+                    },
+                    error: function (msg) {
+                        alert('Error in account creation');
+                    }
+                });
+
+                
+            }
         },
         error: function (msg) {
-            $("lblError").text(msg.responseText);
-            $("lblError").css('display', 'block');
+            alert('Error in account creation');
         }
     });
+
+    
 }
 
 //home.html

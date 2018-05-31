@@ -10,10 +10,10 @@ public class dbConnect
 {
     #region Database Configurations
 
-    private string dataSource = "TEYDI\\SQLEXPRESS01";
+    private string dataSource = "LAPTOP-R5JG92K6\\SQLEXPRESS";
     private string initialCatalog = "FakeJudge";
-    private string userID = "burger";
-    private string password = "burger";
+    private string userID = "sa";
+    private string password = "123";
 
     //----Windows Authentication----
     //Comment this line if NOT Windows Authentication

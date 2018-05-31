@@ -21,27 +21,27 @@ public interface IService
     //[OperationContract]
     //[WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
     //string Error();
-    
+
     //[OperationContract]
     //[WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
     //void KFspAddConNum(string fname, string lname, int eventID, int connum);
-    
-    //[OperationContract]
-    //[WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
-    //string KFspCheckConExistance(string fname, string lname, int eventID);
 
-    //[OperationContract]
-    //[WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
-    //string KFspCheckconnameavailability(string fname, string lname);
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string KFspCheckConExistance(string fname, string lname, int eventID);
 
-    //[OperationContract]
-    //[WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
-    //string KFspCheckEventAccount(string epname, string euname);
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string KFspCheckconnameavailability(string fname, string lname);
 
-    //[OperationContract]
-    //[WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
-    //string KFspCheckEventName(string ename);
-    
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string KFspCheckEventAccount(string epname, string euname);
+
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string KFspCheckEventName(string ename);
+
     //[OperationContract]
     //[WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
     //void KFspPopulateScores(string confname, string conlname, string judgefname, string judgelname, string judgeuname, string judgepass, int eventid, string critname);
@@ -53,7 +53,7 @@ public interface IService
     //[OperationContract]
     //[WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
     //string MCspGetEventCriteriaID(string Name, int EventJudgeID);
-    
+
     //[OperationContract]
     //[WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
     //string MCspViewContestants(string EventName);
@@ -94,9 +94,9 @@ public interface IService
     //[WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
     //string spCheckPersonExistanceinEvent(string fname, string lname, string uname, string pass, int eventid);
 
-    //[OperationContract]
-    //[WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
-    //string spCheckUnameavailability(string judgechars);
+    [OperationContract]
+    [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json)]
+    string spCheckUnameavailability(string judgechars);
 
 
 

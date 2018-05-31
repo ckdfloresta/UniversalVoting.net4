@@ -2,6 +2,7 @@
 var modifyLName, modifyFName, modifyUName, modifyPword;
 var eventID = 1;
 //eto nalang palitan natin para di na nakakalito
+//var service = 'http://localhost/uvtest2/service.svc/';
 var service = 'http://192.168.43.238/uvtest2/service.svc/';
 
 //selects from tbAddJudges
@@ -143,10 +144,12 @@ function clickModifyJudge() {
     var newLname = document.getElementById('txtLNameJudge').value.trim();
     var newUname = document.getElementById('txtUserJudge').value.trim();
     var newPass = document.getElementById('txtPassJudge').value.trim();
+
+    var input, filter, table, tr, td, i, found = false;
+
     if (action === "Edit") {
 
         //fill-out necessary action
-        var input, filter, table, tr, td, i, found = false;
         input = document.getElementById("txtUserJudge").value.trim();
         filter = input.toUpperCase();
         table = document.getElementById("tbModifyJudges");
@@ -237,29 +240,54 @@ function clickModifyJudge() {
         var pass = document.getElementById("txtPassJudge").value;
 
         $.ajax({
-            type: 'POST',
-            url: service + 'spAddPersonToEventJudges',
-            data:
-            '{' +
-            '"fname":"' + fname + '",' +
-            '"lname":"' + lname + '",' +
-            '"uname":"' + uname + '",' +
-            '"pass":"' + pass + '",' +
-            '"eventid":"' + eventID + '",' +
-            '}',
-
+            type: 'GET',
+            url: service + 'spCheckUnameavailability',
+            data: {
+                'judgechars': uname
+            },
             contentType: 'application/json;charset=utf-8',
             dataType: 'json',
             processdata: true,
             success: function (result) {
-                alert(uname + " has been added!!");
-                PopulateJudges();
-            }
-            ,
+                var varArResult = JSON.parse(result.spCheckUnameavailabilityResult);
+                if (!$.trim(varArResult))
+                {
+                    $.ajax({
+                        type: 'POST',
+                        url: service + 'spAddPersonToEventJudges',
+                        data:
+                        '{' +
+                        '"fname":"' + fname + '",' +
+                        '"lname":"' + lname + '",' +
+                        '"uname":"' + uname + '",' +
+                        '"pass":"' + pass + '",' +
+                        '"eventid":"' + eventID + '",' +
+                        '}',
+
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        processdata: true,
+                        success: function (result) {
+                            alert(uname + " has been added!!");
+                            PopulateJudges();
+                        }
+                        ,
+                        error: function (msg) {
+                            alert(msg.responseText);
+                        }
+                    });
+                }
+                else
+                {
+                    alert("The username already exists");
+                }
+            },
             error: function (msg) {
-                alert(msg.responseText);
+                alert('Error Retrieving Judge List');
             }
         });
+
+ 
 
     }
     else if (action === "Remove") {

@@ -1,5 +1,6 @@
 ﻿var selected, modify, input, fName, lName, action;
 var newCname, newWeight, oldCname, oldWeight;
+var totalWeight;
 //REPLACE THIS PART OF THE CODE WITH ACTUAL JUDGE ID / EVENT ID FROM LOGIN SCREEN
 var eventID = 1;
 var judgeID;
@@ -15,7 +16,6 @@ $("#slAddCriteria").on("change", function (e) {
     selected = $("#slAddCriteria option:selected").text();
     document.getElementById("txtAddWeight").disabled = false;
     document.getElementById("btnAddCriteria").disabled = false;
-
 });
 
 //click btnAddCriteria
@@ -23,45 +23,53 @@ function clickAddCriteria() {
     //var slCriteria = document.getElementById("slAddCriteria");
     //var slName = slAddCriteria.options[slAddCriteria.selectedIndex].text;
     //var slValue = slAddCriteria.options[slAddCriteria.selectedIndex].value;
-    var weight = document.getElementById("txtAddWeight").value;
+    var weight = parseInt(document.getElementById("txtAddWeight").value);
     var cname = selected;
-    if (weight === '')
+    if (isNaN(weight) || weight <= 0 || weight > 100)
     {
-        alert("Please assign a weight for the criteria");
+        alert("Please assign a proper weight for the criteria");
     }
     else
     {
-        $.ajax({
-            type: 'POST',
-            url: service + 'spAddOldCriteriaToEventCriteria',
-            //data: {
-            //    'fname': fName,
-            //    'lname': lName,
-            //    'eventID': eventID
-            //}
-            data:
-            '{' +
-            '"cname":"' + cname + '",' +
-            '"weight":"' + weight + '",' +
-            '"eventid":"' + eventID + '",' +
-            '}',
+        getTotalWeight();
+        if (totalWeight + weight > 100)
+        {
+            alert("Cannot add weight because the total goes over 100");
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: service + 'spAddOldCriteriaToEventCriteria',
+                //data: {
+                //    'fname': fName,
+                //    'lname': lName,
+                //    'eventID': eventID
+                //}
+                data:
+                '{' +
+                '"cname":"' + cname + '",' +
+                '"weight":"' + weight + '",' +
+                '"eventid":"' + eventID + '",' +
+                '}',
 
-            contentType: 'application/json;charset=utf-8',
-            dataType: 'json',
-            processdata: true,
-            success: function (result) {
-                alert("A new criteria has been added!!");
-                PopulateCriteria();
-            }
-            ,
-            error: function (msg) {
-                alert(msg.responseText);
-            }
-        });
-        document.getElementById("slAddCriteria").selectedIndex = "-1";
-        document.getElementById("btnAddCriteria").disabled = true;
-        document.getElementById("txtAddWeight").value = null;
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                processdata: true,
+                success: function (result) {
+                    alert("A new criteria has been added!!");
+                    PopulateCriteria();
+                }
+                ,
+                error: function (msg) {
+                    alert(msg.responseText);
+                }
+            });
+            document.getElementById("slAddCriteria").selectedIndex = "-1";
+            document.getElementById("btnAddCriteria").disabled = true;
+            document.getElementById("txtAddWeight").value = null;
+        }
     }
+
 }
 
 
@@ -146,6 +154,10 @@ function clickModifyCriteria() {
                 found = true;
             }
         }
+        if (oldCname === newCname)
+        {
+            found = false;
+        }
         select = document.getElementById("slAddCriteria");
         a = select.getElementsByTagName("option");
         for (i = 0; i < a.length; i++) {
@@ -161,48 +173,57 @@ function clickModifyCriteria() {
         }
         else
         {
-            //call wcf to get criteria id
-            $.ajax({
-                type: 'GET',
-                url: service + 'spCheckcnameavailability',
-                data: {
-                    'cname': oldCname
-                },
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                processdata: true,
-                success: function (result) {
-                    var varArResult = JSON.parse(result.spCheckcnameavailabilityResult);
-                    console.log(varArResult);
-                    var critid = varArResult[0].CriteriaID;
-                    $.ajax({
-                        type: 'POST',
-                        url: service + 'spUpdateEventCriteria',
-                        data:
-                        '{' +
-                        '"cname":"' + newCname + '",' +
-                        '"weight":"' + newWeight + '",' +
-                        '"eventid":"' + eventID + '",' +
-                        '"critid":"' + critid + '",' +
-                        '}',
+            getTotalWeight();
+            if ((totalWeight - parseInt(oldWeight) + parseInt(newWeight)) > 100)
+            {
+                alert('Cannot edit weight because the total will be higher than 100');
+            }
+            else
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: service + 'spCheckcnameavailability',
+                    data: {
+                        'cname': oldCname
+                    },
+                    contentType: 'application/json;charset=utf-8',
+                    dataType: 'json',
+                    processdata: true,
+                    success: function (result) {
+                        var varArResult = JSON.parse(result.spCheckcnameavailabilityResult);
+                        console.log(varArResult);
+                        var critid = varArResult[0].CriteriaID;
+                        $.ajax({
+                            type: 'POST',
+                            url: service + 'spUpdateEventCriteria',
+                            data:
+                            '{' +
+                            '"cname":"' + newCname + '",' +
+                            '"weight":"' + newWeight + '",' +
+                            '"eventid":"' + eventID + '",' +
+                            '"critid":"' + critid + '",' +
+                            '}',
 
-                        contentType: 'application/json;charset=utf-8',
-                        dataType: 'json',
-                        processdata: true,
-                        success: function (result) {
-                        }
-                        ,
-                        error: function (msg) {
-                            alert(msg.responseText);
-                        }
-                    });
-                    alert(oldCname + ": " + oldWeight + " has been changed to " + newCname + ': ' + newWeight);
-                    PopulateCriteria();
-                },
-                error: function (msg) {
-                    alert('Error Retrieving Available Criteria List');
-                }
-            });
+                            contentType: 'application/json;charset=utf-8',
+                            dataType: 'json',
+                            processdata: true,
+                            success: function (result) {
+                            }
+                            ,
+                            error: function (msg) {
+                                alert(msg.responseText);
+                            }
+                        });
+                        alert(oldCname + ": " + oldWeight + " has been changed to " + newCname + ': ' + newWeight);
+                        PopulateCriteria();
+                    },
+                    error: function (msg) {
+                        alert('Error Retrieving Available Criteria List');
+                    }
+                });
+            }
+            //call wcf to get criteria id
+
         }
         
     }
@@ -300,6 +321,7 @@ function PopulateCriteria() {
     document.getElementById('slAddCriteria').options.length = 0;
     document.getElementById('slModifyCriteria').options.length = 0;
     eventID = sessionStorage.getItem("EventID");
+    totalWeight = 0;
     console.log('EventID = ' + eventID);
     $.ajax({
         type: 'GET',
@@ -343,6 +365,7 @@ function PopulateCriteria() {
                 var option = document.createElement('option');
                 option.text = varArResult[intCtr].CriteriaName;
                 option.value = varArResult[intCtr].Weight;
+                
                 slModifyCriteria.add(option);
             }
         },
@@ -352,3 +375,13 @@ function PopulateCriteria() {
     });
 }
 
+
+function getTotalWeight()
+{
+    totalWeight = 0;
+    $('#slModifyCriteria option').each(function () {
+        totalWeight += parseInt($(this).val());
+    });
+    console.log("tweight : " + totalWeight);
+    return totalWeight;
+}
