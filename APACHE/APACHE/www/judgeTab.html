@@ -32,7 +32,7 @@
     <br />
     <br />
     <div id="divAddJudge">
-        <h3>All Judges Account </h3>
+        <h3>Add Judge Account </h3>
         <!-- Use js to add dynamic participants here-->
         <h6>Select an existing judge to add to the event</h6>
         <table class="table-hover" id="tbAddJudges">
@@ -42,6 +42,8 @@
                     <th>Last Name</th>
                     <th>Judge Username</th>
                     <th>Judge Password</th>
+                    <th>Add</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -58,8 +60,19 @@
                     <td>456</td>
                 </tr>
             </tbody>
+
         </table>
-        <button runat="server" id="btnAddExistJudge" onclick="clickAddJudge()" disabled>Add Judge</button>
+        <h6>Create a new judge to add to the event</h6>
+        <br />
+        <input placeholder="FIRST NAME" id="txtAddFNameJudge" type="text"  />
+        <br />
+        <input placeholder="LAST NAME" id="txtAddLNameJudge" type="text"  />
+        <br />
+        <input placeholder="USERNAME" id="txtAddUserJudge" type="text"  />
+        <br />
+        <input placeholder="PASSWORD" id="txtAddPassJudge" type="password"  />
+        <br />  
+        <button runat="server" id="btnAddNewJudge" onclick="clickAddNewJudge()" >Add New Judge</button>
 
     </div>
 
@@ -67,27 +80,18 @@
     <div id="divManageJudge">
         <h3>Modify</h3>
         <!--select style="width: 30%;"></select>-->
-        <h6>Select an Action</h6>
-        <!--<ul>
-            <li><button id="btnEditJudge">Edit</button></li>
-            <li><button id="btnAddJudge">Add</button></li>
-            <li><button id="btnRemoveJudge">Remove</button></li>
-        </ul>-->
-
-        <button id="btnEditJudge">Edit</button><br /><br />
-        <button id="btnAddJudge">Add</button><br /><br />
-        <button id="btnRemoveJudge">Remove</button>
-
         <h4>Judges for This Event</h4>
-        <h6>*For Edit and Remove, select a judge on the list below.</h6>
+        <h6>For Edit and Remove, select a judge on the list below.</h6>
         <!-- Use js to add dynamic participants here-->
-        <table class="table-hover" id="tbModifyJudges" disabled>
+        <table class="table-hover" id="tbModifyJudges" border="1">
             <thead>
                 <tr>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Judge Username</th>
                     <th>Judge Password</th>
+                    <th>Remove</th>
+                    <th>Edit</th>
                 </tr>
             </thead>
             <tbody>
@@ -105,7 +109,7 @@
                 </tr>
             </tbody>
         </table>
-        <h6>Add or Edit using the forms below.</h6>
+        <h6>Edit using the forms below.</h6>
         <input placeholder="FIRST NAME" id="txtFNameJudge" type="text" disabled/>
         <br />
         <input placeholder="LAST NAME" id="txtLNameJudge" type="text" disabled/>
@@ -115,8 +119,7 @@
         <input placeholder="PASSWORD" id="txtPassJudge" type="password" disabled/>
         <br />
 
-        <button runat="server" id="btnContinueJudge" onclick="clickModifyJudge()" disabled>Continue</button>
-        <button id="btnCancelJudge" onclick="clickCancel()" disabled>Cancel</button>
+        <button runat="server" id="btnContinueJudge" onclick="clickModifyJudge()" >Edit Judge</button>
     </div>
 
 

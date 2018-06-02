@@ -107,8 +107,47 @@ public class Service : IService
         databaseCon.ExecuteStoredProc("KFspFinalizeEvent", "@eventid", eventid);
         hasError = databaseCon.HasError;
         error = databaseCon.Error;
+
+        databaseCon.ExecuteStoredProc("spViewEventJudges", "@_eventid", eventid);
+
+        foreach (DataRowView judges in databaseCon.Data.DefaultView)
+        {
+            int ctr = 1;
+            dbConnect condb = new dbConnect();
+            condb.ExecuteStoredProc("KFspViewEventContestants", "@_eventid", eventid);
+            foreach (DataRowView cons in condb.Data.DefaultView)
+            {
+                dbConnect addconnum = new dbConnect();
+                addconnum.ExecuteStoredProc("KFspAddConNum",
+                    "@fname", cons[0].ToString(),
+                    "@lname", cons[1].ToString(),
+                    "@_eventid", eventid,
+                    "@connum", ctr);
+
+                ctr++;
+
+                dbConnect critdb = new dbConnect();
+                critdb.ExecuteStoredProc("[spViewEventCriteria]", "@_eventid", eventid);
+                foreach (DataRowView crits in critdb.Data.DefaultView)
+                {
+                    dbConnect addscore = new dbConnect();
+                    addscore.ExecuteStoredProc("[KFspPopulateScores]",
+                        "@confname", cons[0].ToString(),
+                        "@conlname", cons[1].ToString(),
+                        "@judgefname", judges[0].ToString(),
+                        "@judgelname", judges[1].ToString(),
+                        "@judgeuname", judges[2].ToString(),
+                        "@judgepass", judges[3].ToString(),
+                        "@eventid", eventid,
+                        "@critname", crits[0].ToString()
+                        );
+                }
+
+            }
+
+        }
     }
-    public void KFspPopulateScores(string confname, string conlname, string judgefname, string judgelname, string judgeuname, string judgepass, int eventid, string critname)
+        public void KFspPopulateScores(string confname, string conlname, string judgefname, string judgelname, string judgeuname, string judgepass, int eventid, string critname)
     {
         databaseCon.ExecuteStoredProc("KFspPopulateScores", "@confname", confname, "@conlname", conlname, "@judgefname", judgefname, "@judgelname", judgelname, "@judgeuname", judgeuname, "@judgepass", judgepass, "@eventid", eventid, "@critname", critname);
         hasError = databaseCon.HasError;
