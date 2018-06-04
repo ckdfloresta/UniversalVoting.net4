@@ -6,7 +6,7 @@ var ipAddress = 'localhost'; //Use this if you need to change the ip address
 var directory = 'UVSApp-WCF'; //Use this to change your WCF directory name (change to UVSApp-WCF to make life easier) 
 //var service = 'http://' + ipAddress + '/' + directory + '/service.svc/'; 
 //var service = 'http://192.168.43.238/uvtest2/service.svc/';
-var service = 'http://localhost/uvtest2/service.svc/';
+var service = 'http://localhost/service.svc/';
 
 //index.html
 function btnLogin_OnClick() {
@@ -317,7 +317,7 @@ function gotoresults() {
 }
 
 //profile.html
-function profilechecksession() {
+function loadcontestant() {
     var conid = sessionStorage.getItem("contestantID");
     var ejid = sessionStorage.getItem("EventJudgeID");
     console.log(sessionStorage.getItem("EventName"));
@@ -412,7 +412,57 @@ function assignnumber(input, selectornumber) {
 
 
 }
+function profilechecksession()
+{
+    var conid = sessionStorage.getItem("contestantID");
+    var ejid = sessionStorage.getItem("EventJudgeID");
+    console.log(sessionStorage.getItem("EventName"));
+    console.log("contestant id: " + conid);
+    console.log("Event judge id :" + ejid)
 
+
+    if (conid === null) {
+        alert("You should not be here, redirecting..");
+        setTimeout(window.location.replace("home.html"), 3000);
+    }
+
+    else {
+
+        var mydata = { '_eventID': sessionStorage.getItem("EventID") };
+        var hehe;
+
+        $.ajax({
+            type: 'POST',
+            url: service + 'profile_get_eventstatus',
+            data: JSON.stringify(mydata),
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            processdata: true,
+            success: function (result) {
+
+                hehe = result.profile_get_eventstatusResult;
+                if (hehe === 'False') {
+                    loadcontestant();
+                }
+                else {
+                    document.getElementById("contestantname").innerText = "Event is Finished, All judges have already voted, Please visit Results page instead..";
+                    document.getElementById("mytable").hidden = "true";
+                    console.log("is false");
+                }
+
+            },
+            error: function (msg) {
+                alert('Error Contacting Server, please try again later.');
+            }
+        });
+
+
+    };
+
+
+   
+
+}
 
 //results.html
 function displaycontestants() {
@@ -478,37 +528,3 @@ function resultschecksession() {
 
 }
 
-
-//di ko alam saan to
-/*
-function checksession() {
-    //REPLACE THIS PART OF THE CODE WITH ACTUAL JUDGE ID FROM LOGIN SCREEN
-    var judgeID = 1;
-    var ddlEvent = document.getElementById('ddlEvents');
-    var option = document.createElement('option');
-    $.ajax({
-        type: 'GET',
-        url: service + 'spViewJudgeUsingJudgeID',
-        data: {
-            'JudgeID': judgeID
-        },
-        contentType: 'application/json;charset=utf-8',
-        dataType: 'json',
-        processdata: true,
-        success: function (result) {
-            var varResult = '';
-            var varArResult = JSON.parse(result.spViewJudgeUsingJudgeIDResult);
-            for (intCtr in varArResult) {
-                var ddlEvent = document.getElementById('ddlEvents');
-                var option = document.createElement('option');
-                option.text = varArResult[intCtr].EventName;
-                ddlEvent.add(option);
-            }
-
-        },
-        error: function (msg) {
-            alert('You are not connected');
-        }
-    });
-}
-*/
