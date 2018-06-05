@@ -171,6 +171,9 @@ function clickModifyCriteria() {
         else if (cname === '' || weight === '') {
             alert('Please complete all fields');
         }
+        else if (isNaN(weight) || weight <= 0 || weight > 100) {
+            alert("Please assign a proper weight for the criteria");
+        }
         else
         {
             getTotalWeight();
@@ -251,6 +254,9 @@ function clickModifyCriteria() {
         else if (cname === '' || weight === '')
         {
             alert('Please complete all fields');
+        }
+        else if (isNaN(weight) || weight <= 0 || weight > 100) {
+            alert("Please assign a proper weight for the criteria");
         }
         else {
             $.ajax({
