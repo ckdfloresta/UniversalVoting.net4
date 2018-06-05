@@ -1,4 +1,4 @@
-﻿var selected, modify, input, fName, lName, action; 
+﻿var selected, modify, input, fName, lName, action, personid; 
 //REPLACE THIS PART OF THE CODE WITH ACTUAL JUDGE ID / EVENT ID FROM LOGIN SCREEN
 var eventID = 1;
 var judgeID;
@@ -8,26 +8,21 @@ var service = 'http://localhost/uvtest2/service.svc/';
 
 
 //selects from slAddContestant
-$("#slAddContestant").on("change", function (e) {
 
+$('#tbAddContestant tbody ').on("click touchstart", "a", function (e) {
     //gets data
-    selected = $("#slAddContestant option:selected").val();
-    input = selected.split(" ");
-    fName = input[0];
-    lName = input[1];
-
-    document.getElementById("btnAddContestant").disabled = false;
+    var currentRow = $(this).closest('tr')
+    currentRow.addClass("selected").siblings().removeClass("selected");
+    fName = currentRow.find("td:first").html();
+    lName = currentRow.find("td:nth-child(2)").html();
+    personid = currentRow.find("td:nth-child(3)").html();
+    console.log(fName);
+    clickAddContestant();
 
 });
 
 //click btnAddContestant
 function clickAddContestant() {
-    var slContestant = document.getElementById("slAddContestant");
-    var slName = slContestant.options[slContestant.selectedIndex].text;
-    var slValue = slContestant.options[slContestant.selectedIndex].value;
-    var splitName = slName.split(' ');
-    var fName = splitName[0];
-    var lName = splitName[1];
     console.log("value in fname: " + fName);
     console.log("value in lname: " + lName);
     $.ajax({
@@ -57,8 +52,7 @@ function clickAddContestant() {
             alert(msg.responseText);
         }
     });
-    document.getElementById("slAddContestant").selectedIndex  = "-1";
-    document.getElementById("btnAddContestant").disabled = true;
+
     
 }
 
@@ -250,7 +244,7 @@ function clickModifyContestant() {
 }
 
 function PopulateContestants() {
-    document.getElementById('slAddContestant').options.length = 0;
+    $("#tbAddContestant tbody").empty(); 
     document.getElementById('slModifyContestant').options.length = 0;
     eventID = sessionStorage.getItem("EventID");
     console.log('EventID = ' + eventID);
@@ -266,13 +260,10 @@ function PopulateContestants() {
         success: function (result) {
             var varArResult = JSON.parse(result.KFspViewNotEventContestantsResult);
             console.log(varArResult);
-            for (intCtr in varArResult) {
-                var slAddContestant = document.getElementById('slAddContestant');
-                var option = document.createElement('option');
-                option.text = varArResult[intCtr].FirstName + ' ' + varArResult[intCtr].LastName;
-                option.value = varArResult[intCtr].PersonID;
-                slAddContestant.add(option);
-            }   
+            $.each(varArResult, function (i, item) {
+                $('#tbAddContestant').append(
+                    '<tr><td>' + item.FirstName + '</td><td>' + item.LastName + '</td><td>' + item.PersonID + '</td><td><a href="#" class="addrow" >Add Contestant</a></td>' + '</tr>');
+            });
         },
         error: function (msg) {
             alert('Error Retrieving Available Contestants List');

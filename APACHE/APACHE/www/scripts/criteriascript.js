@@ -232,6 +232,7 @@ function clickModifyCriteria() {
     }
     else if (action === "Add") {
         //fill-out necessary action
+        getTotalWeight();
         found = false;
         filter = cname;
         select = document.getElementById("slModifyCriteria");
@@ -257,6 +258,9 @@ function clickModifyCriteria() {
         }
         else if (isNaN(weight) || weight <= 0 || weight > 100) {
             alert("Please assign a proper weight for the criteria");
+        }
+        else if (totalWeight + weight > 100) {
+            alert("Cannot add weight because the total goes over 100");
         }
         else {
             $.ajax({
