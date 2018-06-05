@@ -6,7 +6,7 @@ var ipAddress = 'localhost'; //Use this if you need to change the ip address
 var directory = 'UVSApp-WCF'; //Use this to change your WCF directory name (change to UVSApp-WCF to make life easier) 
 //var service = 'http://' + ipAddress + '/' + directory + '/service.svc/'; 
 //var service = 'http://192.168.43.238/uvtest2/service.svc/';
-var service = 'http://localhost/service.svc/';
+var service = 'http://localhost/uvtest2/service.svc/';
 
 //index.html
 function btnLogin_OnClick() {
