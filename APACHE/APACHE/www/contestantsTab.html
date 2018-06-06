@@ -60,37 +60,59 @@
             </tbody>
 
         </table>
-    </div>
+        <br />
+        <input placeholder="FIRST NAME" id="txtAddFirstName" type="text" />
+        <br />
+        <input placeholder="LAST NAME" id="txtAddLastName" type="text" />
+        <br />
+        <button runat="server" id="btnContinue" onclick="clickAddNewContestant()" >Add New Contestant</button>
+        </div>
     <br />
     <div id="divManageContestant">
         <h3>Modify</h3>
         <!--select style="width: 30%;"></select>-->
-        <h6>Select an Action</h6>
         <!--<ul>
             <li><button id="btnEdit">Edit</button></li>
             <li><button id="btnAdd">Add</button></li>
             <li><button id="btnRemove">Remove</button></li>
         </ul>-->
 
-        <button id="btnEdit">Edit</button> <br /><br />
-        <button id="btnAdd">Add</button> <br /><br />
-        <button id="btnRemove">Remove</button>
-
         <h4>Contestants for This Event</h4>
-        <h6>*For Edit and Remove, select a contestant in the list below.</h6>
+        <h6>For Edit, select a contestant in the table below.</h6>
         <!-- Use js to add dynamic participants here-->
-        <select id="slModifyContestant" size="6" disabled>
-            <option value="Contestant 1">Contestant 1</option>
-            <option value="Contestant 2">Contestant 2</option>
-            <option value="Contestant 3">Contestant 3</option>
-            <option value="Contestant 4">Contestant 4</option>
-        </select>
-        <h6>Add or Edit using the forms below.</h6>
+        <table class="table-hover" id="tbModifyContestant">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Person ID</th>
+                    <th>Remove</th>
+                    <th>Edit</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Judge</td>
+                    <td>1</td>
+                    <td>User1</td>
+                    <td>123</td>
+                </tr>
+                <tr>
+                    <td>Judge</td>
+                    <td>2</td>
+                    <td>User2</td>
+                    <td>456</td>
+                </tr>
+            </tbody>
+
+        </table>
+        <h6>Edit using the forms below.</h6>
         <input placeholder="FIRST NAME" id="txtFirstName" type="text" disabled/>
         <br />
         <input placeholder="LAST NAME" id="txtLastName" type="text" disabled/>
-        <button runat="server" id="btnContinue" onclick="clickModifyContestant()" disabled>Continue</button>
-        <button id="btnCancel" onclick="clickCancel()" disabled>Cancel</button>
+        <br />
+        <button runat="server" id="btnEdit" onclick="clickModifyContestant()" disabled>Edit</button>
     </div>
 
     <script type="text/javascript" src="scripts/sidebar.js"></script>

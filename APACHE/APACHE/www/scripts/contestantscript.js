@@ -56,196 +56,215 @@ function clickAddContestant() {
     
 }
 
+function clickAddNewContestant() {
+    //fill-out necessary action
+    var input1, input2, filter, table, tr, td, i, found = false;
+    input1 = document.getElementById("txtAddFirstName").value.trim();
+    input2 = document.getElementById("txtAddLastName").value.trim();
+    fname = input1;
+    lname = input2;
+    filter1 = input1.toUpperCase();
+    filter2 = input2.toUpperCase();
+    table = document.getElementById("tbModifyContestant");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            if (td.innerHTML.toUpperCase() === filter1) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase() === filter2) {
+                        found = true;
+                    }
+                }
+            }
+        }
 
-//selects from slModifyContestant
-$("#slModifyContestant").on("change", function (e) {
-    modify = $("#slModifyContestant option:selected").text();
-    input = modify.split(" ");
-    fName = input[0];
-    lName = input[1];
+    }
+    table = document.getElementById("tbAddContestant");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            if (td.innerHTML.toUpperCase() === filter1) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase() === filter2) {
+                        found = true;
+                    }
+                }
+            }
+        }
+
+    }
+
+    if (found) {
+        alert(fname + ' ' + lname + " is already in the list of possible contestants. Add the person using the selection box above.");
+    }
+    else {
+        $.ajax({
+            type: 'POST',
+            url: service + 'KFspAddPersonToContestant',
+            data:
+            '{' +
+            '"fname":"' + fname + '",' +
+            '"lname":"' + lname + '",' +
+            '"eventID":"' + eventID + '",' +
+            '}',
+
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            processdata: true,
+            success: function (result) {
+                alert(fname + " " + lname + " has been added to the contest!");
+                PopulateContestants();
+                document.getElementById("txtAddFirstName").value='';
+                document.getElementById("txtAddLastName").value='';
+            }
+            ,
+            error: function (msg) {
+                alert(msg.responseText);
+            }
+        });
+    }
+
+
+}
+
+$('#tbModifyContestant tbody').on("click touchstart", "a", function (e) {
+
+    var currentRow = $(this).closest('tr');
+    currentRow.addClass("selected").siblings().removeClass("selected");
+
+    var fName = currentRow.find("td:first").html();
+    var lName = currentRow.find("td:nth-child(2)").html();
+    
+
+    //fill-out necessary action
+    $.ajax({
+        type: 'POST',
+        url: service + 'KFspRemoveContsestantFromEvent',
+        data:
+        '{' +
+        '"fname":"' + fName + '",' +
+        '"lname":"' + lName + '",' +
+        '"eventid":"' + eventID + '",' +
+        '}',
+
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json',
+        processdata: true,
+        success: function (result) {
+            alert(fName + " " + lName + " has been removed from the contest!");
+            PopulateContestants();
+        }
+        ,
+        error: function (msg) {
+            alert(msg.responseText);
+        }
+    });
+});
+
+
+$('#tbModifyContestant tbody').on("click touchstart", "input", function (e) {
+
+    var currentRow = $(this).closest('tr');
+    currentRow.addClass("selected").siblings().removeClass("selected");
+    fName = currentRow.find("td:first").html();
+    lName = currentRow.find("td:nth-child(2)").html();
+    personid = currentRow.find("td:nth-child(3)").html();
+
 
     document.getElementById("txtFirstName").value = fName;
     document.getElementById("txtLastName").value = lName;
 
+    document.getElementById('btnEdit').disabled = false;
+    document.getElementById("txtFirstName").disabled = false;
+    document.getElementById("txtLastName").disabled = false;
+
 });
-
-$("#btnEdit, #btnRemove, #btnAdd").click(function (e) {
-    document.getElementById("btnContinue").disabled = false;
-    document.getElementById("btnCancel").disabled = false;
-
-    if (e.target.id === "btnEdit")
-    {
-        action = "Edit";
-        //document.getElementById("btnAdd").disabled = true;
-        //document.getElementById("btnRemove").disabled = true;
-        document.getElementById("txtFirstName").disabled = false;
-        document.getElementById("txtLastName").disabled = false;
-        document.getElementById("txtFirstName").value = null;
-        document.getElementById("txtLastName").value = null;
-        document.getElementById("slModifyContestant").disabled = false;
-    }
-    else if (e.target.id === "btnAdd")
-    {
-        action = "Add";
-        //document.getElementById("btnEdit").disabled = true;
-        //document.getElementById("btnRemove").disabled = true;
-        document.getElementById("txtFirstName").disabled = false;
-        document.getElementById("txtLastName").disabled = false;
-        document.getElementById("txtFirstName").value = null;
-        document.getElementById("txtLastName").value = null;
-        document.getElementById("slModifyContestant").disabled = true;
-    }
-    else if (e.target.id === "btnRemove")
-    {
-        action = "Remove";
-        //document.getElementById("btnEdit").disabled = true;
-        //document.getElementById("btnAdd").disabled = true;
-        document.getElementById("txtFirstName").value = null;
-        document.getElementById("txtLastName").value = null;
-        document.getElementById("txtFirstName").disabled = true;
-        document.getElementById("txtLastName").disabled = true;
-        document.getElementById("slModifyContestant").disabled = false;
-    }
-    
-});
-
-
-function clickCancel() {
-    //reset
-    document.getElementById("btnEdit").disabled = false;
-    document.getElementById("btnAdd").disabled = false;
-    document.getElementById("btnRemove").disabled = false;
-    document.getElementById("btnContinue").disabled = true;
-    document.getElementById("btnCancel").disabled = true;
-    document.getElementById("slModifyContestant").selectedIndex = "-1";
-    document.getElementById("slModifyContestant").disabled = true;
-
-
-    document.getElementById("txtFirstName").value = "";
-    document.getElementById("txtLastName").value = "";
-}
 
 function clickModifyContestant() {
-
-
-    fName = document.getElementById("txtFirstName").value.trim();
-    lName = document.getElementById("txtLastName").value.trim();
-    //dunno about de image
-
-    if (action === "Edit") {
-        //fill-out necessary action
-        var slModifyContestant = document.getElementById("slModifyContestant");
-        var slName = slModifyContestant.options[slModifyContestant.selectedIndex].text;
-        var perid = slModifyContestant.options[slModifyContestant.selectedIndex].value;
-        var splitName = slName.split(' ');
-        var oldfName = splitName[0];
-        var oldlName = splitName[1];
-        $.ajax({
-            type: 'POST',
-            url: service + 'KFspUpdateContestant',
-            data:
-            '{' +
-            '"fname":"' + fName + '",' +
-            '"lname":"' + lName + '",' +
-            '"perid":"' + perid + '",' +
-            '}',
-
-            contentType: 'application/json;charset=utf-8',
-            dataType: 'json',
-            processdata: true,
-            success: function (result) {
-                alert(oldfName + " " + oldlName + " has been changed to " + fName + ' ' + lName);
-                PopulateContestants();
-            }
-            ,
-            error: function (msg) {
-                alert(msg.responseText);
-            }
-        });
-    }
-    else if (action === "Add") {
-        //fill-out necessary action
-        var found = false;
-        var filter = fName + ' ' + lName;
-        var select = document.getElementById("slModifyContestant");
-        var a = select.getElementsByTagName("option");
-        for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
-                found = true;
-            }
-        }
-        select = document.getElementById("slAddContestant");
-        a = select.getElementsByTagName("option");
-        for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
-                found = true;
-            }
-        }
-        if (found === true) {
-            alert(filter + " is already in the list of possible contestants. Add the person using the selection box above.");
-        }
-        else
-        {
-            $.ajax({
-                type: 'POST',
-                url: service + 'KFspAddPersonToContestant',
-                data:
-                '{' +
-                '"fname":"' + fName + '",' +
-                '"lname":"' + lName + '",' +
-                '"eventID":"' + eventID + '",' +
-                '}',
-
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                processdata: true,
-                success: function (result) {
-                    alert(fName + " " + lName + " has been added to the contest!");
-                    PopulateContestants();
+    //fill-out necessary action
+    var input1, input2, filter, table, tr, td, i, found = false;
+    input1 = document.getElementById("txtFirstName").value.trim();
+    input2 = document.getElementById("txtLastName").value.trim();
+    fname = input1;
+    lname = input2;
+    filter1 = input1.toUpperCase();
+    filter2 = input2.toUpperCase();
+    table = document.getElementById("tbModifyContestant");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            if (td.innerHTML.toUpperCase() === filter1) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase() === filter2) {
+                        found = true;
+                    }
                 }
-                ,
-                error: function (msg) {
-                    alert(msg.responseText);
-                }
-            });
+            }
         }
-        
+
     }
-    else if (action === "Remove")
-    {
-        //fill-out necessary action
-        $.ajax({
-            type: 'POST',
-            url: service + 'KFspRemoveContsestantFromEvent',
-            data:
-            '{' +
-            '"fname":"' + fName + '",' +
-            '"lname":"' + lName + '",' +
-            '"eventid":"' + eventID + '",' +
-            '}',
+    table = document.getElementById("tbAddContestant");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            if (td.innerHTML.toUpperCase() === filter1) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase() === filter2) {
+                        found = true;
+                    }
+                }
+            }
+        }
 
-            contentType: 'application/json;charset=utf-8',
-            dataType: 'json',
-            processdata: true,
-            success: function (result) {
-                alert(fName + " " + lName + " has been removed from the contest!");
-                PopulateContestants();
-            }
-            ,
-            error: function (msg) {
-                alert(msg.responseText);
-            }
-        });
     }
+    if (found) {
+        alert(fname + ' ' + lname + " is an already registered contestant. Cannot edit");
+    }
+    $.ajax({
+        type: 'POST',
+        url: service + 'KFspUpdateContestant',
+        data:
+        '{' +
+        '"fname":"' + fname + '",' +
+        '"lname":"' + lname + '",' +
+        '"perid":"' + personid + '",' +
+        '}',
 
-//    clickCancel();
-
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json',
+        processdata: true,
+        success: function (result) {
+            alert(fName + " " + lName + " has been changed to " + fname + ' ' + lname);
+            PopulateContestants();
+        }
+        ,
+        error: function (msg) {
+            alert(msg.responseText);
+        }
+    });
 
 }
 
 function PopulateContestants() {
     $("#tbAddContestant tbody").empty(); 
-    document.getElementById('slModifyContestant').options.length = 0;
+    $("#tbModifyContestant tbody").empty(); 
+    document.getElementById("txtFirstName").value = '';
+    document.getElementById("txtLastName").value = '';
+    document.getElementById("txtAddFirstName").value = '';
+    document.getElementById("txtAddLastName").value = '';
+
+    document.getElementById('btnEdit').disabled = true;
+    document.getElementById("txtFirstName").disabled = true;
+    document.getElementById("txtLastName").disabled = true;
+
     eventID = sessionStorage.getItem("EventID");
     console.log('EventID = ' + eventID);
     $.ajax({
@@ -282,13 +301,14 @@ function PopulateContestants() {
         success: function (result) {
             var varArResult = JSON.parse(result.MCspViewContestantsEventResult);
             console.log(varArResult);
-            for (intCtr in varArResult) {
-                var slModifyContestant = document.getElementById('slModifyContestant');
-                var option = document.createElement('option');
-                option.text = varArResult[intCtr].name;
-                option.value = varArResult[intCtr].PersonID;
-                slModifyContestant.add(option);
-            }
+
+            $.each(varArResult, function (i, item) {
+                var input = item.name.split(" ");
+                fName = input[0];
+                lName = input[1];
+                $('#tbModifyContestant').append(
+                    '<tr><td>' + fName + '</td><td>' + lName + '</td><td>' + item.PersonID + '</td><td><a href="#" class="delrow" >Remove Contestant</a></td></td><td><input type="radio" name ="edit"></td>' + '</tr>' );
+            });
         },
         error: function (msg) {
             alert('Error Retrieving Contestants List');
