@@ -4,165 +4,26 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/home.css">
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/wcfscript.js"></script>
     <title>UVS App</title>
 </head>
-<body onload="checksession()">
-    <script>
-
-        function checksession()
-        {
-            console.log("person id " + sessionStorage.getItem("personid"));
-            console.log("account type" + sessionStorage.getItem("accountype"));
-            console.log("judge id" + sessionStorage.getItem("judgeid"));
-
-            var judgeID = sessionStorage.getItem("judgeid");
-            var personid = sessionStorage.getItem("personid");
-            var ddlEvent = document.getElementById('ddlEvents');
-            var option = document.createElement('option');
-            var name = "";
-
-            if ((judgeID == null)||(personid ==null))
-            {
-                alert("You should not be here, redirecting..");
-                setTimeout(window.location.replace("index.html"), 3000);
-            }
-
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost/uvtest2/service.svc/spViewJudgeUsingJudgeID',
-                data: {
-                    'JudgeID': judgeID
-                },
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                processdata: true,
-                success: function (result) {
-                    
-                    var varArResult = JSON.parse(result.spViewJudgeUsingJudgeIDResult);
-                    console.log(varArResult);
-                    for (intCtr in varArResult) {
-                        var ddlEvent = document.getElementById('ddlEvents');
-                        var option = document.createElement('option');
-                        option.text = varArResult[intCtr].EventName;
-                        option.value = varArResult[intCtr].EventID;
-                        ddlEvent.add(option);
-                        if (varArResult[intCtr].PersonID == personid)
-                        {
-                            var name = "Hi " + varArResult[intCtr].FirstName + " " + varArResult[intCtr].LastName + "!";
-                            document.getElementById('judgename').innerText = name;
-                        }
-                    }
-                    eventselectchange(document.getElementById('ddlEvents'));
-                },
-                error: function (msg) {
-                    alert('Error Retrieving Events list');
-                }
-            });
-        }
-
-        function eventselectchange(sel) {
-            
-            var Data = { EventID: sel.value };
-            console.log("event id value from selection: "+sel.value);
-            sessionStorage.setItem("EventName", sel.options[sel.selectedIndex].text);
-          
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost/uvtest2/service.svc/home_eventselect_change',
-                data: {
-                    'EventID': sel.value
-                },
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                processdata: true,
-                success: function (result) {
-
-                    var varArResult = JSON.parse(result.home_eventselect_changeResult);
-
-                    $('#ddlParticipants option').remove();
-
-                    for (intCtr in varArResult)
-                    {
-                        var ddlParticipant = document.getElementById('ddlParticipants');
-                        var option = document.createElement('option');
-
-                        option.text = varArResult[intCtr].FirstName + " " + varArResult[intCtr].LastName;
-                        option.value = varArResult[intCtr].ContestantID;
-                        ddlParticipants.add(option);
-
-
-                    }
-                    sessionStorage.setItem("EventID", sel.value);
-                },
-                error: function (msg) {
-                    alert('Error Retrieving Contestants for Event');
-                }
-            });
-        }
-
-        function contestantselect() {
-            var choice = document.getElementById("ddlParticipants");
-            if (choice.value != "") //error check to prevent selecting on blank space in second select area
-            {
-                sessionStorage.setItem("contestantID", choice.value);
-                console.log("contestant id: " + sessionStorage.getItem("contestantID"));
-
-                //getting eventjudge id based from event and judge
-                $.ajax({
-                    type: 'GET',
-                    url: 'http://localhost/uvtest2/service.svc/home_get_eventjudgeid',
-                    data: {
-                        'EventID': sessionStorage.getItem("EventID"),
-                        'judgeid': sessionStorage.getItem("judgeid")
-                    },
-                    contentType: 'application/json;charset=utf-8',
-                    dataType: 'json',
-                    processdata: true,
-                    success: function (result) {
-
-                        var varArResult = JSON.parse(result.home_get_eventjudgeidResult);
-                        console.log("Event Judges ID: " + varArResult[0].EventJudgesID);
-                        sessionStorage.setItem("EventJudgeID", varArResult[0].EventJudgesID);
-
-                        setTimeout(window.location.replace("profile.html"));
-
-
-                    },
-                    error: function (msg) {
-                        alert('Error Retrieving Events list');
-                    }
-                });
-
-            }
-            
-
-        }
-
-        function gotoresults() {
-           
-            setTimeout(window.location.replace("results.html"));
-
-        }
-
-    </script>
-    <h1 id="judgename">Hi *insert name here*!</h1>
+<body bgcolor="#0056e2" onload="checksession()">
+    <h1 id="judgename" class="title">Hi Marcuz Corpuz!!</h1>
     <br />
-    <h3>Choose Event:</h3>
-    <select id="ddlEvents" onchange="eventselectchange(this)">
-        <!-- Use js to add dynamic events here-->
-
-    </select>
-    <br />
-    <br />
-    <br />
-    <select name="participants" id="ddlParticipants"  onclick="contestantselect()" size="6">
-        <!-- Use js to add dynamic participants here-->
-
-    </select>
-    <br />
-    <button runat="server" id="btnResults" onclick="gotoresults()">Results</button>
+    <div style="text-align:center">
+        <h3 class="subtitle">Choose an Event</h3>
+        <select id="ddlEvents" onchange="eventselectchange(this)">
+            <!-- Use js to add dynamic events here-->
+        </select>
+        <br />
+        <h3 class="subtitle">Participants</h3>
+        <select id="ddlParticipants" size="6" class="participants" onchange="contestantselect()">
+            <!-- Use js to add dynamic participants here-->
+        </select>
+        <br />
+        <button runat="server" id="btnResults" onclick="gotoresults()">Results</button>
+        <a href="index.html">Logout.</a>
+    </div>
 </body>
 </html>

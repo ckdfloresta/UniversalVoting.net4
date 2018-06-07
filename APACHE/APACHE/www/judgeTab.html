@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <title>Judge Tab</title>
+
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <script src="scripts/jquery-3.2.1.min.js"></script>
@@ -8,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/judges.css">
     <link rel="stylesheet" type="text/css" href="css/sidebar.css">
+
     <title></title>
 
 </head>
@@ -23,12 +26,13 @@
             <li><a href="criteriaTab.html">Criteria</a></li>
             <li><a href="contestantsTab.html">Contestants</a></li>
             <li><a href="finalizeTab.html">Finalize</a></li>
+            <li><a href="index.html">Logout.</a></li>
         </ul>
     </div>
     <br />
     <br />
     <div id="divAddJudge">
-        <h3>All Judges Account </h3>
+        <h3>Add Judge Account </h3>
         <!-- Use js to add dynamic participants here-->
         <h6>Select an existing judge to add to the event</h6>
         <table class="table-hover" id="tbAddJudges">
@@ -38,6 +42,8 @@
                     <th>Last Name</th>
                     <th>Judge Username</th>
                     <th>Judge Password</th>
+                    <th>Add</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -46,16 +52,30 @@
                     <td>1</td>
                     <td>User1</td>
                     <td>123</td>
+                    <td><a href="#" class="addrow"><input type="checkbox" /></a></td>
                 </tr>
                 <tr>
                     <td>Judge</td>
                     <td>2</td>
                     <td>User2</td>
                     <td>456</td>
+                    <td><a href="#" class="addrow"><input type="checkbox" /></a></td>
                 </tr>
             </tbody>
+
         </table>
-        <button runat="server" id="btnAddExistJudge" onclick="clickAddJudge()" disabled>Add Judge</button>
+        <h6>Create a new judge to add to the event</h6>
+        <input placeholder="FIRST NAME" id="txtAddFNameJudge" type="text"  />
+        <br />
+        <input placeholder="LAST NAME" id="txtAddLNameJudge" type="text"  />
+        <br />
+        <input placeholder="USERNAME" id="txtAddUserJudge" type="text"  />
+        <br />
+        <input placeholder="PASSWORD" id="txtAddPassJudge" type="password"  />
+        <br />  
+        <br/>
+
+        <button runat="server" id="btnAddNewJudge" onclick="clickAddNewJudge()" >Add New Judge</button>
 
     </div>
 
@@ -63,22 +83,18 @@
     <div id="divManageJudge">
         <h3>Modify</h3>
         <!--select style="width: 30%;"></select>-->
-        <h6>Select an Action</h6>
-        <ul>
-            <li><button id="btnEditJudge">Edit</button></li>
-            <li><button id="btnAddJudge">Add</button></li>
-            <li><button id="btnRemoveJudge">Remove</button></li>
-        </ul>
         <h4>Judges for This Event</h4>
-        <h6>*For Edit and Remove, select a judge on the list below.</h6>
+        <h6>For Edit and Remove, select a judge on the list below.</h6>
         <!-- Use js to add dynamic participants here-->
-        <table class="table-hover" id="tbModifyJudges" disabled>
+        <table class="table-hover" id="tbModifyJudges" border="1">
             <thead>
                 <tr>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Judge Username</th>
                     <th>Judge Password</th>
+                    <th style="color:red">X</th>
+                    <th>Edit</th>
                 </tr>
             </thead>
             <tbody>
@@ -87,27 +103,30 @@
                     <td>1</td>
                     <td>User1</td>
                     <td>123</td>
+                    <td><a href="#" class="delrow"><input type="checkbox" /></a></td>
+                    <td><input type="radio" name="edit"></td>
                 </tr>
                 <tr>
                     <td>Judge</td>
                     <td>2</td>
                     <td>User2</td>
                     <td>456</td>
+                    <td><a href="#" class="delrow"><input type="checkbox" /></a></td>
+                    <td><input type="radio" name="edit"></td>
                 </tr>
             </tbody>
         </table>
-        <h6>Add or Edit using the forms below.</h6>
-        <input placeholder="FIRST NAME" id="txtFNameJudge" type="text" disabled/>
+        <h6>Edit using the forms below.</h6>
+        <input placeholder="FIRST NAME" id="txtFNameJudge" type="text" disabled />
         <br />
-        <input placeholder="LAST NAME" id="txtLNameJudge" type="text" disabled/>
+        <input placeholder="LAST NAME" id="txtLNameJudge" type="text" disabled />
         <br />
-        <input placeholder="USERNAME" id="txtUserJudge" type="text" disabled/>
+        <input placeholder="USERNAME" id="txtUserJudge" type="text" disabled />
         <br />
-        <input placeholder="PASSWORD" id="txtPassJudge" type="password" disabled/>
+        <input placeholder="PASSWORD" id="txtPassJudge" type="password" disabled />
         <br />
-
-        <button runat="server" id="btnContinueJudge" onclick="clickModifyJudge()" disabled>Continue</button>
-        <button id="btnCancelJudge" onclick="clickCancel()" disabled>Cancel</button>
+        <br />
+        <button runat="server" id="btnContinueJudge" onclick="clickModifyJudge()">Edit Judge</button>
     </div>
 
 

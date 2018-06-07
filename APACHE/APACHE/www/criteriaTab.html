@@ -2,6 +2,7 @@
 \TYPE html>
 <html>
 <head>
+    <title>Criteria Tab</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <script src="scripts/jquery-3.2.1.min.js"></script>
@@ -25,6 +26,7 @@
             <li><a href="criteriaTab.html">Criteria</a></li>
             <li><a href="contestantsTab.html">Contestants</a></li>
             <li><a href="finalizeTab.html">Finalize</a></li>
+            <li><a href="index.html">Logout.</a></li>
         </ul>
     </div>
     <br />
@@ -32,47 +34,101 @@
     <div id="divAddCriteria">
 
 
-        <h3>All Criterias Available</h3>
+        <h3>All Criteria Available</h3>
         <!-- Use js to add dynamic participants here-->
-        <h6>Select an existing Criteria to add to the event</h6>
+        <h6>Select an existing Criterion to add to the event</h6>
 
-        <select id="slAddCriteria" size="6">
-            <option value="Criteria 1">Criteria 1</option>
-            <option value="Criteria 2">Criteria 2</option>
-            <option value="Criteria 3">Criteria 3</option>
-            <option value="Criteria 4">Criteria 4</option>
-        </select>
+        <table class="table-hover" id="tbAddCriteria">
+            <thead>
+                <tr>
+                    <th>Criteria</th>
+                    <th>Weight</th>
+                    <th>Add</th>
 
-        <input placeholder="CRITERIA WEIGHT" id="txtAddWeight" type="number" disabled /> <br />
-        <button runat="server" id="btnAddCriteria" onclick="clickAddCriteria()" disabled>Add Criteria</button>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Criteria 1</td>
+                    <td>50</td>
+                    <td><a href="#" class="addrow"><input type="checkbox" /></a></td>
+                </tr>
+                <tr>
+                    <td>Criteria 2</td>
+                    <td>70</td>
+                    <td><a href="#" class="addrow"><input type="checkbox" /></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h6>Create a new Criterion to add to the event</h6>
+        <input placeholder="CRITERIA NAME" id="txtAddCriteriaName" type="text" />
+        <br />
+        <input placeholder="CRITERIA WEIGHT" id="txtAddCriteriaWeight" type="number" /> 
+        <br />
+        <br />
+        <button runat="server" id="btnAddCriteria" onclick="clickAddCriteria()">Add Criteria</button>
     </div>
     <br />
     <div id="divManageCriteria">
         <h3>Modify</h3>
         <!--select style="width: 30%;"></select>-->
-        <h6>Select an Action</h6>
-        <ul>
-            <li><button id="btnEdit">Edit</button></li>
-            <li><button id="btnAdd">Add</button></li>
-            <li><button id="btnRemove">Remove</button></li>
-        </ul>
+        <!--<h6>Select an Action</h6>-->
+        <!--<ul>
+        <li><button id="btnEdit">Edit</button></li>
+        <li><button id="btnAdd">Add</button></li>
+        <li><button id="btnRemove">Remove</button></li>
+    </ul>-->
+        <!--<button id="btnEdit">Edit</button> <br /><br />
+    <button id="btnAdd">Add</button> <br /><br />
+    <button id="btnRemove">Remove</button>-->
         <h4>Criterias for This Event</h4>
-
-        <h6>*For Edit and Remove, select a criteria in the list below.</h6>
+        <h6>For Edit and Remove, select a criterion in the table below.</h6>
         <!-- Use js to add dynamic participants here-->
-        <select id="slModifyCriteria" size="6" disabled>
-            <option value="Criteria 1">Criteria 1</option>
-            <option value="Criteria 2">Criteria 2</option>
-            <option value="Criteria 3">Criteria 3</option>
-            <option value="Criteria 4">Criteria 4</option>
-        </select>
-        <h6>Add or Edit using the forms below.</h6>
-        <input placeholder="CRITERIA NAME" id="txtModifyCname" type="text" />
-        <br />
-        <input placeholder="CRITERIA WEIGHT" id="txtModifyWeight" type="text" />
-        <button runat="server" id="btnContinue" onclick="clickModifyCriteria()" disabled>Continue</button>
+        <!--<select id="slModifyCriteria" size="6" disabled>
+        <option value="Criteria 1">Criteria 1</option>
+        <option value="Criteria 2">Criteria 2</option>
+        <option value="Criteria 3">Criteria 3</option>
+        <option value="Criteria 4">Criteria 4</option>
+    </select>-->
+        <table class="table-hover" id="tbModifyCriteria">
+            <thead>
+                <tr>
+                    <th>Criteria</th>
+                    <th>Weight</th>
+                    <th style="color:red">X</th>
+                    <th>Edit</th>
 
-        <button id="btnCancel" onclick="clickCancel()" disabled>Cancel</button>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Criterion</td>
+                    <td>1</td>
+                    <td><a href="#" class="delrow"><input type="checkbox" /></a></td>
+                    <td><input type="radio" name="edit"></td>
+                </tr>
+                <tr>
+                    <td>Criterion</td>
+                    <td>2</td>
+                    <td><a href="#" class="delrow"><input type="checkbox" /></a></td>
+                    <td><input type="radio" name="edit"></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+
+
+
+        <h6>Edit using the forms below.</h6>
+        <input placeholder="CRITERIA NAME" id="txtModifyCriteriaName" type="text" disabled/>
+        <br />
+        <input placeholder="CRITERIA WEIGHT" id="txtModifyWeight" type="number" disabled/>
+        <br />
+
+        <br />
+        <button runat="server" id="btnEdit" onclick="clickModifyContestant()">Edit Contestant</button>
     </div>
 
     <script type="text/javascript" src="scripts/sidebar.js"></script>

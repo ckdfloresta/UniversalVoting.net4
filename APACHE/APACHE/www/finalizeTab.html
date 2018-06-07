@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <title>Finalize Tab</title>
+
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <script src="scripts/jquery-3.2.1.min.js"></script>
@@ -9,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/judges.css">
     <link rel="stylesheet" type="text/css" href="css/sidebar.css">
 </head>
-<body>
+<body onload="PopulateEvent()">
     <div id="sidebar">
 
         <div class="toggle-btn" id="header" width="360">
@@ -21,12 +23,13 @@
             <li><a href="criteriaTab.html">Criteria</a></li>
             <li><a href="contestantsTab.html">Contestants</a></li>
             <li><a href="finalizeTab.html">Finalize</a></li>
+            <li><a href="index.html">Logout.</a></li>
         </ul>
     </div>
     <br />
     <br />
     <h3>Judges for this Event</h3>
-    <table class="table-hover" id="tbFinalizeJudges">
+    <table class="table-hover" id="tbFinalizeJudges" border="1">
         <thead>
             <tr>
                 <th>First Name</th>
@@ -54,11 +57,11 @@
     <br />
 
     <h3>Criterias for this Event</h3>
-    <table class="table-hover" id="tbFinalizeCriterias">
+    <table class="table-hover" id="tbFinalizeCriterias" border="1">
         <thead>
             <tr>
-                <th>Criteria</th>
-                <th>Weight</th>
+                <th>Event Criteria</th>
+                <th>Criteria Weight</th>
             </tr>
         </thead>
         <tbody>
@@ -77,12 +80,27 @@
     <br />
 
     <h3>Contestants for this Event</h3>
-    <select id="slFinalizeContestants" size="6">
+    <table class="table-hover" id="tbFinalizeContestants" border="1">
+        <thead>
+            <tr>
+                <th>Contestant Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Criteria 1</td>
+            </tr>
+            <tr>
+                <td>Criteria 2</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<select id="slFinalizeContestants" size="6">
         <option value="Contestant 1">Contestant 1</option>
         <option value="Contestant 2">Contestant 2</option>
         <option value="Contestant 3">Contestant 3</option>
         <option value="Contestant 4">Contestant 4</option>
-    </select>
+    </select>-->
 
     <br />
     <h6>Once Finalized, Event Cannot be Altered</h6>
@@ -94,5 +112,7 @@
 
 
     <script type="text/javascript" src="scripts/sidebar.js"></script>
+    <script type="text/javascript" src="scripts/finalizescript.js"></script>
+
 </body>
 </html>

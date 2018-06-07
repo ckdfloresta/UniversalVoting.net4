@@ -1,16 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="scripts/jquery-3.2.1.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/profile.css">
-    <link rel="stylesheet" type="text/css" href="css/sidebar.css">
-    <title></title>
+    <script type="text/javascript" src="scripts/wcfscript.js"></script>
+    <title>UVS App</title>
 </head>
-<body onload="checksession()">
+<body  bgcolor="#0056e2" onload="resultschecksession()">
     <datalist id="tickmarks">
         <option value="1" />
         <option value="2" />
@@ -23,23 +21,14 @@
         <option value="9" />
         <option value="10" />
     </datalist>
-
-    <div id="sidebar">
-
-        <div class="toggle-btn" id="header" width="360">
-            <img src="images/uvaLogo.png" width="50" height="50" onclick="toggleSideBar()" />
-            <h3 style="float: right; color:white;">Results Tab</h3>
-        </div>
-        <ul>
-            <li onclick="goback()">
-                <button runat="server">Go back</button>
-            </li>
-        </ul>
+    <div style="text-align:center">
+        <a href="home.html">&#60;-- Back to home page</a>
     </div>
 
-    <h2 id="resultname">Event Results</h2>
+    <h2 id="resultname" class="title head">Event Results</h2>
+    <br />
     <h4 id="eventresultstatus"></h4>
-    <table id="mytable" style="width:100%">
+    <table id="mytable" style="width:100%" border="1">
         <thead>
             <tr>
                 <th>Contestant</th>
@@ -48,94 +37,5 @@
         </thead>
         <tbody></tbody>
     </table>
-    <script>
-        //EventJudgeID, ContestantID, EventCriteriaID for input and ouput, score for input only
-
-
-        function displaycontestants() {
-            var mydata = { '_eventID': sessionStorage.getItem("EventID") };
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost/service.svc/profile_get_loadcontestants',
-                data: JSON.stringify(mydata),
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                processdata: true,
-                success: function (result) {
-
-                    var myresult = JSON.parse(result.profile_get_loadcontestantsResult);
-                    console.log(myresult);
-                    var x = 0;
-
-                    for (intctr in myresult) {
-                        $('#mytable tbody').append(' <tr id="tblrow' + [intctr] + '"><th id="con' + [intctr] + '"><img id="pic' + [intctr] + '" src="images/' + myresult[intctr].PersonID + '.jpg" alt="missing picture of person with personid=' + myresult[intctr].PersonID + '" height="100" width="100" /><h3 id="name' + [intctr] + '">' + myresult[intctr].Name + '</h3></th><th><h4 id="tv' + [intctr] + '">' + Math.round(myresult[intctr].FScore) + '</h4></th></tr>');
-                        x++;
-                    }
-                },
-                error: function (msg) {
-                    alert('Error Contacting Server, please try again later.');
-                }
-            });
-
-        }
-
-        function checksession() {
-            var conid = sessionStorage.getItem("contestantID");
-            var ejid = sessionStorage.getItem("EventJudgeID");
-            document.getElementById("resultname").innerText = "Event Results for " + sessionStorage.getItem("EventName");
-
-            console.log("Event id: " + sessionStorage.getItem("EventID"));
-            console.log("contestant id: " + conid);
-            console.log("Event judge id :" + ejid)
-
-            var mydata = { '_eventID': sessionStorage.getItem("EventID") };
-            var hehe;
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost/service.svc/profile_get_eventstatus',
-                data: JSON.stringify(mydata),
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                processdata: true,
-                success: function (result) {
-
-                    hehe = result.profile_get_eventstatusResult;
-                    if (hehe == 'True') {
-                        displaycontestants();
-                    }
-                    else {
-                        document.getElementById("eventresultstatus").innerText = "Event is not yet Finished, There are Judges who have not yet voted";
-                        console.log("is false");
-                    }
-
-                },
-                error: function (msg) {
-                    alert('Error Contacting Server, please try again later.');
-                }
-            });
-
-        }
-
-
-
-
-
-        function goback() {
-            setTimeout(window.location.replace("home.html"));
-        }
-
-    </script>
-    <br />
-    <br /><br />
-
-
-
-
-
-
-
-    <script type="text/javascript" src="scripts/sidebar.js"></script>
-
-
 </body>
 </html>
