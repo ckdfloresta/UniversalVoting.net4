@@ -16,8 +16,8 @@ function btnLogin_OnClick() {
     var funcresult = "";
     var resulttable = "";
 
-    struname = document.getElementById("txtUsername").value;
-    strpass = document.getElementById("txtPassword").value;
+    struname = document.getElementById("txtUsername").value.trim();
+    strpass = document.getElementById("txtPassword").value.trim();
 
 
     if ((struname.length < 1) || (strpass.length < 1)) {
@@ -79,13 +79,25 @@ function clearsession() {
 
 //createevent.html
 function btnCreateEvent() {
-    var fname = document.getElementById('txtFN').value;
-    var lname = document.getElementById('txtLN').value;
-    var uname = document.getElementById('txtUsername').value;
-    var pname = document.getElementById('txtPassword').value;
-    var ename = document.getElementById('txtEventName').value;
-
-    $.ajax({
+    var fname = document.getElementById('txtFN').value.trim();
+    var lname = document.getElementById('txtLN').value.trim();
+    var uname = document.getElementById('txtUsername').value.trim();
+    var pname = document.getElementById('txtPassword').value.trim();
+    var ename = document.getElementById('txtEventName').value.trim();
+	var er ='';
+	if ((uname.length<1) || (pname.length<1)) {
+		er +="Username or Password is not Typed in correctly\n";
+	}
+		if ((fname.length<1) || (lname.length<1)) {
+		er +="First or Last name is not Typed in correctly\n";
+	}
+		if (ename.length<1) {
+		er +="Event name is not Typed in correctly\n";
+	}
+	
+	if(er =='' )
+	{
+			 $.ajax({
         type: 'GET',
         url: service + 'KFspCheckEventAccount',
         data: {
@@ -183,6 +195,14 @@ function btnCreateEvent() {
         }
     });
 
+	}
+else
+{
+		alert(er)
+		
+	
+	}
+  
     
 }
 
