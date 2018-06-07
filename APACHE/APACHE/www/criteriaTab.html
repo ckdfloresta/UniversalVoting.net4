@@ -36,12 +36,10 @@
         <h3>All Criteria Available</h3>
         <!-- Use js to add dynamic participants here-->
         <h6>Select an existing Criterion to add to the event</h6>
-
         <table class="table-hover" id="tbAddCriteria">
             <thead>
                 <tr>
                     <th>Criteria</th>
-                    <th>Weight</th>
                     <th>Add</th>
 
                 </tr>
@@ -59,14 +57,20 @@
                 </tr>
             </tbody>
         </table>
-
-        <h6>Create a new Criterion to add to the event</h6>
+        <br />
+        <input placeholder="CRITERIA NAME" id="txtAddOldCriteriaName" type="text" disabled/>
+        <br />
+        <input placeholder="CRITERIA WEIGHT" id="txtAddOldCriteriaWeight" type="number" />
+        <br />
+        <button runat="server" id="btnAddCriteria" onclick="clickAddCriteria()">Add Existing Criteria</button>
+        <br />
+        <h5>Create a new Criterion to add to the event</h5>
         <input placeholder="CRITERIA NAME" id="txtAddCriteriaName" type="text" />
         <br />
         <input placeholder="CRITERIA WEIGHT" id="txtAddCriteriaWeight" type="number" /> 
         <br />
         <br />
-        <button runat="server" id="btnAddCriteria" onclick="clickAddCriteria()">Add Criteria</button>
+        <button runat="server" id="btnAddCriteria" onclick="clickAddNewCriteria()">Add New Criteria</button>
     </div>
     <br />
     <div id="divManageCriteria">
@@ -127,7 +131,7 @@
         <br />
 
         <br />
-        <button runat="server" id="btnEdit" onclick="clickModifyContestant()">Edit Contestant</button>
+        <button runat="server" id="btnEdit" onclick="clickModifyCriteria()">Edit Criteria</button>
     </div>
 
     <script type="text/javascript" src="scripts/sidebar.js"></script>

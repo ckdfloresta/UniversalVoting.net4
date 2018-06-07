@@ -193,21 +193,6 @@ $('#tbModifyJudges tbody').on("click touchstart", "input", function (e) {
     document.getElementById("txtPassJudge").disabled = false;   
 });
 
-function clickCancel() {
-    //reset
-    document.getElementById("btnEditJudge").disabled = false;
-    document.getElementById("btnAddJudge").disabled = false;
-    document.getElementById("btnRemoveJudge").disabled = false;
-    document.getElementById("btnContinueJudge").disabled = true;
-    document.getElementById("btnCancelJudge").disabled = true;
-    document.getElementById("tbModifyJudges").selectedIndex = "-1";
-    document.getElementById("tbModifyJudges").disabled = true;
-
-    document.getElementById("txtFNameJudge").value = '';
-    document.getElementById("txtLNameJudge").value = '';
-    document.getElementById("txtUserJudge").value = '';
-    document.getElementById("txtPassJudge").value = '';
-}
 
 function clickModifyJudge() {
     var oldFname = modifyFName;
@@ -230,7 +215,7 @@ function clickModifyJudge() {
     for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[2];
         if (td) {
-            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            if (td.innerHTML.toUpperCase() === filter) {
                 found = true;
             }
 
@@ -241,7 +226,7 @@ function clickModifyJudge() {
     for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[2];
         if (td) {
-            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            if (td.innerHTML.toUpperCase() === filter) {
                 found = true;
             }
 
@@ -317,6 +302,10 @@ function PopulateJudges() {
     console.log('EventID = ' + eventID);
     $("#tbAddJudges tbody").empty(); 
     $("#tbModifyJudges tbody").empty(); 
+    document.getElementById('txtFNameJudge').value = '';
+    document.getElementById('txtLNameJudge').value = '';
+    document.getElementById('txtUserJudge').value = '';
+    document.getElementById('txtPassJudge').value = '';
     $.ajax({
         type: 'GET',
         url: service + 'spViewNotEventJudges',

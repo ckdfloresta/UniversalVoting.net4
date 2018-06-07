@@ -9,88 +9,114 @@ var service = 'http://localhost/uvtest2/service.svc/';
 //var service = 'http://192.168.43.238/uvtest2/service.svc/';
 
 
-//selects from slAddCriteria
-//$("#slAddCriteria").on("change", function (e) {
-
-//    //gets data
-//    selected = $("#slAddCriteria option:selected").text();
-//    document.getElementById("txtAddWeight").disabled = false;
-//    document.getElementById("btnAddCriteria").disabled = false;
-//});
-
-$('#tbAddContestant tbody ').on("click touchstart", "a", function (e) {
+$('#tbAddCriteria tbody ').on("click touchstart", "input", function (e) {
     //gets data
     var currentRow = $(this).closest('tr')
     currentRow.addClass("selected").siblings().removeClass("selected");
     cname = currentRow.find("td:first").html();
-    weight = currentRow.find("td:nth-child(2)").html();
     console.log(cname);
-    clickAddCriteria();
+    $('#txtAddOldCriteriaName').val(cname);
+    document.getElementById("btnAddCriteria").disabled = false;
 
 });
 
 //click btnAddCriteria
 function clickAddCriteria() {
-    //var slCriteria = document.getElementById("slAddCriteria");
-    //var slName = slAddCriteria.options[slAddCriteria.selectedIndex].text;
-    //var slValue = slAddCriteria.options[slAddCriteria.selectedIndex].value;
     console.log("value in cname: " + cname);
     console.log("value in weight: " + weight);
-    //var weight = parseInt(document.getElementById("txtAddWeight").value);
-    //var cname = selected;
-    if (isNaN(weight) || weight <= 0 || weight > 100)
+    weight = parseFloat($('#txtAddOldCriteriaWeight').val());
+    if (isNaN(weight) || weight <= 0 || weight > 100 || weight != parseInt(weight, 10))
     {
         alert("Please assign a proper weight for the criteria");
     }
     else
     {
-        //getTotalWeight();
-        //if (totalWeight + weight > 100)
-        //{
-        //    alert("Cannot add weight because the total goes over 100");
-        //}
-        //else {
-        //    $.ajax({
-        //        type: 'POST',
-        //        url: service + 'spAddOldCriteriaToEventCriteria',
-        //        //data: {
-        //        //    'fname': fName,
-        //        //    'lname': lName,
-        //        //    'eventID': eventID
-        //        //}
-        //        data:
-        //        '{' +
-        //        '"cname":"' + cname + '",' +
-        //        '"weight":"' + weight + '",' +
-        //        '"eventid":"' + eventID + '",' +
-        //        '}',
+        getTotalWeight();
+        if (totalWeight + weight > 100)
+        {
+            alert("Cannot add weight because the total goes over 100");
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: service + 'spAddOldCriteriaToEventCriteria',
+                data:
+                '{' +
+                '"cname":"' + cname + '",' +
+                '"weight":"' + weight + '",' +
+                '"eventid":"' + eventID + '",' +
+                '}',
 
-        //        contentType: 'application/json;charset=utf-8',
-        //        dataType: 'json',
-        //        processdata: true,
-        //        success: function (result) {
-        //            alert("A new criteria has been added!!");
-        //            PopulateCriteria();
-        //        }
-        //        ,
-        //        error: function (msg) {
-        //            alert(msg.responseText);
-        //        }
-        //    });
-        //    document.getElementById("slAddCriteria").selectedIndex = "-1";
-        //    document.getElementById("btnAddCriteria").disabled = true;
-        //    document.getElementById("txtAddWeight").value = null;
-        //}
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                processdata: true,
+                success: function (result) {
+                    alert("A new criteria has been added!!");
+                    PopulateCriteria();
+                }
+                ,
+                error: function (msg) {
+                    alert(msg.responseText);
+                }
+            });
+            document.getElementById("btnAddCriteria").disabled = true;
+            document.getElementById("txtAddOldCriteriaWeight").value = '';
+            document.getElementById("txtAddOldCriteriaName").value = '';
 
+        }
+    }
 
+}
+
+function clickAddNewCriteria()
+{
+    //fill-out necessary action
+    getTotalWeight();
+    var input, filter, table, tr, td, i, found = false;
+
+    //fill-out necessary action
+    input = document.getElementById("txtAddCriteriaName").value.trim(); 
+    var cname = input;
+    var weight = parseFloat(document.getElementById("txtAddCriteriaWeight").value);
+    filter = input.toUpperCase();
+    table = document.getElementById("tbAddCriteria");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            if (td.innerHTML.toUpperCase() === filter) {
+                found = true;
+            }
+
+        }
+    }
+    table = document.getElementById("tbModifyCriteria");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            if (td.innerHTML.toUpperCase() === filter) {
+                found = true;
+            }
+
+        }
+    }
+    if (found === true) {
+        alert(filter + " is already in the list of possible criteria. Add the criteria using the selection box above.");
+    }
+    else if (cname === '' || isNaN(weight)) {
+        alert('Please complete all fields');
+    }
+    else if (isNaN(weight) || weight <= 0 || weight > 100 || weight != parseInt(weight, 10)) {
+        alert("Please assign a proper weight for the criteria");
+    }
+    else if (totalWeight + weight > 100) {
+        alert("Cannot add weight because the total goes over 100");
+    }
+    else {
         $.ajax({
             type: 'POST',
-            url: service + 'spAddOldCriteriaToEventCriteria',
-            //data: {
-            //    'fname': fName,
-            //    'lname': lName,
-            //    'eventID': eventID
-            //}
+            url: service + 'spAddCriteriaToEventCriteria',
             data:
             '{' +
             '"cname":"' + cname + '",' +
@@ -102,7 +128,7 @@ function clickAddCriteria() {
             dataType: 'json',
             processdata: true,
             success: function (result) {
-                alert("A new criteria has been added!!");
+                alert(cname + " has been added to the event criteria!");
                 PopulateCriteria();
             }
             ,
@@ -111,122 +137,127 @@ function clickAddCriteria() {
             }
         });
     }
-
-}
-
 }
 
 
-//selects from slModifyCriteria
-$("#slModifyCriteria").on("change", function (e) {
-    modify = $("#slModifyCriteria option:selected").text();
-    var weight = $("#slModifyCriteria option:selected").val();
-    document.getElementById("txtModifyCname").value = modify;
-    document.getElementById("txtModifyWeight").value = weight;
 
+
+$('#tbModifyCriteria tbody').on("click touchstart", "a", function (e) {
+
+    var currentRow = $(this).closest('tr');
+    currentRow.addClass("selected").siblings().removeClass("selected");
+
+    var cname = currentRow.find("td:first").html();
+
+    if (cname === '') {
+        alert("Please pick a criteria to be deleted");
+    }
+    else {
+        $.ajax({
+            type: 'POST',
+            url: service + 'spRemoveCriteriaFromEventCriteria',
+            data:
+            '{' +
+            '"cname":"' + cname + '",' +
+            '"eventid":"' + eventID + '",' +
+            '}',
+
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            processdata: true,
+            success: function (result) {
+                alert(cname + " has been removed from the event criteria!");
+                PopulateCriteria();
+            }
+            ,
+            error: function (msg) {
+                alert(msg.responseText);
+            }
+        });
+    }
 });
 
-$("#btnEdit, #btnRemove, #btnAdd").click(function (e) {
-    document.getElementById("btnContinue").disabled = false;
-    document.getElementById("btnCancel").disabled = false;
-
-    if (e.target.id === "btnEdit") {
-        action = "Edit";
-        //document.getElementById("btnAdd").disabled = true;
-        //document.getElementById("btnRemove").disabled = true;
-        document.getElementById("txtModifyCname").disabled = false;
-        document.getElementById("txtModifyWeight").disabled = false;
-        document.getElementById("txtModifyCname").value = null;
-        document.getElementById("txtModifyWeight").value = null;
-        document.getElementById("slModifyCriteria").disabled = false;
-    }
-    else if (e.target.id === "btnAdd") {
-        action = "Add";
-        //document.getElementById("btnEdit").disabled = true;
-        //document.getElementById("btnRemove").disabled = true;
-        document.getElementById("txtModifyCname").disabled = false;
-        document.getElementById("txtModifyWeight").disabled = false;
-        document.getElementById("txtModifyCname").value = null;
-        document.getElementById("txtModifyWeight").value = null;
-        document.getElementById("slModifyCriteria").disabled = true;
-    }
-    else if (e.target.id === "btnRemove") {
-        action = "Remove";
-        //document.getElementById("btnEdit").disabled = true;
-        //document.getElementById("btnAdd").disabled = true;
-        document.getElementById("txtModifyWeight").value = null;
-        document.getElementById("txtModifyWeight").disabled = true;
-        document.getElementById("txtModifyCname").value = null;
-        document.getElementById("txtModifyCname").disabled = true;
-        document.getElementById("slModifyCriteria").disabled = false;
-    }
-
-});
-
-
-function clickCancel() {
-    //reset
+$('#tbModifyCriteria tbody').on("click touchstart", "input", function (e) {
+    //gets data
+    var currentRow = $(this).closest('tr')
+    currentRow.addClass("selected").siblings().removeClass("selected");
+    oldCname = currentRow.find("td:first").html();
+    oldWeight = parseInt(currentRow.find("td:nth-child(2)").html());
+    console.log(oldCname);
+    console.log(oldWeight);
+    $('#txtModifyCriteriaName').val(oldCname);
+    $('#txtModifyWeight').val(oldWeight);
+    document.getElementById("txtModifyCriteriaName").disabled = false;
+    document.getElementById("txtModifyWeight").disabled = false;
     document.getElementById("btnEdit").disabled = false;
-    document.getElementById("btnAdd").disabled = false;
-    document.getElementById("btnRemove").disabled = false;
-    document.getElementById("btnContinue").disabled = true;
-    document.getElementById("btnCancel").disabled = true;
-    document.getElementById("slModifyCriteria").selectedIndex = "-1";
-    document.getElementById("slModifyCriteria").disabled = true;
-    document.getElementById("txtModifyCname").value = null;
-    document.getElementById("txtModifyWeight").value = null;
-
-}
+});
 
 function clickModifyCriteria() {
     var found, filter, select, a;
+    newWeight = parseFloat(document.getElementById("txtModifyWeight").value);
+    newCname = document.getElementById("txtModifyCriteriaName").value.trim();
 
-    var weight = document.getElementById("txtModifyWeight").value;
-    var cname = document.getElementById("txtModifyCname").value.trim();
-    oldCname = $("#slModifyCriteria option:selected").text();
-    oldWeight = $("#slModifyCriteria option:selected").val();
-    newWeight = document.getElementById("txtModifyWeight").value;
-    newCname = document.getElementById("txtModifyCname").value.trim();
-    if (action === "Edit") {
-        //fill-out necessary action
-        found = false;
-        filter = cname;
-        select = document.getElementById("slModifyCriteria");
-        a = select.getElementsByTagName("option");
-        for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
+        ////fill-out necessary action
+        //found = false;
+        //filter = cname;
+        //select = document.getElementById("slModifyCriteria");
+        //a = select.getElementsByTagName("option");
+        //for (i = 0; i < a.length; i++) {
+        //    if (a[i].text.toUpperCase() === filter.toUpperCase()) {
+        //        found = true;
+        //    }
+        //}
+        //if (oldCname === newCname)
+        //{
+        //    found = false;
+        //}
+        //select = document.getElementById("slAddCriteria");
+        //a = select.getElementsByTagName("option");
+        //for (i = 0; i < a.length; i++) {
+        //    if (a[i].text.toUpperCase() === filter.toUpperCase()) {
+        //        found = true;
+        //    }
+        //}
+    getTotalWeight();
+    var input, filter, table, tr, td, i, found = false;
+
+    //fill-out necessary action
+    filter = newCname.toUpperCase();
+    table = document.getElementById("tbAddCriteria");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            if (td.innerHTML.toUpperCase() === filter) {
                 found = true;
             }
+
         }
-        if (oldCname === newCname)
-        {
-            found = false;
-        }
-        select = document.getElementById("slAddCriteria");
-        a = select.getElementsByTagName("option");
-        for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
+    }
+    table = document.getElementById("tbModifyCriteria");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            if (td.innerHTML.toUpperCase() === filter) {
                 found = true;
             }
+
         }
-        if (found === true) {
-            alert(filter + " is already in the list of possible criteria.");
-        }
-        else if (cname === '' || weight === '') {
-            alert('Please complete all fields');
-        }
-        else if (isNaN(weight) || weight <= 0 || weight > 100) {
-            alert("Please assign a proper weight for the criteria");
-        }
-        else
-        {
+    }
+    if (newCname === '' || isNaN(newWeight)) {
+        alert('Please complete all fields');
+    }
+    else if (isNaN(newWeight) || newWeight <= 0 || newWeight > 100) {
+        alert("Please assign a proper weight for the criteria");
+    }
+    else if (found === true) {
+        if (oldCname === newCname) {
             getTotalWeight();
-            if ((totalWeight - parseInt(oldWeight) + parseInt(newWeight)) > 100)
-            {
+            if ((totalWeight - parseInt(oldWeight) + parseInt(newWeight)) > 100) {
                 alert('Cannot edit weight because the total will be higher than 100');
             }
-            else
-            {
+            else {
                 $.ajax({
                     type: 'GET',
                     url: service + 'spCheckcnameavailability',
@@ -262,6 +293,9 @@ function clickModifyCriteria() {
                             }
                         });
                         alert(oldCname + ": " + oldWeight + " has been changed to " + newCname + ': ' + newWeight);
+                        document.getElementById("txtModifyCriteriaName").disabled = true;
+                        document.getElementById("txtModifyWeight").disabled = true;
+                        document.getElementById("btnEdit").disabled = true;
                         PopulateCriteria();
                     },
                     error: function (msg) {
@@ -269,106 +303,66 @@ function clickModifyCriteria() {
                     }
                 });
             }
-            //call wcf to get criteria id
+        }
+        else {
+            alert(newCname + " is already in the list of possible criteria.");
 
         }
-        
     }
-    else if (action === "Add") {
-        //fill-out necessary action
+    else {
         getTotalWeight();
-        found = false;
-        filter = cname;
-        select = document.getElementById("slModifyCriteria");
-        a = select.getElementsByTagName("option");
-        for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
-                found = true;
-            }
-        }
-        select = document.getElementById("slAddCriteria");
-        a = select.getElementsByTagName("option");
-        for (i = 0; i < a.length; i++) {
-            if (a[i].text.toUpperCase() === filter.toUpperCase()) {
-                found = true;
-            }
-        }
-        if (found === true) {
-            alert(filter + " is already in the list of possible criteria. Add the criteria using the selection box above.");
-        }
-        else if (cname === '' || weight === '')
-        {
-            alert('Please complete all fields');
-        }
-        else if (isNaN(weight) || weight <= 0 || weight > 100) {
-            alert("Please assign a proper weight for the criteria");
-        }
-        else if (totalWeight + weight > 100) {
-            alert("Cannot add weight because the total goes over 100");
+        if ((totalWeight - parseInt(oldWeight) + parseInt(newWeight)) > 100) {
+            alert('Cannot edit weight because the total will be higher than 100');
         }
         else {
             $.ajax({
-                type: 'POST',
-                url: service + 'spAddCriteriaToEventCriteria',
-                data:
-                '{' +
-                '"cname":"' + cname + '",' +
-                '"weight":"' + weight + '",' +
-                '"eventid":"' + eventID + '",' +
-                '}',
-
+                type: 'GET',
+                url: service + 'spCheckcnameavailability',
+                data: {
+                    'cname': oldCname
+                },
                 contentType: 'application/json;charset=utf-8',
                 dataType: 'json',
                 processdata: true,
                 success: function (result) {
-                    alert(cname + " has been added to the event criteria!");
+                    var varArResult = JSON.parse(result.spCheckcnameavailabilityResult);
+                    console.log(varArResult);
+                    var critid = varArResult[0].CriteriaID;
+                    $.ajax({
+                        type: 'POST',
+                        url: service + 'spUpdateEventCriteria',
+                        data:
+                        '{' +
+                        '"cname":"' + newCname + '",' +
+                        '"weight":"' + newWeight + '",' +
+                        '"eventid":"' + eventID + '",' +
+                        '"critid":"' + critid + '",' +
+                        '}',
+
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        processdata: true,
+                        success: function (result) {
+                        }
+                        ,
+                        error: function (msg) {
+                            alert(msg.responseText);
+                        }
+                    });
+                    alert(oldCname + ": " + oldWeight + " has been changed to " + newCname + ': ' + newWeight);
+                    document.getElementById("txtModifyCriteriaName").disabled = true;
+                    document.getElementById("txtModifyWeight").disabled = true;
+                    document.getElementById("btnEdit").disabled = true;
                     PopulateCriteria();
-                }
-                ,
+                },
                 error: function (msg) {
-                    alert(msg.responseText);
+                    alert('Error Retrieving Available Criteria List');
                 }
             });
         }
+        //call wcf to get criteria id
 
     }
-    else if (action === "Remove") {
-        //fill-out necessary action
-        //var cname = document.getElementById("txtModifyCname").value;
-        //var weight = document.getElementById("txtModifyWeight").value;
-        if (cname === '') {
-            alert("Please pick a criteria to be deleted");
-        }
-        else
-        {
-            $.ajax({
-                type: 'POST',
-                url: service + 'spRemoveCriteriaFromEventCriteria',
-                data:
-                '{' +
-                '"cname":"' + cname + '",' +
-                '"eventid":"' + eventID + '",' +
-                '}',
-
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                processdata: true,
-                success: function (result) {
-                    alert(cname + " has been removed from the event criteria!");
-                    PopulateCriteria();
-                }
-                ,
-                error: function (msg) {
-                    alert(msg.responseText);
-                }
-            });
-        }
-
-    }
-
-        clickCancel();
-
-
 }
 
 function PopulateCriteria() {
@@ -382,7 +376,10 @@ function PopulateCriteria() {
 
     document.getElementById("txtModifyCriteriaName").value = '';
     document.getElementById("txtModifyWeight").value = '';
+
+
     totalWeight = 0;
+    eventID = sessionStorage.getItem("EventID");
     console.log('EventID = ' + eventID);
     $.ajax({
         type: 'GET',
@@ -408,7 +405,7 @@ function PopulateCriteria() {
             console.log(varArResult);
             $.each(varArResult, function (i, item) {
                 $('#tbAddCriteria').append(
-                    '<tr><td>' + item.CriteriaName + '</td><td>' + item.Weight + '</td><td><a href="#" class="addrow" ><input type="checkbox" /></a></td>' + '</tr>');
+                    '<tr><td>' + item.CriteriaName   + '</td><td><a href="#" class="addrow" ><input type="radio" name="hello"/></a></td>' + '</tr>');
             });
         },
         error: function (msg) {
@@ -428,22 +425,10 @@ function PopulateCriteria() {
         success: function (result) {
             var varArResult = JSON.parse(result.spViewEventCriteriaResult);
             console.log(varArResult);
-            //for (intCtr in varArResult) {
-            //    var slModifyCriteria = document.getElementById('slModifyCriteria');
-            //    var option = document.createElement('option');
-            //    option.text = varArResult[intCtr].CriteriaName;
-            //    option.value = varArResult[intCtr].Weight;
-                
-            //    slModifyCriteria.add(option);
-            //}
 
             $.each(varArResult, function (i, item) {
-                var input = item.name.split(" ");
-                cname = input[0];
-                weight = input[1];
-
-                $('#tbModifyCriteria').append(
-                    '<tr><td>' + cname + '</td><td>' + weight + '</td><td><a href="#" class="delrow"><input type="checkbox"/></a></td></td><td><input type="radio" name ="edit"></td>' + '</tr>');
+                $('#tbModifyCriteria').append( 
+                    '<tr><td>' + item.CriteriaName + '</td><td class="criteriaWeight">' + item.Weight + '</td><td><a href="#" class="delrow"><input type="checkbox"/></a></td></td><td><input type="radio" name ="edit"></td>' + '</tr>');
             });
         },
         error: function (msg) {
@@ -456,8 +441,11 @@ function PopulateCriteria() {
 function getTotalWeight()
 {
     totalWeight = 0;
-    $('#slModifyCriteria option').each(function () {
-        totalWeight += parseInt($(this).val());
+    $('#tbModifyCriteria tr').each(function () {
+        totalWeight += parseInt($(this).find(".criteriaWeight").html());
+        if (isNaN(totalWeight)) {
+            totalWeight = 0;
+        }
     });
     console.log("tweight : " + totalWeight);
     return totalWeight;
