@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/contestant.css">
-    <link rel="stylesheet" type="text/css" href="css/judges.css">
+    <!--<link rel="stylesheet" type="text/css" href="css/judges.css">-->
     <link rel="stylesheet" type="text/css" href="css/sidebar.css">
 
     <title>Contestant Tab</title>
@@ -18,6 +18,7 @@
     <div id="sidebar">
         <div class="toggle-btn" id="header">
             <img src="images/uvaLogo.png" width="50" height="50" onclick="toggleSideBar()" />
+            <h3 style="float: right; color: white;">Contestants Tab</h3>
         </div>
         <ul>
             <li><a href="judgeTab.html">Judges</a></li>
@@ -46,36 +47,38 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Judge</td>
+                    <td>Contestant</td>
                     <td>1</td>
-                    <td>User1</td>
                     <td>123</td>
+                    <td><a href="#" class="addrow"><input type="checkbox" /></a></td>
                 </tr>
                 <tr>
-                    <td>Judge</td>
+                    <td>Contestant</td>
                     <td>2</td>
-                    <td>User2</td>
                     <td>456</td>
+                    <td><a href="#" class="addrow"><input type="checkbox" /></a></td>
                 </tr>
             </tbody>
 
         </table>
-        <br />
+        <h6>Create a new contestant to add to the event</h6>
         <input placeholder="FIRST NAME" id="txtAddFirstName" type="text" />
         <br />
         <input placeholder="LAST NAME" id="txtAddLastName" type="text" />
         <br />
-        <button runat="server" id="btnContinue" onclick="clickAddNewContestant()" >Add New Contestant</button>
-        </div>
+        <br/>
+
+        <button runat="server" id="btnContinue" onclick="clickAddNewContestant()">Add New Contestant</button>
+    </div>
     <br />
     <div id="divManageContestant">
         <h3>Modify</h3>
         <!--select style="width: 30%;"></select>-->
         <!--<ul>
-            <li><button id="btnEdit">Edit</button></li>
-            <li><button id="btnAdd">Add</button></li>
-            <li><button id="btnRemove">Remove</button></li>
-        </ul>-->
+        <li><button id="btnEdit">Edit</button></li>
+        <li><button id="btnAdd">Add</button></li>
+        <li><button id="btnRemove">Remove</button></li>
+    </ul>-->
 
         <h4>Contestants for This Event</h4>
         <h6>For Edit, select a contestant in the table below.</h6>
@@ -86,33 +89,37 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Person ID</th>
-                    <th>Remove</th>
+                    <th style="color:red">X</th>
                     <th>Edit</th>
 
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Judge</td>
+                    <td>Contestant</td>
                     <td>1</td>
-                    <td>User1</td>
                     <td>123</td>
+                    <td><a href="#" class="delrow"><input type="checkbox" /></a></td>
+                    <td><input type="radio" name="edit"></td>
                 </tr>
                 <tr>
-                    <td>Judge</td>
+                    <td>Contestant</td>
                     <td>2</td>
-                    <td>User2</td>
                     <td>456</td>
+                    <td><a href="#" class="delrow"><input type="checkbox" /></a></td>
+                    <td><input type="radio" name="edit"></td>
                 </tr>
             </tbody>
 
         </table>
         <h6>Edit using the forms below.</h6>
-        <input placeholder="FIRST NAME" id="txtFirstName" type="text" disabled/>
+        <input placeholder="FIRST NAME" id="txtFirstName" type="text" disabled />
         <br />
-        <input placeholder="LAST NAME" id="txtLastName" type="text" disabled/>
+        <input placeholder="LAST NAME" id="txtLastName" type="text" disabled />
         <br />
-        <button runat="server" id="btnEdit" onclick="clickModifyContestant()" disabled>Edit</button>
+
+        <br />
+        <button runat="server" id="btnEdit" onclick="clickModifyContestant()">Edit Contestant</button>
     </div>
 
     <script type="text/javascript" src="scripts/sidebar.js"></script>

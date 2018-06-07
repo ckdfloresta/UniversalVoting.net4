@@ -52,18 +52,19 @@
                     <td>1</td>
                     <td>User1</td>
                     <td>123</td>
+                    <td><a href="#" class="addrow"><input type="checkbox" /></a></td>
                 </tr>
                 <tr>
                     <td>Judge</td>
                     <td>2</td>
                     <td>User2</td>
                     <td>456</td>
+                    <td><a href="#" class="addrow"><input type="checkbox" /></a></td>
                 </tr>
             </tbody>
 
         </table>
         <h6>Create a new judge to add to the event</h6>
-        <br />
         <input placeholder="FIRST NAME" id="txtAddFNameJudge" type="text"  />
         <br />
         <input placeholder="LAST NAME" id="txtAddLNameJudge" type="text"  />
@@ -72,6 +73,8 @@
         <br />
         <input placeholder="PASSWORD" id="txtAddPassJudge" type="password"  />
         <br />  
+        <br/>
+
         <button runat="server" id="btnAddNewJudge" onclick="clickAddNewJudge()" >Add New Judge</button>
 
     </div>
@@ -90,7 +93,7 @@
                     <th>Last Name</th>
                     <th>Judge Username</th>
                     <th>Judge Password</th>
-                    <th>Remove</th>
+                    <th style="color:red">X</th>
                     <th>Edit</th>
                 </tr>
             </thead>
@@ -100,26 +103,30 @@
                     <td>1</td>
                     <td>User1</td>
                     <td>123</td>
+                    <td><a href="#" class="delrow"><input type="checkbox" /></a></td>
+                    <td><input type="radio" name="edit"></td>
                 </tr>
                 <tr>
                     <td>Judge</td>
                     <td>2</td>
                     <td>User2</td>
                     <td>456</td>
+                    <td><a href="#" class="delrow"><input type="checkbox" /></a></td>
+                    <td><input type="radio" name="edit"></td>
                 </tr>
             </tbody>
         </table>
         <h6>Edit using the forms below.</h6>
-        <input placeholder="FIRST NAME" id="txtFNameJudge" type="text" disabled/>
+        <input placeholder="FIRST NAME" id="txtFNameJudge" type="text" disabled />
         <br />
-        <input placeholder="LAST NAME" id="txtLNameJudge" type="text" disabled/>
+        <input placeholder="LAST NAME" id="txtLNameJudge" type="text" disabled />
         <br />
-        <input placeholder="USERNAME" id="txtUserJudge" type="text" disabled/>
+        <input placeholder="USERNAME" id="txtUserJudge" type="text" disabled />
         <br />
-        <input placeholder="PASSWORD" id="txtPassJudge" type="password" disabled/>
+        <input placeholder="PASSWORD" id="txtPassJudge" type="password" disabled />
         <br />
-
-        <button runat="server" id="btnContinueJudge" onclick="clickModifyJudge()" >Edit Judge</button>
+        <br />
+        <button runat="server" id="btnContinueJudge" onclick="clickModifyJudge()">Edit Judge</button>
     </div>
 
 

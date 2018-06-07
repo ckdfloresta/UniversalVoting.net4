@@ -51,6 +51,8 @@ function clickAddJudge() {
         error: function (msg) {
             alert(msg.responseText);
         }
+
+        
     });
 
 }
@@ -328,8 +330,12 @@ function PopulateJudges() {
             var varArResult = JSON.parse(result.spViewNotEventJudgesResult);
             console.log(varArResult);
             $.each(varArResult, function (i, item) {
+                //$('#tbAddJudges').append(
+                //    '<tr><td>' + item.FirstName + '</td><td>' + item.LastName + '</td><td>' + item.judgeUname + '</td><td>' + item.judgePword + '</td><td><a href="#" class="addrow" >Add Judge</a></td>' + '</tr>');
+  
+                //here we go
                 $('#tbAddJudges').append(
-                    '<tr><td>' + item.FirstName + '</td><td>' + item.LastName + '</td><td>' + item.judgeUname + '</td><td>' + item.judgePword + '</td><td><a href="#" class="addrow" >Add Judge</a></td>' + '</tr>');
+                    '<tr><td>' + item.FirstName + '</td><td>' + item.LastName + '</td><td>' + item.judgeUname + '</td><td>' + item.judgePword + '</td><td><a href="#" class="addrow"><input type="checkbox" /></a></td>' + '</tr>');
             });
 
         },
@@ -352,8 +358,10 @@ function PopulateJudges() {
             console.log(varArResult);
 
             $.each(varArResult, function (i, item) {
+                //$('#tbModifyJudges').append(
+                //    '<tr><td>' + item.FirstName + '</td><td>' + item.LastName + '</td><td>' + item.judgeUname + '</td><td>' + item.judgePword + '</td><td><a href="#" class="delrow" >Remove Judge</a></td><td><input type="radio" name ="edit"></td>' + '</tr>');
                 $('#tbModifyJudges').append(
-                    '<tr><td>' + item.FirstName + '</td><td>' + item.LastName + '</td><td>' + item.judgeUname + '</td><td>' + item.judgePword + '</td><td><a href="#" class="delrow" >Remove Judge</a></td><td><input type="radio" name ="edit"></td>' + '</tr>');
+                    '<tr><td>' + item.FirstName + '</td><td>' + item.LastName + '</td><td>' + item.judgeUname + '</td><td>' + item.judgePword + '</td><td><a href="#" class="delrow"><input type="checkbox" /></a></td><td><input type="radio" name ="edit"></td>' + '</tr>');
             });
         },
         error: function (msg) {

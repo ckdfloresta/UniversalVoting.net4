@@ -1,4 +1,4 @@
-﻿var selected, modify, input, fName, lName, action;
+﻿var selected, modify, input, cname, weight, action;
 var newCname, newWeight, oldCname, oldWeight;
 var totalWeight;
 //REPLACE THIS PART OF THE CODE WITH ACTUAL JUDGE ID / EVENT ID FROM LOGIN SCREEN
@@ -10,12 +10,23 @@ var service = 'http://localhost/uvtest2/service.svc/';
 
 
 //selects from slAddCriteria
-$("#slAddCriteria").on("change", function (e) {
+//$("#slAddCriteria").on("change", function (e) {
 
+//    //gets data
+//    selected = $("#slAddCriteria option:selected").text();
+//    document.getElementById("txtAddWeight").disabled = false;
+//    document.getElementById("btnAddCriteria").disabled = false;
+//});
+
+$('#tbAddContestant tbody ').on("click touchstart", "a", function (e) {
     //gets data
-    selected = $("#slAddCriteria option:selected").text();
-    document.getElementById("txtAddWeight").disabled = false;
-    document.getElementById("btnAddCriteria").disabled = false;
+    var currentRow = $(this).closest('tr')
+    currentRow.addClass("selected").siblings().removeClass("selected");
+    cname = currentRow.find("td:first").html();
+    weight = currentRow.find("td:nth-child(2)").html();
+    console.log(cname);
+    clickAddCriteria();
+
 });
 
 //click btnAddCriteria
@@ -23,52 +34,85 @@ function clickAddCriteria() {
     //var slCriteria = document.getElementById("slAddCriteria");
     //var slName = slAddCriteria.options[slAddCriteria.selectedIndex].text;
     //var slValue = slAddCriteria.options[slAddCriteria.selectedIndex].value;
-    var weight = parseInt(document.getElementById("txtAddWeight").value);
-    var cname = selected;
+    console.log("value in cname: " + cname);
+    console.log("value in weight: " + weight);
+    //var weight = parseInt(document.getElementById("txtAddWeight").value);
+    //var cname = selected;
     if (isNaN(weight) || weight <= 0 || weight > 100)
     {
         alert("Please assign a proper weight for the criteria");
     }
     else
     {
-        getTotalWeight();
-        if (totalWeight + weight > 100)
-        {
-            alert("Cannot add weight because the total goes over 100");
-        }
-        else {
-            $.ajax({
-                type: 'POST',
-                url: service + 'spAddOldCriteriaToEventCriteria',
-                //data: {
-                //    'fname': fName,
-                //    'lname': lName,
-                //    'eventID': eventID
-                //}
-                data:
-                '{' +
-                '"cname":"' + cname + '",' +
-                '"weight":"' + weight + '",' +
-                '"eventid":"' + eventID + '",' +
-                '}',
+        //getTotalWeight();
+        //if (totalWeight + weight > 100)
+        //{
+        //    alert("Cannot add weight because the total goes over 100");
+        //}
+        //else {
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: service + 'spAddOldCriteriaToEventCriteria',
+        //        //data: {
+        //        //    'fname': fName,
+        //        //    'lname': lName,
+        //        //    'eventID': eventID
+        //        //}
+        //        data:
+        //        '{' +
+        //        '"cname":"' + cname + '",' +
+        //        '"weight":"' + weight + '",' +
+        //        '"eventid":"' + eventID + '",' +
+        //        '}',
 
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                processdata: true,
-                success: function (result) {
-                    alert("A new criteria has been added!!");
-                    PopulateCriteria();
-                }
-                ,
-                error: function (msg) {
-                    alert(msg.responseText);
-                }
-            });
-            document.getElementById("slAddCriteria").selectedIndex = "-1";
-            document.getElementById("btnAddCriteria").disabled = true;
-            document.getElementById("txtAddWeight").value = null;
-        }
+        //        contentType: 'application/json;charset=utf-8',
+        //        dataType: 'json',
+        //        processdata: true,
+        //        success: function (result) {
+        //            alert("A new criteria has been added!!");
+        //            PopulateCriteria();
+        //        }
+        //        ,
+        //        error: function (msg) {
+        //            alert(msg.responseText);
+        //        }
+        //    });
+        //    document.getElementById("slAddCriteria").selectedIndex = "-1";
+        //    document.getElementById("btnAddCriteria").disabled = true;
+        //    document.getElementById("txtAddWeight").value = null;
+        //}
+
+
+        $.ajax({
+            type: 'POST',
+            url: service + 'spAddOldCriteriaToEventCriteria',
+            //data: {
+            //    'fname': fName,
+            //    'lname': lName,
+            //    'eventID': eventID
+            //}
+            data:
+            '{' +
+            '"cname":"' + cname + '",' +
+            '"weight":"' + weight + '",' +
+            '"eventid":"' + eventID + '",' +
+            '}',
+
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            processdata: true,
+            success: function (result) {
+                alert("A new criteria has been added!!");
+                PopulateCriteria();
+            }
+            ,
+            error: function (msg) {
+                alert(msg.responseText);
+            }
+        });
     }
+
+}
 
 }
 
@@ -328,9 +372,16 @@ function clickModifyCriteria() {
 }
 
 function PopulateCriteria() {
-    document.getElementById('slAddCriteria').options.length = 0;
-    document.getElementById('slModifyCriteria').options.length = 0;
-    eventID = sessionStorage.getItem("EventID");
+    //document.getElementById('slAddCriteria').options.length = 0;
+    //document.getElementById('slModifyCriteria').options.length = 0;
+    //eventID = sessionStorage.getItem("EventID");
+    $("#tbAddCriteria tbody").empty();
+    $("#tbModifyCriteria tbody").empty(); 
+    document.getElementById("txtAddCriteriaName").value = '';
+    document.getElementById("txtAddCriteriaWeight").value = '';
+
+    document.getElementById("txtModifyCriteriaName").value = '';
+    document.getElementById("txtModifyWeight").value = '';
     totalWeight = 0;
     console.log('EventID = ' + eventID);
     $.ajax({
@@ -343,15 +394,22 @@ function PopulateCriteria() {
         dataType: 'json',
         processdata: true,
         success: function (result) {
+            //var varArResult = JSON.parse(result.spViewNotEventCriteriaResult);
+            //console.log(varArResult);
+            //for (intCtr in varArResult) {
+            //    var slAddCriteria = document.getElementById('slAddCriteria');
+            //    var option = document.createElement('option');
+            //    option.text = varArResult[intCtr].CriteriaName;
+            //    //option.value = varArResult[intCtr].PersonID;
+            //    slAddCriteria.add(option);
+            //}
+
             var varArResult = JSON.parse(result.spViewNotEventCriteriaResult);
             console.log(varArResult);
-            for (intCtr in varArResult) {
-                var slAddCriteria = document.getElementById('slAddCriteria');
-                var option = document.createElement('option');
-                option.text = varArResult[intCtr].CriteriaName;
-                //option.value = varArResult[intCtr].PersonID;
-                slAddCriteria.add(option);
-            }
+            $.each(varArResult, function (i, item) {
+                $('#tbAddCriteria').append(
+                    '<tr><td>' + item.CriteriaName + '</td><td>' + item.Weight + '</td><td><a href="#" class="addrow" ><input type="checkbox" /></a></td>' + '</tr>');
+            });
         },
         error: function (msg) {
             alert('Error Retrieving Available Criteria List');
@@ -370,14 +428,23 @@ function PopulateCriteria() {
         success: function (result) {
             var varArResult = JSON.parse(result.spViewEventCriteriaResult);
             console.log(varArResult);
-            for (intCtr in varArResult) {
-                var slModifyCriteria = document.getElementById('slModifyCriteria');
-                var option = document.createElement('option');
-                option.text = varArResult[intCtr].CriteriaName;
-                option.value = varArResult[intCtr].Weight;
+            //for (intCtr in varArResult) {
+            //    var slModifyCriteria = document.getElementById('slModifyCriteria');
+            //    var option = document.createElement('option');
+            //    option.text = varArResult[intCtr].CriteriaName;
+            //    option.value = varArResult[intCtr].Weight;
                 
-                slModifyCriteria.add(option);
-            }
+            //    slModifyCriteria.add(option);
+            //}
+
+            $.each(varArResult, function (i, item) {
+                var input = item.name.split(" ");
+                cname = input[0];
+                weight = input[1];
+
+                $('#tbModifyCriteria').append(
+                    '<tr><td>' + cname + '</td><td>' + weight + '</td><td><a href="#" class="delrow"><input type="checkbox"/></a></td></td><td><input type="radio" name ="edit"></td>' + '</tr>');
+            });
         },
         error: function (msg) {
             alert('Error Retrieving Criteria List');

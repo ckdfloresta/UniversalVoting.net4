@@ -281,7 +281,7 @@ function PopulateContestants() {
             console.log(varArResult);
             $.each(varArResult, function (i, item) {
                 $('#tbAddContestant').append(
-                    '<tr><td>' + item.FirstName + '</td><td>' + item.LastName + '</td><td>' + item.PersonID + '</td><td><a href="#" class="addrow" >Add Contestant</a></td>' + '</tr>');
+                    '<tr><td>' + item.FirstName + '</td><td>' + item.LastName + '</td><td>' + item.PersonID + '</td><td><a href="#" class="addrow" ><input type="checkbox" /></a></td>' + '</tr>');
             });
         },
         error: function (msg) {
@@ -306,8 +306,11 @@ function PopulateContestants() {
                 var input = item.name.split(" ");
                 fName = input[0];
                 lName = input[1];
+                //$('#tbModifyContestant').append(
+                //    '<tr><td>' + fName + '</td><td>' + lName + '</td><td>' + item.PersonID + '</td><td><a href="#" class="delrow" >Remove Contestant</a></td></td><td><input type="radio" name ="edit"></td>' + '</tr>' );
+
                 $('#tbModifyContestant').append(
-                    '<tr><td>' + fName + '</td><td>' + lName + '</td><td>' + item.PersonID + '</td><td><a href="#" class="delrow" >Remove Contestant</a></td></td><td><input type="radio" name ="edit"></td>' + '</tr>' );
+                    '<tr><td>' + fName + '</td><td>' + lName + '</td><td>' + item.PersonID + '</td><td><a href="#" class="delrow"><input type="checkbox"/></a></td></td><td><input type="radio" name ="edit"></td>' + '</tr>' );
             });
         },
         error: function (msg) {

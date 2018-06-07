@@ -10,6 +10,43 @@
 
 
 
+input[type="checkbox"] {
+    cursor:pointer;
+    -webkit-appearance: none;
+    /*appearance: none;*/
+    background: #34495E;
+    border-radius: 1px;
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    border-width: 0;
+    transition: all .3s linear;
+}
+
+input[type="radio"] {
+    cursor: pointer;
+    -webkit-appearance: none;
+    /*appearance: none;*/
+    background: #34495E;
+    border-radius: 100px;
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    border-width: 0;
+    transition: all .3s linear;
+}
+
+    input[type="checkbox"]:checked, input[type="radio"]:checked {
+        background-color: #2ECC71;
+    }
+
+input[type="checkbox"]:focus {
+    outline: 0 none;
+    box-shadow: none;
+}
+
+
+
 button {
     background-color: #2ed3e1;
     color: black;
@@ -62,6 +99,86 @@ ul {
 
 
 #btnEdit, #btnAdd, #btnRemove {
+    border-radius: 0px;
+    padding: 7px 36.5px;
+}
+
+button:hover:enabled {
+    background-color: #00887A;
+}
+
+
+button:hover:disabled {
+    background-color: #D3E3FC;
+}
+
+button:disabled {
+    background-color: #f9e0ff;
+}
+
+
+table {
+    background-color: #fff3f3;
+    color: black;
+}
+
+
+    table thead tr {
+        background-color: white;
+    }
+
+
+    table tbody tr:nth-child(even) {
+        background-color: #c8bbb5;
+        color: black;
+    }
+
+select {
+    width: 97%;
+    font-size: 16px;
+}
+
+option:nth-child(odd) {
+    background-color: #FFFFFF;
+    color: black;
+}
+
+option:nth-child(even) {
+    background-color: #FFCCBC;
+    color: white;
+}
+
+
+.selected {
+    color: forestgreen;
+}
+
+
+
+input {
+    width: 350px;
+    padding: 6px 10px;
+    margin: 1px;
+    display: inline-block;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+li {
+    float: left;
+    display: block;
+}
+
+ul {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+
+#btnEditJudge, #btnAddJudge, #btnRemoveJudge {
     border-radius: 0px;
     padding: 7px 36.5px;
 }
