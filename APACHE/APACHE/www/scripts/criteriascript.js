@@ -5,8 +5,8 @@ var totalWeight;
 var eventID = 1;
 var judgeID;
 //eto nalang palitan natin para di na nakakalito
-//var service = 'http://localhost/uvtest2/service.svc/';
-var service = 'http://192.168.43.238/uvtest2/service.svc/';
+var service = 'http://localhost/uvtest2/service.svc/';
+//var service = 'http://192.168.43.238/uvtest2/service.svc/';
 
 
 //selects from slAddCriteria
@@ -171,6 +171,9 @@ function clickModifyCriteria() {
         else if (cname === '' || weight === '') {
             alert('Please complete all fields');
         }
+        else if (isNaN(weight) || weight <= 0 || weight > 100) {
+            alert("Please assign a proper weight for the criteria");
+        }
         else
         {
             getTotalWeight();
@@ -229,6 +232,7 @@ function clickModifyCriteria() {
     }
     else if (action === "Add") {
         //fill-out necessary action
+        getTotalWeight();
         found = false;
         filter = cname;
         select = document.getElementById("slModifyCriteria");
@@ -251,6 +255,12 @@ function clickModifyCriteria() {
         else if (cname === '' || weight === '')
         {
             alert('Please complete all fields');
+        }
+        else if (isNaN(weight) || weight <= 0 || weight > 100) {
+            alert("Please assign a proper weight for the criteria");
+        }
+        else if (totalWeight + weight > 100) {
+            alert("Cannot add weight because the total goes over 100");
         }
         else {
             $.ajax({
