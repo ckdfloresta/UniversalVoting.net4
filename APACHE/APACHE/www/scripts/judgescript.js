@@ -2,13 +2,13 @@
 var modifyLName, modifyFName, modifyUName, modifyPword;
 var eventID = 1;
 //eto nalang palitan natin para di na nakakalito
-var service = 'http://localhost/uvtest2/service.svc/';
-//var service = 'http://192.168.43.238/uvtest2/service.svc/';
+//var service = 'http://localhost/uvtest2/service.svc/';
+var service = 'http://192.168.43.238/uvtest2/service.svc/';
 
 //selects from tbAddJudges
 $('#tbAddJudges tbody ').on("click touchstart", "a", function (e) {
     //gets data
-    var currentRow = $(this).closest('tr')
+    var currentRow = $(this).closest('tr');
     currentRow.addClass("selected").siblings().removeClass("selected");
     fName = currentRow.find("td:first").html();
     lName = currentRow.find("td:nth-child(2)").html();

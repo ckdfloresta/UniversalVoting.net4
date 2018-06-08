@@ -3,8 +3,8 @@
 var eventID = 1;
 var judgeID;
 //eto nalang palitan natin para di na nakakalito
-//var service = 'http://192.168.43.238/uvtest2/service.svc/';
-var service = 'http://localhost/uvtest2/service.svc/';
+var service = 'http://192.168.43.238/uvtest2/service.svc/';
+//var service = 'http://localhost/uvtest2/service.svc/';
 
 
 function clickCancel() {

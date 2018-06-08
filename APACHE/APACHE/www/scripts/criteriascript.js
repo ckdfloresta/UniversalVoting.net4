@@ -5,13 +5,13 @@ var totalWeight;
 var eventID = 1;
 var judgeID;
 //eto nalang palitan natin para di na nakakalito
-var service = 'http://localhost/uvtest2/service.svc/';
-//var service = 'http://192.168.43.238/uvtest2/service.svc/';
+//var service = 'http://localhost/uvtest2/service.svc/';
+var service = 'http://192.168.43.238/uvtest2/service.svc/';
 
 
 $('#tbAddCriteria tbody ').on("click touchstart", "input", function (e) {
     //gets data
-    var currentRow = $(this).closest('tr')
+    var currentRow = $(this).closest('tr');
     currentRow.addClass("selected").siblings().removeClass("selected");
     cname = currentRow.find("td:first").html();
     console.log(cname);
@@ -25,7 +25,7 @@ function clickAddCriteria() {
     console.log("value in cname: " + cname);
     console.log("value in weight: " + weight);
     weight = parseFloat($('#txtAddOldCriteriaWeight').val());
-    if (isNaN(weight) || weight <= 0 || weight > 100 || weight != parseInt(weight, 10))
+    if (isNaN(weight) || weight <= 0 || weight > 100 || weight !== parseInt(weight, 10))
     {
         alert("Please assign a proper weight for the criteria");
     }
@@ -107,7 +107,7 @@ function clickAddNewCriteria()
     else if (cname === '' || isNaN(weight)) {
         alert('Please complete all fields');
     }
-    else if (isNaN(weight) || weight <= 0 || weight > 100 || weight != parseInt(weight, 10)) {
+    else if (isNaN(weight) || weight <= 0 || weight > 100 || weight !== parseInt(weight, 10)) {
         alert("Please assign a proper weight for the criteria");
     }
     else if (totalWeight + weight > 100) {
@@ -193,7 +193,6 @@ $('#tbModifyCriteria tbody').on("click touchstart", "input", function (e) {
 });
 
 function clickModifyCriteria() {
-    var found, filter, select, a;
     newWeight = parseFloat(document.getElementById("txtModifyWeight").value);
     newCname = document.getElementById("txtModifyCriteriaName").value.trim();
 

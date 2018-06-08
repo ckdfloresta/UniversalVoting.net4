@@ -5,8 +5,8 @@
 var ipAddress = 'localhost'; //Use this if you need to change the ip address
 var directory = 'UVSApp-WCF'; //Use this to change your WCF directory name (change to UVSApp-WCF to make life easier) 
 //var service = 'http://' + ipAddress + '/' + directory + '/service.svc/'; 
-//var service = 'http://192.168.43.238/uvtest2/service.svc/';
-var service = 'http://localhost/uvtest2/service.svc/';
+var service = 'http://192.168.43.238/uvtest2/service.svc/';
+//var service = 'http://localhost/uvtest2/service.svc/';
 
 //index.html
 function btnLogin_OnClick() {
@@ -95,9 +95,9 @@ function btnCreateEvent() {
 		er +="Event name is not Typed in correctly\n";
 	}
 	
-	if(er =='' )
-	{
-			 $.ajax({
+	if(er ==='' )
+    {
+        $.ajax({
         type: 'GET',
         url: service + 'KFspCheckEventAccount',
         data: {
@@ -198,7 +198,7 @@ function btnCreateEvent() {
 	}
 else
 {
-		alert(er)
+        alert(er);
 		
 	
 	}
@@ -342,7 +342,7 @@ function loadcontestant() {
     var ejid = sessionStorage.getItem("EventJudgeID");
     console.log(sessionStorage.getItem("EventName"));
     console.log("contestant id: " + conid);
-    console.log("Event judge id :" + ejid)
+    console.log("Event judge id :" + ejid);
     if (conid === null) {
         alert("You should not be here, redirecting..");
         setTimeout(window.location.replace("home.html"), 3000);
@@ -395,7 +395,7 @@ function loadcontestant() {
         });
 
 
-    };
+    }
 
 }
 function assignnumber(input, selectornumber) {
@@ -438,7 +438,7 @@ function profilechecksession()
     var ejid = sessionStorage.getItem("EventJudgeID");
     console.log(sessionStorage.getItem("EventName"));
     console.log("contestant id: " + conid);
-    console.log("Event judge id :" + ejid)
+    console.log("Event judge id :" + ejid);
 
 
     if (conid === null) {
@@ -477,7 +477,7 @@ function profilechecksession()
         });
 
 
-    };
+    }
 
 
    
@@ -518,7 +518,7 @@ function resultschecksession() {
 
     console.log("Event id: " + sessionStorage.getItem("EventID"));
     console.log("contestant id: " + conid);
-    console.log("Event judge id :" + ejid)
+    console.log("Event judge id :" + ejid);
 
     var mydata = { '_eventID': sessionStorage.getItem("EventID") };
     var hehe;
